@@ -5,8 +5,9 @@ import {
   formatCount,
   formatCurrency,
   formatPct,
+  formatSignedBn,
 } from "../lib/formatters";
-import { getCalibration, getValidation } from "../lib/dataHelpers";
+import { getCalibration, getComparison, getValidation } from "../lib/dataHelpers";
 import SectionHeading from "./SectionHeading";
 
 // External benchmarks the recalibrated baseline is validated against. These
@@ -60,6 +61,7 @@ function formatTarget(value, money) {
 export default function BaselineTab({ data }) {
   const calibration = getCalibration(data);
   const validation = getValidation(data);
+  const comparison = getComparison(data);
 
   return (
     <div className="space-y-6">
@@ -67,23 +69,14 @@ export default function BaselineTab({ data }) {
         <SectionHeading
           size="lg"
           title="Baseline estimation"
-          description="The Family Resources Survey barely captures capital gains, so PolicyEngine's Enhanced FRS imputes them. Before running the reform, household weights are recalibrated with populace so that the imputed gains hit HMRC and OBR aggregates — the number of CGT taxpayers and the total gains they realise — while holding the survey's existing income and benefit aggregates in place."
-        />
-      </div>
-
-
-      <div className="pt-2">
-        <SectionHeading
-          size="lg"
-          title="Validation against HMRC and academic benchmarks"
-          description="How the recalibrated baseline compares with published HMRC statistics and the HMRC-administrative-data analysis of Advani & Summers, benchmark by benchmark."
+          description="The Family Resources Survey barely captures capital gains, so PolicyEngine's Enhanced FRS imputes them and household weights are recalibrated with populace to hit HMRC and OBR capital gains aggregates, holding the survey's existing income and benefit aggregates in place. The table compares the recalibrated baseline with published HMRC statistics and the OBR forecast."
         />
       </div>
 
       <section className="section-card">
         <SectionHeading
           title="Model versus external benchmarks"
-          description="Aggregates match well by construction; the shape of the distribution matches less well, for the structural reason flagged below."
+          description="Aggregates match published statistics by construction."
         />
         <table className="data-table">
           <thead>
@@ -116,6 +109,52 @@ export default function BaselineTab({ data }) {
             </tr>
           </tbody>
         </table>
+      </section>
+
+      <section className="section-card scroll-mt-24" id="comparison">
+        <SectionHeading
+          title="Comparison with other institutions"
+          description="Estimates differ mainly because the reforms modelled and the behavioural assumptions differ, not because the models disagree about the same question."
+        />
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Reform modelled</th>
+              <th>Behavioural assumption</th>
+              <th>Revenue (£bn/year)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {comparison.map((row) => (
+              <tr
+                key={row.source}
+                className={
+                  row.source.startsWith("This model") ? "font-semibold" : ""
+                }
+              >
+                <td>{row.source}</td>
+                <td>{row.reform_modelled}</td>
+                <td>{row.behavioural_assumption}</td>
+                <td>{formatSignedBn(row.revenue_bn_per_year)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p className="mt-3 text-sm leading-6 text-slate-600">
+          The interpretation: equalising <em>rates only</em>, at Advani&apos;s
+          central elasticity, raises only about £2.3–2.8bn a year. CenTax&apos;s
+          much larger £14bn figure comes from pairing equalisation with base
+          broadening — removing the uplift at death and adding exit charges —
+          which shuts down the main avoidance margins and so supports a smaller
+          behavioural response (its worst case is £9.6bn). Advani &amp;
+          Summers&apos; £16.7bn is a static score of a similar reform;
+          HMRC&apos;s ready reckoner, with a much higher implied elasticity,
+          scores even a 10-point rate rise as <em>losing</em> around £2bn a
+          year. The IFS similarly argues that raising rates without reforming
+          the base would raise little. All sit against an OBR baseline of
+          roughly £16.2bn of CGT revenue.
+        </p>
       </section>
 
     </div>
