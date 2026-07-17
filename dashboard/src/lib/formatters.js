@@ -18,13 +18,13 @@ export function formatSignedCurrency(value) {
   return `${getSignedPrefix(amount)}\u00A3${Math.abs(amount).toLocaleString("en-GB")}`;
 }
 
-export function formatBn(value) {
-  return `\u00A3${Number(value).toFixed(2)}bn`;
+export function formatBn(value, digits = 2) {
+  return `\u00A3${Number(value).toFixed(digits)}bn`;
 }
 
-export function formatSignedBn(value) {
+export function formatSignedBn(value, digits = 2) {
   const amount = Number(value);
-  return `${getSignedPrefix(amount)}\u00A3${Math.abs(amount).toFixed(2)}bn`;
+  return `${getSignedPrefix(amount)}\u00A3${Math.abs(amount).toFixed(digits)}bn`;
 }
 
 export function formatMn(value) {

@@ -106,19 +106,19 @@ function TipHeader({ label, tip }) {
 const ELASTICITY_SOURCES = {
   "Static (Advani & Summers 2020 style)": {
     label: "Advani & Summers (2020), CAGE WP 465",
-    url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/",
+    url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/manage/publications/wp465.2020.pdf",
   },
   "CenTax lower (retention e=0.5)": {
     label: "Advani, Lonsdale & Summers (2024), CenTax",
-    url: "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf",
+    url: "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=38",
   },
   "CenTax central (retention e=1.0)": {
     label: "Advani, Lonsdale & Summers (2024), CenTax",
-    url: "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf",
+    url: "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=38",
   },
   "CenTax upper (retention e=2.0)": {
     label: "Advani, Lonsdale & Summers (2024), CenTax",
-    url: "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf",
+    url: "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=38",
   },
   "HMRC ready-reckoner-like": {
     label: "HMRC, Direct effects of illustrative tax changes",
@@ -184,12 +184,12 @@ export default function ReformTab({ data }) {
         <div className="grid gap-4 md:grid-cols-4">
           <MetricCard
             label={`Revenue raised, ${firstYear}`}
-            value={formatSignedBn(firstYearRow.gov_balance_change_bn)}
+            value={formatSignedBn(firstYearRow.gov_balance_change_bn, 1)}
             note="Net change in the government balance after taxpayers reduce realisations in response to the higher rates."
           />
           <MetricCard
             label="Five-year total, 2026-27 to 2030-31"
-            value={formatSignedBn(fiveYearTotal)}
+            value={formatSignedBn(fiveYearTotal, 1)}
             note="Sum of the annual government balance changes over the five modelled years."
           />
           <MetricCard
@@ -316,8 +316,8 @@ export default function ReformTab({ data }) {
       <div className="grid gap-6 xl:grid-cols-2">
       <section className="section-card">
         <SectionHeading
-          title="Average household net income change by decile"
-          description="Change in household net income across all households in each baseline income decile, gainers and non-gainers alike. Every decile loses on average — nobody's tax falls — but the impact is concentrated in decile 10, where most taxable gains are realised. Decile 1's larger relative loss reflects a small number of low-income households with large realised gains."
+          title="Average household net income change"
+          description="Average change in household net income by baseline income decile. Losses are concentrated in decile 10, where most taxable gains are realised."
         />
         <div className="mb-3 flex flex-wrap items-center gap-4">
           <Toggle
@@ -378,7 +378,7 @@ export default function ReformTab({ data }) {
       <section className="section-card">
         <SectionHeading
           title="Winners and losers"
-          description="Share of people in each income decile by outcome. The reform creates no gainers: nobody's tax liability falls, so every bar is split between people whose household net income is unchanged and those who lose. Changes below £1 a year are counted as no change."
+          description="Share of people in each decile by outcome. The reform creates no gainers; changes below £1 a year count as no change."
         />
         <div className="mb-3 flex flex-wrap items-center gap-4">
           <YearSelect years={years} value={wlYear} onChange={setWlYear} />
