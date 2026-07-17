@@ -150,7 +150,7 @@ export default function ReformTab({ data }) {
   const fiveYearTotal = getFiveYearTotal(data);
   const [budgetView, setBudgetView] = useState("change");
   const [decileYear, setDecileYear] = useState(firstYear);
-  const [decileMetric, setDecileMetric] = useState("relative");
+  const [decileMetric, setDecileMetric] = useState("absolute");
   const [wlYear, setWlYear] = useState(firstYear);
   const deciles = getDecileImpact(data, decileYear);
   const headlineDeciles = getDecileImpact(data, firstYear);
@@ -162,6 +162,13 @@ export default function ReformTab({ data }) {
   const topDecile = headlineDeciles.find((d) => d.decile === 10);
   const allRow = headlineWl.find((row) => row.decile === "All");
   const decileRows = winnersLosers.filter((row) => row.decile !== "All");
+  const wlAllRow = winnersLosers.find((row) => row.decile === "All");
+  // "All" on top, a blank spacer row for visual separation, then deciles 10..1.
+  const wlChartRows = [
+    { ...wlAllRow, decile: "All" },
+    { decile: " " },
+    ...[...decileRows].reverse(),
+  ];
   const isDecileRelative = decileMetric === "relative";
   const loseAnyPct = allRow.lose_less_5_pct + allRow.lose_more_5_pct;
   const gainAnyPct = allRow.gain_less_5_pct + allRow.gain_more_5_pct;
@@ -322,8 +329,8 @@ export default function ReformTab({ data }) {
         <div className="mb-3 flex flex-wrap items-center gap-4">
           <Toggle
             options={[
-              { value: "relative", label: "Relative (%)" },
               { value: "absolute", label: "Average £ per household" },
+              { value: "relative", label: "Relative (%)" },
             ]}
             value={decileMetric}
             onChange={setDecileMetric}
@@ -386,12 +393,11 @@ export default function ReformTab({ data }) {
         <div className="h-[380px] w-full">
           <ResponsiveContainer>
             <BarChart
-              data={decileRows}
+              data={wlChartRows}
               layout="vertical"
               stackOffset="none"
               margin={{ top: 10, right: 20, bottom: 15, left: 10 }}
             >
-              <CartesianGrid strokeDasharray="3 3" stroke={colors.border.light} />
               <XAxis
                 type="number"
                 tick={AXIS_STYLE}
@@ -404,7 +410,6 @@ export default function ReformTab({ data }) {
               <YAxis
                 type="category"
                 dataKey="decile"
-                reversed
                 tick={AXIS_STYLE}
                 tickLine={false}
                 axisLine={false}
