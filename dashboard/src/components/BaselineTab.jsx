@@ -13,14 +13,30 @@ import SectionHeading from "./SectionHeading";
 // are published HMRC/Advani figures, not model outputs, so they live here
 // rather than in the pipeline JSON.
 const BENCHMARKS = {
-  taxpayers: { value: "~378k", source: "HMRC CGT statistics" },
-  totalGains: { value: "~£70bn", source: "HMRC CGT statistics" },
-  meanGain: { value: "~£174,000", source: "Implied by HMRC aggregates" },
-  medianGain: { value: "~£25,000", source: "Advani & Summers (2020)" },
-  shareOver1m: { value: "~60%", source: "Advani & Summers (2020)" },
-  shareOver5m: { value: "~40%", source: "Advani & Summers (2020)" },
-  baselineRevenue: { value: "£16–21bn", source: "OBR forecast range" },
+  taxpayers: { value: "~378k", source: "HMRC CGT statistics", url: "https://www.gov.uk/government/statistics/capital-gains-tax-statistics" },
+  totalGains: { value: "~£70bn", source: "HMRC CGT statistics", url: "https://www.gov.uk/government/statistics/capital-gains-tax-statistics" },
+  meanGain: { value: "~£174,000", source: "Implied by HMRC aggregates", url: "https://www.gov.uk/government/statistics/capital-gains-tax-statistics" },
+  medianGain: { value: "~£25,000", source: "Advani & Summers (2020)", url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/" },
+  shareOver1m: { value: "~60%", source: "Advani & Summers (2020)", url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/" },
+  shareOver5m: { value: "~40%", source: "Advani & Summers (2020)", url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/" },
+  baselineRevenue: { value: "£16–21bn", source: "OBR forecast range", url: "https://obr.uk/forecasts-in-depth/tax-by-tax-spend-by-spend/capital-gains-tax/" },
 };
+
+function BenchmarkCell({ benchmark }) {
+  return (
+    <td>
+      <a
+        href={benchmark.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline decoration-1 underline-offset-2 hover:opacity-80"
+        title={benchmark.source}
+      >
+        {benchmark.value}
+      </a>
+    </td>
+  );
+}
 
 // Human labels and formats for the pipeline's raw calibration target names.
 const TARGET_LABELS = {
@@ -55,43 +71,6 @@ export default function BaselineTab({ data }) {
         />
       </div>
 
-      <section className="section-card">
-        <SectionHeading
-          title="Calibration results"
-          description={`Each row is a target the populace reweighting was asked to hit. The gains and taxpayer targets land within 0.05%, and the held aggregates that anchor the rest of the survey move by no more than 0.3%. The effective sample size falls from ${Math.round(calibration.ess_before)} to ${Math.round(calibration.ess_after)}, a modest cost in precision for a large gain in accuracy on gains.`}
-        />
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>Target</th>
-              <th>Target value</th>
-              <th>Achieved</th>
-              <th>Relative error</th>
-            </tr>
-          </thead>
-          <tbody>
-            {calibration.targets.map((row) => {
-              const meta = targetMeta(row.name);
-              return (
-                <tr key={row.name}>
-                  <td>{meta.label}</td>
-                  <td>{formatTarget(row.target, meta.money)}</td>
-                  <td>{formatTarget(row.final, meta.money)}</td>
-                  <td>{formatPct(row.relative_error * 100, 2)}</td>
-                </tr>
-              );
-            })}
-            <tr>
-              <td>Effective sample size (ESS)</td>
-              <td>—</td>
-              <td>
-                {Math.round(calibration.ess_before)} → {Math.round(calibration.ess_after)}
-              </td>
-              <td>—</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
 
       <div className="pt-2">
         <SectionHeading
@@ -110,59 +89,60 @@ export default function BaselineTab({ data }) {
           <thead>
             <tr>
               <th>Quantity</th>
-              <th>This model</th>
-              <th>Benchmark</th>
-              <th>Benchmark source</th>
+              <th>PolicyEngine</th>
+              <th>Official statistic</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>CGT taxpayers</td>
               <td>{formatCount(validation.cgt_taxpayers)}</td>
-              <td>{BENCHMARKS.taxpayers.value}</td>
-              <td>{BENCHMARKS.taxpayers.source}</td>
+              <BenchmarkCell benchmark={BENCHMARKS.taxpayers} />
             </tr>
             <tr>
               <td>Total taxable gains</td>
               <td>{formatBn(validation.total_gains_bn)}</td>
-              <td>{BENCHMARKS.totalGains.value}</td>
-              <td>{BENCHMARKS.totalGains.source}</td>
+              <BenchmarkCell benchmark={BENCHMARKS.totalGains} />
             </tr>
             <tr>
               <td>Mean gain per CGT taxpayer</td>
               <td>{formatCurrency(validation.mean_gain)}</td>
-              <td>{BENCHMARKS.meanGain.value}</td>
-              <td>{BENCHMARKS.meanGain.source}</td>
+              <BenchmarkCell benchmark={BENCHMARKS.meanGain} />
             </tr>
             <tr>
               <td>Median gain per CGT taxpayer</td>
               <td>{formatCurrency(validation.median_gain)}</td>
-              <td>{BENCHMARKS.medianGain.value}</td>
-              <td>{BENCHMARKS.medianGain.source}</td>
+              <BenchmarkCell benchmark={BENCHMARKS.medianGain} />
             </tr>
             <tr>
               <td>Share of gains from gains ≥ £1m</td>
               <td>{formatPct(validation.share_gains_over_1m_pct, 0)}</td>
-              <td>{BENCHMARKS.shareOver1m.value}</td>
-              <td>{BENCHMARKS.shareOver1m.source}</td>
+              <BenchmarkCell benchmark={BENCHMARKS.shareOver1m} />
             </tr>
             <tr>
               <td>Share of gains from gains ≥ £5m</td>
               <td>{formatPct(validation.share_gains_over_5m_pct, 0)}</td>
-              <td>{BENCHMARKS.shareOver5m.value}</td>
-              <td>{BENCHMARKS.shareOver5m.source}</td>
+              <BenchmarkCell benchmark={BENCHMARKS.shareOver5m} />
             </tr>
             <tr>
               <td>Largest gain in the data</td>
               <td>£{validation.largest_gain_m.toFixed(1)}m</td>
-              <td>Gains above £5m are common in HMRC data</td>
-              <td>Advani &amp; Summers (2020)</td>
+              <td>
+                <a
+                  href="https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline decoration-1 underline-offset-2 hover:opacity-80"
+                  title="Advani & Summers (2020)"
+                >
+                  Gains above £5m are common in HMRC data
+                </a>
+              </td>
             </tr>
             <tr>
               <td>Baseline CGT revenue</td>
               <td>{formatBn(validation.baseline_cgt_revenue_bn)}</td>
-              <td>{BENCHMARKS.baselineRevenue.value}</td>
-              <td>{BENCHMARKS.baselineRevenue.source}</td>
+              <BenchmarkCell benchmark={BENCHMARKS.baselineRevenue} />
             </tr>
           </tbody>
         </table>
