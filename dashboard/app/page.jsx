@@ -6,6 +6,7 @@ import BaselineTab from "../src/components/BaselineTab";
 import MethodologyTab from "../src/components/MethodologyTab";
 import PolicyEngineHeader from "../src/components/PolicyEngineHeader";
 import ReformTab from "../src/components/ReformTab";
+import results from "../public/data/cgt_equalisation_results.json";
 
 const TAB_OPTIONS = [
   { id: "reform", label: "Reform impacts" },
@@ -37,35 +38,16 @@ function Dashboard() {
   const router = useRouter();
 
   const [activeTab, setActiveTab] = useState(() => getInitialTab(searchParams.get("tab")));
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // Bundled at build time: a runtime fetch() 404s when the app is served
+  // behind proxies/rewrites that don't forward public assets.
+  const data = results;
+  const loading = false;
+  const error = null;
 
   useEffect(() => {
     const tabParam = searchParams.get("tab");
     setActiveTab(getInitialTab(tabParam));
   }, [searchParams]);
-
-  useEffect(() => {
-    async function loadData() {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/data/cgt_equalisation_results.json`,
-        );
-        if (!response.ok) {
-          throw new Error("cgt_equalisation_results.json not found; run the pipeline first");
-        }
-        const json = await response.json();
-        setData(json);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadData();
-  }, []);
 
   function handleTabChange(tab) {
     setActiveTab(tab);
