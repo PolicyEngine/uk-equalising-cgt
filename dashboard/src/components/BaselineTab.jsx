@@ -20,6 +20,11 @@ const BENCHMARKS = {
   medianGain: { value: "~£25,000", source: "Advani & Summers (2020)", url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/" },
   shareOver1m: { value: "~60%", source: "Advani & Summers (2020)", url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/" },
   shareOver5m: { value: "~40%", source: "Advani & Summers (2020)", url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/" },
+  staticEqualisation: {
+    value: "£16.7bn",
+    source: "Advani & Summers (2020), static",
+    url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/manage/publications/wp465.2020.pdf",
+  },
   baselineRevenue: { value: "£16–21bn", source: "OBR forecast range", url: "https://obr.uk/forecasts-in-depth/tax-by-tax-spend-by-spend/capital-gains-tax/" },
 };
 
@@ -76,6 +81,8 @@ export default function BaselineTab({ data }) {
   const calibration = getCalibration(data);
   const validation = getValidation(data);
   const comparison = getComparison(data);
+  const staticRow = comparison.find((row) => row.source.includes("static"));
+  const centralRow = comparison.find((row) => row.source.includes("2026-27"));
 
   return (
     <div className="space-y-6">
@@ -90,7 +97,7 @@ export default function BaselineTab({ data }) {
       <section className="section-card">
         <SectionHeading
           title="Model versus external benchmarks"
-          description="Aggregates match published statistics by construction."
+          description="PolicyEngine's baseline and reform estimates alongside the closest official or academic number. Rows are limited to quantities this model can compute directly."
         />
         <table className="data-table">
           <thead>
@@ -121,61 +128,39 @@ export default function BaselineTab({ data }) {
               <td>{formatBn(validation.baseline_cgt_revenue_bn)}</td>
               <BenchmarkCell benchmark={BENCHMARKS.baselineRevenue} />
             </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section className="section-card scroll-mt-24" id="comparison">
-        <SectionHeading
-          title="Comparison with other institutions"
-          description="External revenue estimates for CGT–income tax equalisation, alongside this model's."
-        />
-        <table className="data-table">
-          <thead>
             <tr>
-              <th>Source</th>
-              <th>Reform modelled</th>
-              <th>Behavioural assumption</th>
-              <th>Revenue (£bn/year)</th>
+              <td>Equalisation revenue, static</td>
+              <td>{staticRow ? formatSignedBn(staticRow.revenue_bn_per_year, 1) : "—"}</td>
+              <BenchmarkCell benchmark={BENCHMARKS.staticEqualisation} />
             </tr>
-          </thead>
-          <tbody>
-            {comparison.map((row) => (
-              <tr
-                key={row.source}
-                className={
-                  row.source.startsWith("This model") ? "font-semibold" : ""
-                }
-              >
-                <td>{row.source}</td>
-                <td>{row.reform_modelled}</td>
-                <td>{row.behavioural_assumption}</td>
-                <td>
-                  {comparisonLink(row.source) ? (
-                    <a
-                      href={comparisonLink(row.source)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline decoration-1 underline-offset-2 hover:opacity-80"
-                    >
-                      {formatSignedBn(row.revenue_bn_per_year)}
-                    </a>
-                  ) : (
-                    formatSignedBn(row.revenue_bn_per_year)
-                  )}
-                </td>
-              </tr>
-            ))}
+            <tr>
+              <td>Equalisation revenue, with behavioural response (e=−0.7), 2026-27</td>
+              <td>{centralRow ? formatSignedBn(centralRow.revenue_bn_per_year, 1) : "—"}</td>
+              <td>—</td>
+            </tr>
           </tbody>
         </table>
         <p className="mt-3 text-sm leading-6 text-slate-600">
           Estimates differ mainly because the reforms and behavioural
-          assumptions differ, not because the models disagree: rate-only
-          equalisation at Advani&apos;s central elasticity raises ~£2.3–2.8bn a
-          year, CenTax&apos;s £14bn pairs equalisation with base broadening that
-          shuts down the main avoidance margins, Advani &amp; Summers&apos;
-          £16.7bn is static, and HMRC&apos;s ready reckoner implies so much
-          behaviour that rate rises lose revenue.
+          assumptions differ, not because the models disagree:{" "}
+          <a
+            href="https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=5"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-1 underline-offset-2 hover:opacity-80"
+          >
+            CenTax&apos;s £14bn
+          </a>{" "}
+          pairs equalisation with base broadening not modelled here, and{" "}
+          <a
+            href="https://www.gov.uk/government/statistics/direct-effects-of-illustrative-tax-changes"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-1 underline-offset-2 hover:opacity-80"
+          >
+            HMRC&apos;s ready reckoner
+          </a>{" "}
+          implies so much behaviour that rate rises lose revenue.
         </p>
       </section>
 
