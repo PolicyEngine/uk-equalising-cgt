@@ -213,6 +213,10 @@ export default function ReformTab({ data }) {
           </span>
         </summary>
         <div className="mt-4 space-y-3">
+          <p className="text-sm leading-6 text-slate-600">
+            Effective from the 2026-27 fiscal year and held in place through 2030-31. All results on
+            this page compare this reform against current policy on the same recalibrated baseline.
+          </p>
           <table className="data-table">
             <thead>
               <tr>
@@ -249,10 +253,6 @@ export default function ReformTab({ data }) {
               </tr>
             </tbody>
           </table>
-          <p className="text-sm leading-6 text-slate-600">
-            Effective from the 2026-27 fiscal year and held in place through 2030-31. All results on
-            this page compare this reform against current policy on the same recalibrated baseline.
-          </p>
         </div>
       </details>
 
