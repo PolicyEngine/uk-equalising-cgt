@@ -26,8 +26,8 @@ dependencies = [
 
 [project.optional-dependencies]
 simulation = [
-  "policyengine-uk>=2.89.2",
-  "populace",
+  "policyengine>=4.20.0",
+  "microdf-python>=1.0",
 ]
 dev = [
   "pytest>=8.0",

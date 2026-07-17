@@ -1,7 +1,10 @@
 {
   "metadata": {
     "generated": "2026-07-17",
+    "policyengine_version": "4.20.0",
     "policyengine_uk_version": "2.89.2",
+    "dataset": "enhanced_frs_2023_24",
+    "reform_period_start": "2026-01-01",
     "elasticity": -0.7,
     "reform": {
       "basic_rate": 0.2,
@@ -17,408 +20,372 @@
     ]
   },
   "calibration": {
-    "targets": [
-      {
-        "name": "total_capital_gains@0",
-        "target": 70000000000.0,
-        "final": 69973158422.81174,
-        "relative_error": -0.0003834511026894706
-      },
-      {
-        "name": "cgt_taxpayer_count@0",
-        "target": 400000.0,
-        "final": 399907.9486888485,
-        "relative_error": -0.00023012827787868446
-      },
-      {
-        "name": "income_tax_total@0",
-        "target": 314080284118.16003,
-        "final": 314963115918.5198,
-        "relative_error": 0.0028108475603250897
-      },
-      {
-        "name": "net_income_total@0",
-        "target": 1781844965573.982,
-        "final": 1784370526114.1543,
-        "relative_error": 0.00141738511989948
-      },
-      {
-        "name": "population@0",
-        "target": 71303058.58227788,
-        "final": 71342902.8338994,
-        "relative_error": 0.0005588014373259677
-      },
-      {
-        "name": "households@0",
-        "target": 32075397.5745942,
-        "final": 32104430.194620717,
-        "relative_error": 0.000905136716045365
-      }
-    ],
-    "ess_before": 980.8462656440955,
-    "ess_after": 904.7754755285913
+    "targets": [],
+    "ess_before": null,
+    "ess_after": null,
+    "note": "Stock Enhanced FRS 2023-24 weights; no populace recalibration."
   },
   "validation": {
-    "cgt_taxpayers": 399907.9486888485,
-    "total_gains_bn": 74.03967645686016,
-    "mean_gain": 185141.79750517366,
-    "median_gain": 49419.7734375,
-    "share_gains_over_1m_pct": 26.841559787223236,
+    "cgt_taxpayers": 1285101.0367195036,
+    "total_gains_bn": 112.00734584891352,
+    "mean_gain": 87158.39661513022,
+    "median_gain": 29904.16015625,
+    "share_gains_over_1m_pct": 13.354940205860576,
     "share_gains_over_5m_pct": 0.0,
-    "largest_gain_m": 2.09959775,
-    "baseline_cgt_revenue_bn": 17.204541036905844
+    "largest_gain_m": 2.099597692489624,
+    "baseline_cgt_revenue_bn": 25.007147122520326
   },
   "budget": [
     {
       "year": "2026-27",
-      "baseline_cgt_bn": 17.204541036905844,
-      "reform_cgt_bn": 19.50590429551089,
-      "cgt_change_bn": 2.301363258605045,
-      "total_tax_change_bn": 2.3013631147644045,
-      "gov_balance_change_bn": 2.3013615518195802
+      "baseline_cgt_bn": 25.007147122520326,
+      "reform_cgt_bn": 27.11781293202612,
+      "cgt_change_bn": 2.1106658095057944,
+      "total_tax_change_bn": 2.1106654928652344,
+      "gov_balance_change_bn": 2.1106661593023683
     },
     {
       "year": "2027-28",
-      "baseline_cgt_bn": 17.845423424024418,
-      "reform_cgt_bn": 20.25929278826499,
-      "cgt_change_bn": 2.41386936424057,
-      "total_tax_change_bn": 2.4138693896584473,
-      "gov_balance_change_bn": 2.4138692932648924
+      "baseline_cgt_bn": 25.97046361020707,
+      "reform_cgt_bn": 28.208275297883116,
+      "cgt_change_bn": 2.2378116876760483,
+      "total_tax_change_bn": 2.2378116574355467,
+      "gov_balance_change_bn": 2.2378115558931886
     },
     {
       "year": "2028-29",
-      "baseline_cgt_bn": 18.490779755552513,
-      "reform_cgt_bn": 21.01916709876327,
-      "cgt_change_bn": 2.5283873432107544,
-      "total_tax_change_bn": 2.5283872321032717,
-      "gov_balance_change_bn": 2.5283871231207273
+      "baseline_cgt_bn": 26.94051773916968,
+      "reform_cgt_bn": 29.315295107852904,
+      "cgt_change_bn": 2.374777368683224,
+      "total_tax_change_bn": 2.3747772890458982,
+      "gov_balance_change_bn": 2.3747772800839844
     },
     {
       "year": "2029-30",
-      "baseline_cgt_bn": 19.13994421972349,
-      "reform_cgt_bn": 21.783361600737393,
-      "cgt_change_bn": 2.6434173810139048,
-      "total_tax_change_bn": 2.6434174823547365,
-      "gov_balance_change_bn": 2.6434183862446288
+      "baseline_cgt_bn": 27.916214679096818,
+      "reform_cgt_bn": 30.426921071836823,
+      "cgt_change_bn": 2.5107063927400053,
+      "total_tax_change_bn": 2.51070592316333,
+      "gov_balance_change_bn": 2.5107051114615477
     },
     {
       "year": "2030-31",
-      "baseline_cgt_bn": 19.85136968143256,
-      "reform_cgt_bn": 22.62165986484074,
-      "cgt_change_bn": 2.7702901834081803,
-      "total_tax_change_bn": 2.7702900906608887,
-      "gov_balance_change_bn": 2.7702891868760986
+      "baseline_cgt_bn": 28.986625622229084,
+      "reform_cgt_bn": 31.647627472918263,
+      "cgt_change_bn": 2.6610018506891784,
+      "total_tax_change_bn": 2.6610023704199217,
+      "gov_balance_change_bn": 2.6610030497756347
     }
   ],
   "decile_impact": {
     "2026-27": [
       {
         "decile": 1,
-        "avg_change_gbp": -325.8989906119674,
-        "relative_change_pct": -1.5316472518082351,
-        "total_change_bn": -1.1815932837849275
+        "avg_change_gbp": -708.5583065026744,
+        "relative_change_pct": -0.5702553971136638,
+        "total_change_bn": -2.7400143606408123
       },
       {
         "decile": 2,
-        "avg_change_gbp": -158.2702670535545,
-        "relative_change_pct": -0.5034934408376962,
-        "total_change_bn": -0.47763741311656854
+        "avg_change_gbp": -477.2889287181818,
+        "relative_change_pct": -0.3979406629168577,
+        "total_change_bn": -1.377490083174854
       },
       {
         "decile": 3,
-        "avg_change_gbp": -151.59918471806262,
-        "relative_change_pct": -0.41529582140805676,
-        "total_change_bn": -0.48308046898432494
+        "avg_change_gbp": -329.6954514729543,
+        "relative_change_pct": -0.28185373449520806,
+        "total_change_bn": -1.0970888926774554
       },
       {
         "decile": 4,
-        "avg_change_gbp": -146.8463244355969,
-        "relative_change_pct": -0.38455182734074816,
-        "total_change_bn": -0.53545566066675
+        "avg_change_gbp": -433.90573535798654,
+        "relative_change_pct": -0.31240814879605755,
+        "total_change_bn": -1.3408802792611973
       },
       {
         "decile": 5,
-        "avg_change_gbp": -206.10683691967256,
-        "relative_change_pct": -0.45090904180903896,
-        "total_change_bn": -0.6639028213043108
+        "avg_change_gbp": -378.57366810152644,
+        "relative_change_pct": -0.26645990483177023,
+        "total_change_bn": -1.357535630956419
       },
       {
         "decile": 6,
-        "avg_change_gbp": -209.7295164976347,
-        "relative_change_pct": -0.3920518268727393,
-        "total_change_bn": -0.6557244615375646
+        "avg_change_gbp": -476.1009405488981,
+        "relative_change_pct": -0.30383437813085235,
+        "total_change_bn": -1.3983812329487197
       },
       {
         "decile": 7,
-        "avg_change_gbp": -205.87852693007136,
-        "relative_change_pct": -0.3658340393002662,
-        "total_change_bn": -0.6552171875897234
+        "avg_change_gbp": -474.88343722091685,
+        "relative_change_pct": -0.26616676782439425,
+        "total_change_bn": -1.5210103275606566
       },
       {
         "decile": 8,
-        "avg_change_gbp": -476.53307803896547,
-        "relative_change_pct": -0.6594869744184995,
-        "total_change_bn": -1.3684524968827676
+        "avg_change_gbp": -840.9422282913554,
+        "relative_change_pct": -0.4329343140767395,
+        "total_change_bn": -2.5185791431711153
       },
       {
         "decile": 9,
-        "avg_change_gbp": -946.4090842254577,
-        "relative_change_pct": -1.2706986531861577,
-        "total_change_bn": -3.0503880697503623
+        "avg_change_gbp": -1513.1055610578221,
+        "relative_change_pct": -0.5910190274666715,
+        "total_change_bn": -4.579924678714056
       },
       {
         "decile": 10,
-        "avg_change_gbp": -6345.390242668967,
-        "relative_change_pct": -4.4885657514448445,
-        "total_change_bn": -18.724317595797952
+        "avg_change_gbp": -6669.06530927957,
+        "relative_change_pct": -1.3949302235767873,
+        "total_change_bn": -20.626576464506776
       }
     ],
     "2027-28": [
       {
         "decile": 1,
-        "avg_change_gbp": -333.9047090845314,
-        "relative_change_pct": -1.55256941301146,
-        "total_change_bn": -1.2151192260876449
+        "avg_change_gbp": -739.5144162251659,
+        "relative_change_pct": -0.5847109870215874,
+        "total_change_bn": -2.8722036599299976
       },
       {
         "decile": 2,
-        "avg_change_gbp": -163.97188267707526,
-        "relative_change_pct": -0.5161712173770697,
-        "total_change_bn": -0.4975499252232936
+        "avg_change_gbp": -494.6422777395162,
+        "relative_change_pct": -0.4037248293743467,
+        "total_change_bn": -1.4307446184291701
       },
       {
         "decile": 3,
-        "avg_change_gbp": -170.3432983898445,
-        "relative_change_pct": -0.4516046121098952,
-        "total_change_bn": -0.5566414198551416
+        "avg_change_gbp": -341.981450849822,
+        "relative_change_pct": -0.2868079880242622,
+        "total_change_bn": -1.14165292127539
       },
       {
         "decile": 4,
-        "avg_change_gbp": -148.86280182085895,
-        "relative_change_pct": -0.3866083106289684,
-        "total_change_bn": -0.5286913656335447
+        "avg_change_gbp": -449.6889155977543,
+        "relative_change_pct": -0.31714809057169313,
+        "total_change_bn": -1.4136850443360698
       },
       {
         "decile": 5,
-        "avg_change_gbp": -209.96363237865248,
-        "relative_change_pct": -0.4518976904536166,
-        "total_change_bn": -0.6851407137776385
+        "avg_change_gbp": -396.0066467103896,
+        "relative_change_pct": -0.2747180947994198,
+        "total_change_bn": -1.4080636852503565
       },
       {
         "decile": 6,
-        "avg_change_gbp": -225.91072042844326,
-        "relative_change_pct": -0.4170011301563574,
-        "total_change_bn": -0.7026684800599474
+        "avg_change_gbp": -530.3750800690707,
+        "relative_change_pct": -0.3367333459744118,
+        "total_change_bn": -1.5715358379583568
       },
       {
         "decile": 7,
-        "avg_change_gbp": -211.41516230673884,
-        "relative_change_pct": -0.36606393373409274,
-        "total_change_bn": -0.6767407934640001
+        "avg_change_gbp": -484.8347880058837,
+        "relative_change_pct": -0.27190827685180385,
+        "total_change_bn": -1.5543385258261126
       },
       {
         "decile": 8,
-        "avg_change_gbp": -495.77610066576,
-        "relative_change_pct": -0.6767771286759714,
-        "total_change_bn": -1.4390283310373062
+        "avg_change_gbp": -895.4924998674879,
+        "relative_change_pct": -0.4496404163077073,
+        "total_change_bn": -2.628098010627628
       },
       {
         "decile": 9,
-        "avg_change_gbp": -971.9241460367282,
-        "relative_change_pct": -1.2839141055732095,
-        "total_change_bn": -3.1450580768255216
+        "avg_change_gbp": -1540.203209430451,
+        "relative_change_pct": -0.588281362589944,
+        "total_change_bn": -4.711740550710165
       },
       {
         "decile": 10,
-        "avg_change_gbp": -6554.291515543829,
-        "relative_change_pct": -4.5457464459498675,
-        "total_change_bn": -19.432413629247495
+        "avg_change_gbp": -6806.2287019689675,
+        "relative_change_pct": -1.3964142632494565,
+        "total_change_bn": -21.457636663058565
       }
     ],
     "2028-29": [
       {
         "decile": 1,
-        "avg_change_gbp": -338.62677725522497,
-        "relative_change_pct": -1.5656523012674821,
-        "total_change_bn": -1.236243188165299
+        "avg_change_gbp": -778.2791991570493,
+        "relative_change_pct": -0.5800345581681199,
+        "total_change_bn": -3.028835663579472
       },
       {
         "decile": 2,
-        "avg_change_gbp": -177.0270353156612,
-        "relative_change_pct": -0.5515386160684043,
-        "total_change_bn": -0.5503290436233222
+        "avg_change_gbp": -507.04197486711394,
+        "relative_change_pct": -0.4080187689177315,
+        "total_change_bn": -1.4839986741215472
       },
       {
         "decile": 3,
-        "avg_change_gbp": -176.05988234970383,
-        "relative_change_pct": -0.4659592860456011,
-        "total_change_bn": -0.5876099110051093
+        "avg_change_gbp": -354.88596804969796,
+        "relative_change_pct": -0.2887751830165213,
+        "total_change_bn": -1.1902884550141282
       },
       {
         "decile": 4,
-        "avg_change_gbp": -156.5406114541179,
-        "relative_change_pct": -0.39197422529046966,
-        "total_change_bn": -0.5412740896678011
+        "avg_change_gbp": -462.0548506494693,
+        "relative_change_pct": -0.3191895392462226,
+        "total_change_bn": -1.487184110405135
       },
       {
         "decile": 5,
-        "avg_change_gbp": -222.97841313597436,
-        "relative_change_pct": -0.47038633862456963,
-        "total_change_bn": -0.7169897941771007
+        "avg_change_gbp": -422.1143888849987,
+        "relative_change_pct": -0.28820988358182403,
+        "total_change_bn": -1.4702996654227753
       },
       {
         "decile": 6,
-        "avg_change_gbp": -230.72117529644197,
-        "relative_change_pct": -0.4198239142892227,
-        "total_change_bn": -0.7335923198098946
+        "avg_change_gbp": -561.3218100156753,
+        "relative_change_pct": -0.3503644575949533,
+        "total_change_bn": -1.6541694997131438
       },
       {
         "decile": 7,
-        "avg_change_gbp": -216.13189265443114,
-        "relative_change_pct": -0.369114427012486,
-        "total_change_bn": -0.6941961672703503
+        "avg_change_gbp": -483.143779818511,
+        "relative_change_pct": -0.2668771902904548,
+        "total_change_bn": -1.5686874869428296
       },
       {
         "decile": 8,
-        "avg_change_gbp": -553.767078981994,
-        "relative_change_pct": -0.7453854456229871,
-        "total_change_bn": -1.5891664134432297
+        "avg_change_gbp": -1005.0966499187724,
+        "relative_change_pct": -0.4689701994140855,
+        "total_change_bn": -3.0136214101520915
       },
       {
         "decile": 9,
-        "avg_change_gbp": -966.940074499536,
-        "relative_change_pct": -1.253029798446103,
-        "total_change_bn": -3.180093761100315
+        "avg_change_gbp": -1538.7782450767138,
+        "relative_change_pct": -0.5981006575432409,
+        "total_change_bn": -4.719402093847728
       },
       {
         "decile": 10,
-        "avg_change_gbp": -6757.643831510654,
-        "relative_change_pct": -4.600737253406607,
-        "total_change_bn": -20.127722943353888
+        "avg_change_gbp": -7094.192217982682,
+        "relative_change_pct": -1.4150357010895063,
+        "total_change_bn": -22.163919839340256
       }
     ],
     "2029-30": [
       {
         "decile": 1,
-        "avg_change_gbp": -364.22249928930256,
-        "relative_change_pct": -1.6591939614184605,
-        "total_change_bn": -1.3348056526474237
+        "avg_change_gbp": -807.974033873558,
+        "relative_change_pct": -0.6192528481013077,
+        "total_change_bn": -3.1579696432121924
       },
       {
         "decile": 2,
-        "avg_change_gbp": -168.85507307730356,
-        "relative_change_pct": -0.5183945056666555,
-        "total_change_bn": -0.5244575664871146
+        "avg_change_gbp": -534.1515866351426,
+        "relative_change_pct": -0.4220453258358073,
+        "total_change_bn": -1.5774666269182793
       },
       {
         "decile": 3,
-        "avg_change_gbp": -184.96648850529783,
-        "relative_change_pct": -0.48014938440821037,
-        "total_change_bn": -0.6134401915900072
+        "avg_change_gbp": -359.11326533713526,
+        "relative_change_pct": -0.2882493725100526,
+        "total_change_bn": -1.2080428622887693
       },
       {
         "decile": 4,
-        "avg_change_gbp": -159.04522093298974,
-        "relative_change_pct": -0.39445678415372887,
-        "total_change_bn": -0.5588168741282464
+        "avg_change_gbp": -484.9210470978435,
+        "relative_change_pct": -0.32891699892744813,
+        "total_change_bn": -1.5960776180351837
       },
       {
         "decile": 5,
-        "avg_change_gbp": -234.57368722473305,
-        "relative_change_pct": -0.48577237429007003,
-        "total_change_bn": -0.7514538387316153
+        "avg_change_gbp": -450.3583585258825,
+        "relative_change_pct": -0.3035821066435778,
+        "total_change_bn": -1.5401551410377008
       },
       {
         "decile": 6,
-        "avg_change_gbp": -241.32655439781024,
-        "relative_change_pct": -0.43327439626263425,
-        "total_change_bn": -0.7822150841223416
+        "avg_change_gbp": -576.7482872046041,
+        "relative_change_pct": -0.351230754812329,
+        "total_change_bn": -1.7063017583625393
       },
       {
         "decile": 7,
-        "avg_change_gbp": -221.98261378570893,
-        "relative_change_pct": -0.37356085429659663,
-        "total_change_bn": -0.7140135875399379
+        "avg_change_gbp": -483.73182911848454,
+        "relative_change_pct": -0.2676650358366423,
+        "total_change_bn": -1.575531266149922
       },
       {
         "decile": 8,
-        "avg_change_gbp": -562.4256359874034,
-        "relative_change_pct": -0.7449867264921071,
-        "total_change_bn": -1.6511085702578603
+        "avg_change_gbp": -1055.9602863245602,
+        "relative_change_pct": -0.48551341451804975,
+        "total_change_bn": -3.184707799682535
       },
       {
         "decile": 9,
-        "avg_change_gbp": -1016.3040030832491,
-        "relative_change_pct": -1.2921381491018074,
-        "total_change_bn": -3.2962978182859777
+        "avg_change_gbp": -1578.933199528666,
+        "relative_change_pct": -0.6282790542535026,
+        "total_change_bn": -4.891471084738084
       },
       {
         "decile": 10,
-        "avg_change_gbp": -6957.10735603613,
-        "relative_change_pct": -4.6571720948882875,
-        "total_change_bn": -20.81549498956829
+        "avg_change_gbp": -7344.965112255491,
+        "relative_change_pct": -1.4342288328754214,
+        "total_change_bn": -22.951311198156183
       }
     ],
     "2030-31": [
       {
         "decile": 1,
-        "avg_change_gbp": -355.4656725033675,
-        "relative_change_pct": -1.6207772838398526,
-        "total_change_bn": -1.3368378957664127
+        "avg_change_gbp": -839.6775535688341,
+        "relative_change_pct": -0.6259784311709771,
+        "total_change_bn": -3.3132477306629053
       },
       {
         "decile": 2,
-        "avg_change_gbp": -196.34832634458712,
-        "relative_change_pct": -0.5964072467883771,
-        "total_change_bn": -0.6009101502247048
+        "avg_change_gbp": -549.4603167584479,
+        "relative_change_pct": -0.4260137648479503,
+        "total_change_bn": -1.606423504316507
       },
       {
         "decile": 3,
-        "avg_change_gbp": -198.5043076941964,
-        "relative_change_pct": -0.5124011294236251,
-        "total_change_bn": -0.671171669967129
+        "avg_change_gbp": -448.52559738318934,
+        "relative_change_pct": -0.3280523160069662,
+        "total_change_bn": -1.4644526251133685
       },
       {
         "decile": 4,
-        "avg_change_gbp": -162.670264746665,
-        "relative_change_pct": -0.39860514339563063,
-        "total_change_bn": -0.5746939401392827
+        "avg_change_gbp": -397.9042714780957,
+        "relative_change_pct": -0.2722227134214708,
+        "total_change_bn": -1.343837433460493
       },
       {
         "decile": 5,
-        "avg_change_gbp": -239.37097946220652,
-        "relative_change_pct": -0.48226604480075946,
-        "total_change_bn": -0.7587173875375836
+        "avg_change_gbp": -515.799915573751,
+        "relative_change_pct": -0.3566469275728831,
+        "total_change_bn": -1.7764417200662013
       },
       {
         "decile": 6,
-        "avg_change_gbp": -246.55652081581144,
-        "relative_change_pct": -0.43391077427591035,
-        "total_change_bn": -0.7952132498177029
+        "avg_change_gbp": -567.6603027367667,
+        "relative_change_pct": -0.3417961060323639,
+        "total_change_bn": -1.7236893029508713
       },
       {
         "decile": 7,
-        "avg_change_gbp": -237.95675130541662,
-        "relative_change_pct": -0.3928313278126494,
-        "total_change_bn": -0.7673815080584838
+        "avg_change_gbp": -530.7620257428208,
+        "relative_change_pct": -0.2829211291395497,
+        "total_change_bn": -1.7405996950069968
       },
       {
         "decile": 8,
-        "avg_change_gbp": -575.912223155684,
-        "relative_change_pct": -0.7491201600008275,
-        "total_change_bn": -1.6990033068874373
+        "avg_change_gbp": -1091.2256131494214,
+        "relative_change_pct": -0.4981304028464584,
+        "total_change_bn": -3.2802032680568063
       },
       {
         "decile": 9,
-        "avg_change_gbp": -1116.840132442064,
-        "relative_change_pct": -1.3603038870808983,
-        "total_change_bn": -3.460769788749322
+        "avg_change_gbp": -1628.6418911546207,
+        "relative_change_pct": -0.593428668104406,
+        "total_change_bn": -5.060065567753359
       },
       {
         "decile": 10,
-        "avg_change_gbp": -6817.193042715131,
-        "relative_change_pct": -4.629152842715828,
-        "total_change_bn": -21.564018183824395
+        "avg_change_gbp": -7594.6469724300905,
+        "relative_change_pct": -1.4505403834103947,
+        "total_change_bn": -23.837059004123123
       }
     ]
   },
@@ -428,89 +395,89 @@
         "decile": "1",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.3034890201309,
-        "lose_less_5_pct": 0.940002297757972,
-        "lose_more_5_pct": 0.75650868211113
+        "no_change_pct": 95.81672611896049,
+        "lose_less_5_pct": 2.312661137385684,
+        "lose_more_5_pct": 1.8706127436538502
       },
       {
         "decile": "2",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.71895886229233,
-        "lose_less_5_pct": 0.7359668521599877,
-        "lose_more_5_pct": 0.5450742855476953
+        "no_change_pct": 94.57726541047158,
+        "lose_less_5_pct": 3.5850470599162776,
+        "lose_more_5_pct": 1.8376875296121475
       },
       {
         "decile": "3",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.7197706294804,
-        "lose_less_5_pct": 0.7273682492652989,
-        "lose_more_5_pct": 0.5528611212543068
+        "no_change_pct": 96.28428734595896,
+        "lose_less_5_pct": 2.0945751849959766,
+        "lose_more_5_pct": 1.6211374690450482
       },
       {
         "decile": "4",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.88384945274476,
-        "lose_less_5_pct": 0.5949248125166243,
-        "lose_more_5_pct": 0.5212257347386344
+        "no_change_pct": 96.01193314873471,
+        "lose_less_5_pct": 2.105084380626269,
+        "lose_more_5_pct": 1.8829824706390177
       },
       {
         "decile": "5",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.97392458082155,
-        "lose_less_5_pct": 0.5048101792243902,
-        "lose_more_5_pct": 0.521265239954064
+        "no_change_pct": 96.85304966147226,
+        "lose_less_5_pct": 1.799985369134575,
+        "lose_more_5_pct": 1.3469649693931507
       },
       {
         "decile": "6",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.6377331454515,
-        "lose_less_5_pct": 0.7577104450478895,
-        "lose_more_5_pct": 0.6045564095005995
+        "no_change_pct": 95.37397527969082,
+        "lose_less_5_pct": 3.0832330899302285,
+        "lose_more_5_pct": 1.5427916303789344
       },
       {
         "decile": "7",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 99.04724884224254,
-        "lose_less_5_pct": 0.4517075628115356,
-        "lose_more_5_pct": 0.5010435949459112
+        "no_change_pct": 96.69819737578405,
+        "lose_less_5_pct": 1.5556503452937698,
+        "lose_more_5_pct": 1.746152278922177
       },
       {
         "decile": "8",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.66587850026279,
-        "lose_less_5_pct": 0.5770862612762057,
-        "lose_more_5_pct": 0.7570352384609933
+        "no_change_pct": 95.8460704553177,
+        "lose_less_5_pct": 1.8801865592595268,
+        "lose_more_5_pct": 2.2737429854227673
       },
       {
         "decile": "9",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.89290089402877,
-        "lose_less_5_pct": 0.8842958140391446,
-        "lose_more_5_pct": 1.2228032919320773
+        "no_change_pct": 93.05243343455865,
+        "lose_less_5_pct": 3.7289834527387593,
+        "lose_more_5_pct": 3.2185831127025826
       },
       {
         "decile": "10",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 95.60033549609525,
-        "lose_less_5_pct": 1.3846328893312219,
-        "lose_more_5_pct": 3.0150316145735268
+        "no_change_pct": 89.40540227941997,
+        "lose_less_5_pct": 4.449803706949475,
+        "lose_more_5_pct": 6.144794013630552
       },
       {
         "decile": "All",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.34497718841263,
-        "lose_less_5_pct": 0.7551681806461149,
-        "lose_more_5_pct": 0.8998546309412783
+        "no_change_pct": 94.99193405103694,
+        "lose_less_5_pct": 2.659521028623054,
+        "lose_more_5_pct": 2.3485449203400224
       }
     ],
     "2027-28": [
@@ -518,89 +485,89 @@
         "decile": "1",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.32872994978577,
-        "lose_less_5_pct": 0.9267201356197031,
-        "lose_more_5_pct": 0.7445499145945123
+        "no_change_pct": 95.790834248772,
+        "lose_less_5_pct": 2.3008702855263174,
+        "lose_more_5_pct": 1.908295465701678
       },
       {
         "decile": "2",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.71655760222669,
-        "lose_less_5_pct": 0.7237527070672085,
-        "lose_more_5_pct": 0.5596896907061231
+        "no_change_pct": 94.72573975482203,
+        "lose_less_5_pct": 3.407938171735462,
+        "lose_more_5_pct": 1.8663220734425094
       },
       {
         "decile": "3",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.64012508604574,
-        "lose_less_5_pct": 0.7938100796152182,
-        "lose_more_5_pct": 0.5660648343390495
+        "no_change_pct": 96.16791240380219,
+        "lose_less_5_pct": 2.2096726314104624,
+        "lose_more_5_pct": 1.622414964787348
       },
       {
         "decile": "4",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.92501493253894,
-        "lose_less_5_pct": 0.5291319791236728,
-        "lose_more_5_pct": 0.545853088337382
+        "no_change_pct": 96.03034009744763,
+        "lose_less_5_pct": 2.0032452147858373,
+        "lose_more_5_pct": 1.966414687766528
       },
       {
         "decile": "5",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.97764595599568,
-        "lose_less_5_pct": 0.4944244196272414,
-        "lose_more_5_pct": 0.5279296243770707
+        "no_change_pct": 96.81294780535568,
+        "lose_less_5_pct": 1.7737289534237612,
+        "lose_more_5_pct": 1.4133232412205636
       },
       {
         "decile": "6",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.62292042640469,
-        "lose_less_5_pct": 0.4693285611917161,
-        "lose_more_5_pct": 0.907751012403596
+        "no_change_pct": 95.35421935489427,
+        "lose_less_5_pct": 1.9750471253521071,
+        "lose_more_5_pct": 2.670733519753631
       },
       {
         "decile": "7",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 99.07346737843652,
-        "lose_less_5_pct": 0.43013994966898467,
-        "lose_more_5_pct": 0.49639267189448616
+        "no_change_pct": 96.72392641485355,
+        "lose_less_5_pct": 1.4957563686129276,
+        "lose_more_5_pct": 1.7803172165335126
       },
       {
         "decile": "8",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.63490333241592,
-        "lose_less_5_pct": 0.5841229006668808,
-        "lose_more_5_pct": 0.780973766917209
+        "no_change_pct": 95.75283732202023,
+        "lose_less_5_pct": 1.8873823204987903,
+        "lose_more_5_pct": 2.359780357480995
       },
       {
         "decile": "9",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.89668266343666,
-        "lose_less_5_pct": 0.8838841623058192,
-        "lose_more_5_pct": 1.2194331742575213
+        "no_change_pct": 93.14995208316863,
+        "lose_less_5_pct": 3.6625002103821602,
+        "lose_more_5_pct": 3.1875477064492106
       },
       {
         "decile": "10",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 95.59147431361302,
-        "lose_less_5_pct": 1.382353159115811,
-        "lose_more_5_pct": 3.0261725272711697
+        "no_change_pct": 89.47371732259565,
+        "lose_less_5_pct": 4.399345638845437,
+        "lose_more_5_pct": 6.126937038558908
       },
       {
         "decile": "All",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.34119212707576,
-        "lose_less_5_pct": 0.7215797709450712,
-        "lose_more_5_pct": 0.937228101979155
+        "no_change_pct": 94.99824268077319,
+        "lose_less_5_pct": 2.5115486920573264,
+        "lose_more_5_pct": 2.4902086271694888
       }
     ],
     "2028-29": [
@@ -608,89 +575,89 @@
         "decile": "1",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.33769021177574,
-        "lose_less_5_pct": 0.9018670915198024,
-        "lose_more_5_pct": 0.7604426967044501
+        "no_change_pct": 95.70557085638356,
+        "lose_less_5_pct": 2.20364926693743,
+        "lose_more_5_pct": 2.0907798766789982
       },
       {
         "decile": "2",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.70317532798242,
-        "lose_less_5_pct": 0.7094064508007704,
-        "lose_more_5_pct": 0.5874182212168134
+        "no_change_pct": 94.6581890931639,
+        "lose_less_5_pct": 3.447015901948773,
+        "lose_more_5_pct": 1.894795004887336
       },
       {
         "decile": "3",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.63949742924058,
-        "lose_less_5_pct": 0.7860100944432543,
-        "lose_more_5_pct": 0.5744924763161443
+        "no_change_pct": 96.21329821421945,
+        "lose_less_5_pct": 2.200421552497719,
+        "lose_more_5_pct": 1.5862802332828356
       },
       {
         "decile": "4",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.88096998309821,
-        "lose_less_5_pct": 0.5767227271040275,
-        "lose_more_5_pct": 0.5423072897977795
+        "no_change_pct": 96.24810857336266,
+        "lose_less_5_pct": 1.8714366020407442,
+        "lose_more_5_pct": 1.8804548245965917
       },
       {
         "decile": "5",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.9711530577076,
-        "lose_less_5_pct": 0.4625428885023341,
-        "lose_more_5_pct": 0.5663040537900761
+        "no_change_pct": 96.69053220312213,
+        "lose_less_5_pct": 1.6930436633603532,
+        "lose_more_5_pct": 1.6164241335175114
       },
       {
         "decile": "6",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.63327436986783,
-        "lose_less_5_pct": 0.46343605249711883,
-        "lose_more_5_pct": 0.9032895776350339
+        "no_change_pct": 95.20194807976988,
+        "lose_less_5_pct": 2.0148521322736155,
+        "lose_more_5_pct": 2.783199787956514
       },
       {
         "decile": "7",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 99.04643773786803,
-        "lose_less_5_pct": 0.44835836804068163,
-        "lose_more_5_pct": 0.5052038940913003
+        "no_change_pct": 96.83592078655141,
+        "lose_less_5_pct": 1.430119219489121,
+        "lose_more_5_pct": 1.7339599939594699
       },
       {
         "decile": "8",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.57402501460903,
-        "lose_less_5_pct": 0.590126246707389,
-        "lose_more_5_pct": 0.8358487386835715
+        "no_change_pct": 95.73488030225057,
+        "lose_less_5_pct": 1.802269863439272,
+        "lose_more_5_pct": 2.462849834310149
       },
       {
         "decile": "9",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.95757508883759,
-        "lose_less_5_pct": 0.8604934812095756,
-        "lose_more_5_pct": 1.1819314299528352
+        "no_change_pct": 93.07359534437161,
+        "lose_less_5_pct": 3.7004314357736026,
+        "lose_more_5_pct": 3.2259732198547892
       },
       {
         "decile": "10",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 95.58534513106926,
-        "lose_less_5_pct": 1.3827954727327108,
-        "lose_more_5_pct": 3.0318593961980183
+        "no_change_pct": 89.45269865978017,
+        "lose_less_5_pct": 4.386637487190406,
+        "lose_more_5_pct": 6.160663853029427
       },
       {
         "decile": "All",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.33179064047066,
-        "lose_less_5_pct": 0.7184207665984781,
-        "lose_more_5_pct": 0.9497885929308529
+        "no_change_pct": 94.98147421129752,
+        "lose_less_5_pct": 2.4749877124951034,
+        "lose_more_5_pct": 2.5435380762073625
       }
     ],
     "2029-30": [
@@ -698,89 +665,89 @@
         "decile": "1",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.27413697568286,
-        "lose_less_5_pct": 0.8990054420436381,
-        "lose_more_5_pct": 0.8268575822735045
+        "no_change_pct": 95.71135738972555,
+        "lose_less_5_pct": 2.167581118177653,
+        "lose_more_5_pct": 2.1210614920967945
       },
       {
         "decile": "2",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.75374179512526,
-        "lose_less_5_pct": 0.7002344144125509,
-        "lose_more_5_pct": 0.5460237904621675
+        "no_change_pct": 94.63614065572187,
+        "lose_less_5_pct": 3.3952996422437725,
+        "lose_more_5_pct": 1.9685597020343517
       },
       {
         "decile": "3",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.65145171624243,
-        "lose_less_5_pct": 0.7631629610940671,
-        "lose_more_5_pct": 0.5853853226635043
+        "no_change_pct": 96.28350396669514,
+        "lose_less_5_pct": 2.124646062869683,
+        "lose_more_5_pct": 1.5918499704351892
       },
       {
         "decile": "4",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.88764223315555,
-        "lose_less_5_pct": 0.5384904642211524,
-        "lose_more_5_pct": 0.5738673026233079
+        "no_change_pct": 96.24195044191093,
+        "lose_less_5_pct": 1.709999911507122,
+        "lose_more_5_pct": 2.048049646581955
       },
       {
         "decile": "5",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.94245565703727,
-        "lose_less_5_pct": 0.45380765849298205,
-        "lose_more_5_pct": 0.6037366844697406
+        "no_change_pct": 96.60615503433047,
+        "lose_less_5_pct": 1.6652592070265395,
+        "lose_more_5_pct": 1.7285857586429925
       },
       {
         "decile": "6",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.64795797355141,
-        "lose_less_5_pct": 0.44089366151470927,
-        "lose_more_5_pct": 0.911148364933877
+        "no_change_pct": 95.39095940783693,
+        "lose_less_5_pct": 1.894714333397015,
+        "lose_more_5_pct": 2.7143262587660573
       },
       {
         "decile": "7",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 99.03389175813845,
-        "lose_less_5_pct": 0.4539464809627794,
-        "lose_more_5_pct": 0.5121617608987522
+        "no_change_pct": 96.68750599613539,
+        "lose_less_5_pct": 1.4639664879202168,
+        "lose_more_5_pct": 1.8485275159444152
       },
       {
         "decile": "8",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.59229385486272,
-        "lose_less_5_pct": 0.5792773282962603,
-        "lose_more_5_pct": 0.8284288168410291
+        "no_change_pct": 95.75890314117439,
+        "lose_less_5_pct": 1.7454517939469432,
+        "lose_more_5_pct": 2.4956450648786563
       },
       {
         "decile": "9",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.9274763041639,
-        "lose_less_5_pct": 0.8741009534937041,
-        "lose_more_5_pct": 1.198422742342385
+        "no_change_pct": 93.082009409216,
+        "lose_less_5_pct": 3.688032137443309,
+        "lose_more_5_pct": 3.229958453340689
       },
       {
         "decile": "10",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 95.5789385779656,
-        "lose_less_5_pct": 1.3855587757362702,
-        "lose_more_5_pct": 3.035502646298127
+        "no_change_pct": 89.41563103853044,
+        "lose_less_5_pct": 4.377398181912572,
+        "lose_more_5_pct": 6.206970779556994
       },
       {
         "decile": "All",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.32880296207834,
-        "lose_less_5_pct": 0.7085926367097699,
-        "lose_more_5_pct": 0.9626044012118941
+        "no_change_pct": 94.9814116481277,
+        "lose_less_5_pct": 2.4232348876444827,
+        "lose_more_5_pct": 2.5953534642278093
       }
     ],
     "2030-31": [
@@ -788,89 +755,89 @@
         "decile": "1",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.3373009801831,
-        "lose_less_5_pct": 0.8938241400052541,
-        "lose_more_5_pct": 0.768874879811636
+        "no_change_pct": 95.73368824391976,
+        "lose_less_5_pct": 2.0875753682132885,
+        "lose_more_5_pct": 2.178736387866962
       },
       {
         "decile": "2",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.69073717641618,
-        "lose_less_5_pct": 0.6701733087416233,
-        "lose_more_5_pct": 0.6390895148421724
+        "no_change_pct": 94.72196882721468,
+        "lose_less_5_pct": 3.270271447623205,
+        "lose_more_5_pct": 2.007759725162104
       },
       {
         "decile": "3",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.54763729842101,
-        "lose_less_5_pct": 0.8479296994112125,
-        "lose_more_5_pct": 0.6044330021677813
+        "no_change_pct": 96.20958281025426,
+        "lose_less_5_pct": 2.0234540346870644,
+        "lose_more_5_pct": 1.7669631550586797
       },
       {
         "decile": "4",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.96149618153594,
-        "lose_less_5_pct": 0.45634626932783534,
-        "lose_more_5_pct": 0.5821575491362421
+        "no_change_pct": 96.67277026252087,
+        "lose_less_5_pct": 1.9113946356657652,
+        "lose_more_5_pct": 1.4158351018133555
       },
       {
         "decile": "5",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.99332777611001,
-        "lose_less_5_pct": 0.4209671154813925,
-        "lose_more_5_pct": 0.5857051084085965
+        "no_change_pct": 96.05381809877346,
+        "lose_less_5_pct": 1.5824026911580278,
+        "lose_more_5_pct": 2.3637792100685076
       },
       {
         "decile": "6",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.62471630283501,
-        "lose_less_5_pct": 0.4483014540550137,
-        "lose_more_5_pct": 0.9269822431099797
+        "no_change_pct": 95.31647060032937,
+        "lose_less_5_pct": 1.8929229505556409,
+        "lose_more_5_pct": 2.7906064491149976
       },
       {
         "decile": "7",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 99.01341690125213,
-        "lose_less_5_pct": 0.46521563555397066,
-        "lose_more_5_pct": 0.5213674631939011
+        "no_change_pct": 96.7837301626026,
+        "lose_less_5_pct": 1.4284615305590185,
+        "lose_more_5_pct": 1.7878083068383972
       },
       {
         "decile": "8",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.61197113259894,
-        "lose_less_5_pct": 0.5563869150948211,
-        "lose_more_5_pct": 0.8316419523062436
+        "no_change_pct": 95.77575235643904,
+        "lose_less_5_pct": 1.696797263906879,
+        "lose_more_5_pct": 2.5274503796540815
       },
       {
         "decile": "9",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.83656547678333,
-        "lose_less_5_pct": 0.9257452293302177,
-        "lose_more_5_pct": 1.2376892938864494
+        "no_change_pct": 93.07912118559211,
+        "lose_less_5_pct": 3.6715720462409673,
+        "lose_more_5_pct": 3.24930676816692
       },
       {
         "decile": "10",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 95.67797462273064,
-        "lose_less_5_pct": 1.3416382902974604,
-        "lose_more_5_pct": 2.9803870869718914
+        "no_change_pct": 89.39180237085004,
+        "lose_less_5_pct": 4.359902745173174,
+        "lose_more_5_pct": 6.248294883976784
       },
       {
         "decile": "All",
         "gain_more_5_pct": 0.0,
         "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.32558776008328,
-        "lose_less_5_pct": 0.7032186152394795,
-        "lose_more_5_pct": 0.9711936246772501
+        "no_change_pct": 94.97387049184962,
+        "lose_less_5_pct": 2.392475471378303,
+        "lose_more_5_pct": 2.633654036772079
       }
     ]
   },
@@ -878,27 +845,27 @@
     {
       "name": "Static (Advani & Summers 2020 style)",
       "e_mtr": 0.0,
-      "revenue_2026_bn": 13.589407414928276
+      "revenue_2026_bn": 17.8608227877305
     },
     {
       "name": "CenTax lower (retention e=0.5)",
       "e_mtr": -0.35,
-      "revenue_2026_bn": 7.3179615789922146
+      "revenue_2026_bn": 9.103206153946182
     },
     {
       "name": "CenTax central (retention e=1.0)",
       "e_mtr": -0.7,
-      "revenue_2026_bn": 2.301363258605045
+      "revenue_2026_bn": 2.1106658095057944
     },
     {
       "name": "CenTax upper (retention e=2.0)",
       "e_mtr": -1.4,
-      "revenue_2026_bn": -4.905555077807741
+      "revenue_2026_bn": -7.8967680791999815
     },
     {
       "name": "HMRC ready-reckoner-like",
       "e_mtr": -2.0,
-      "revenue_2026_bn": -8.963216763406816
+      "revenue_2026_bn": -13.498847489444461
     }
   ],
   "comparison": [
@@ -906,19 +873,19 @@
       "source": "This model, 2026-27 (rate-only, e=-0.7)",
       "reform_modelled": "Rate equalisation only",
       "behavioural_assumption": "MTR elasticity -0.7 (~= CenTax central retention e=1.0)",
-      "revenue_bn_per_year": 2.3013615518195802
+      "revenue_bn_per_year": 2.1106661593023683
     },
     {
       "source": "This model, 5-year average",
       "reform_modelled": "Rate equalisation only",
       "behavioural_assumption": "MTR elasticity -0.7",
-      "revenue_bn_per_year": 2.5314651082651856
+      "revenue_bn_per_year": 2.378992631303345
     },
     {
       "source": "This model, static (e=0)",
       "reform_modelled": "Rate equalisation only",
       "behavioural_assumption": "None (static)",
-      "revenue_bn_per_year": 13.589407414928276
+      "revenue_bn_per_year": 17.8608227877305
     },
     {
       "source": "CenTax central (Advani, Lonsdale & Summers 2024)",

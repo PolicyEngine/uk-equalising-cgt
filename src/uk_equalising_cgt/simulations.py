@@ -1,63 +1,98 @@
-"""Simulation construction, including the policyengine-uk 2.89.2 bug
-workarounds and paired-calculation helpers.
+"""Simulation construction on the standard policyengine.py stack.
 
-CRITICAL — three correctness details ported from the validated notebook:
+All simulations are built through the ``policyengine`` package (the
+policyengine.py wrapper), never by constructing
+``policyengine_uk.Microsimulation`` objects directly:
 
-Bug 1 (baseline branch not registered): ``Microsimulation.__init__`` stores
-``self.baseline`` but never registers it in ``self.branches``, so
-``relative_capital_gains_mtr_change``'s ``get_branch("baseline")`` forks the
-REFORM simulation and the behavioural response is silently zero. Fix: set
-``sim.branches["baseline"] = sim.baseline`` immediately after construction.
+- ``pe.uk.ensure_datasets`` materialises the stock Enhanced FRS 2023-24
+  dataset (``enhanced_frs_2023_24`` in the policyengine.py release
+  manifest) as one certified per-year dataset file per simulated year.
+  Weights are the stock Enhanced FRS weights — no reweighting.
+- ``policyengine.Simulation`` runs the model for one (dataset-year,
+  policy) pair, with deterministic ids so policyengine.py's
+  output-dataset cache (``<id>.h5`` beside the input dataset file) lets a
+  re-run skip completed simulations.
 
-Bug 2 (response variable neutralised after the first year):
-``relative_capital_gains_mtr_change`` neutralizes
-``capital_gains_behavioural_response`` on the branch's tax-benefit system,
-but branches share the parent's system (``clone_system=False``), so the
-response only fires for the FIRST year calculated. Fix: stash the original
-variable object at construction and restore it before EVERY reform-side
-calculation (:func:`rcalc`).
-
-Positional random draws: PolicyEngine's random draws (e.g. benefit take-up)
-are POSITIONAL within each simulation — two sims are only comparable if they
-execute the same calculation sequence. All calibration prep calculations run
-on a separate throwaway "probe" simulation; the baseline and reformed sims
-are created after, and every subsequent calculation is done in matched pairs
-(:func:`paired_calculate`). Never calculate on the baseline without the
-paired reformed calculation.
+CRITICAL — why reforms go through ``Policy.simulation_modifier`` and not a
+plain reform dict: policyengine.py 4.20.0 applies a plain-dict reform as
+post-construction parameter updates on an unreformed
+``policyengine_uk.Microsimulation`` and never registers the baseline
+branch, so ``relative_capital_gains_mtr_change``'s
+``get_branch("baseline")`` forks the REFORM simulation and the CGT
+behavioural elasticity is silently zero (verified empirically: e=0 and
+e=-0.7 produced identical revenue). The fix uses policyengine.py's own
+first-class ``Policy.simulation_modifier`` hook to (a) register the
+baseline branch — ``Microsimulation.clone()`` gives the baseline its own
+unreformed parameter tree — and (b) apply the same parameter updates the
+wrapper would. The old multi-year "restore the neutralised response
+variable" workaround is gone: each policyengine.py Simulation covers a
+single year, so the shared-system neutralisation bug never bites.
+The pipeline still asserts that static (e=0) and central (e=-0.7) runs
+differ before writing results.
 """
 
 from __future__ import annotations
 
-RESPONSE_VAR = "capital_gains_behavioural_response"
+from pathlib import Path
+
+DATASET = "enhanced_frs_2023_24"
+
+# Variables needed beyond policyengine.py's bundled UK defaults.
+EXTRA_VARIABLES = {
+    "person": ["capital_gains", "capital_gains_tax"],
+    "household": ["gov_tax", "gov_balance"],
+}
 
 
-def reform_simulation(reform: dict):
-    """Build a reformed Microsimulation with the CGT-elasticity bug fixes."""
-    from policyengine_uk import Microsimulation
+def ensure_uk_datasets(years: list[int], data_folder: str | Path) -> dict[int, object]:
+    """Materialise (or load) the stock Enhanced FRS dataset for each year.
 
-    sim = Microsimulation(reform=reform)
-    # Bug 1: register the baseline branch, or the CGT elasticity silently
-    # does nothing (get_branch("baseline") would fork the reform sim).
-    sim.branches["baseline"] = sim.baseline
-    # Stash the original response variable object for bug 2 (see rcalc).
-    sim._original_response_variable = sim.tax_benefit_system.variables[RESPONSE_VAR]
-    return sim
-
-
-def rcalc(sim, variable: str, year: int):
-    """Reform-side calculate with the bug-2 workaround.
-
-    Restores the original ``capital_gains_behavioural_response`` variable —
-    which policyengine-uk neutralises on the SHARED tax-benefit system after
-    the first year calculated — before every reform-side calculation.
+    Returns a mapping ``{year: PolicyEngineUKDataset}``.
     """
-    sim.tax_benefit_system.variables[RESPONSE_VAR] = sim._original_response_variable
-    return sim.calculate(variable, year)
+    import policyengine as pe
+
+    datasets = pe.uk.ensure_datasets(
+        datasets=[DATASET],
+        years=list(years),
+        data_folder=str(data_folder),
+    )
+    return {ds.year: ds for ds in datasets.values()}
 
 
-def paired_calculate(baseline, reformed, variable: str, year: int):
-    """Calculate ``variable`` on both sims, keeping their positional random
-    streams aligned (see module docstring). Returns (baseline, reformed)."""
-    base = baseline.calculate(variable, year)
-    ref = rcalc(reformed, variable, year)
-    return base, ref
+def make_policy(reform: dict, name: str):
+    """Wrap a ``{parameter_path: {start_date: value}}`` reform dict in a
+    policyengine.py ``Policy`` whose ``simulation_modifier`` registers the
+    baseline branch (required for the CGT elasticity — see module
+    docstring) before applying the parameter updates."""
+    from policyengine.core.policy import Policy
+    from policyengine_core.periods import period
+
+    def modifier(sim):
+        # Register the baseline branch so the CGT behavioural response can
+        # measure the unreformed MTR (policyengine-uk's
+        # relative_capital_gains_mtr_change reads branches["baseline"]).
+        sim.branches["baseline"] = sim.baseline
+        for path, dates in reform.items():
+            parameter = sim.tax_benefit_system.parameters.get_child(path)
+            for start, value in dates.items():
+                parameter.update(value=value, start=period(start))
+        return sim
+
+    return Policy(name=name, simulation_modifier=modifier)
+
+
+def run_simulation(dataset, policy=None, sim_id: str | None = None):
+    """Build and run (with output-dataset caching) a policyengine.py
+    Simulation. ``policy`` is a ``Policy`` from :func:`make_policy` (or
+    None for the baseline)."""
+    import policyengine as pe
+
+    sim = pe.Simulation(
+        **({"id": sim_id} if sim_id else {}),
+        dataset=dataset,
+        tax_benefit_model_version=pe.uk.model,
+        policy=policy,
+        extra_variables=EXTRA_VARIABLES,
+    )
+    sim.ensure()
+    return sim

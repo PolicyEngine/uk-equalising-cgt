@@ -23,17 +23,20 @@ def fake_results() -> dict:
     return {
         "metadata": {
             "generated": "2026-07-17",
+            "policyengine_version": "4.20.0",
             "policyengine_uk_version": "2.89.2",
+            "dataset": "enhanced_frs_2023_24",
+            "reform_period_start": "2026-01-01",
             "elasticity": -0.7,
             "reform": {"basic_rate": 0.20, "higher_rate": 0.40, "additional_rate": 0.45},
             "years": list(YEARS),
         },
+        # Stock Enhanced FRS weights: no reweighting, so no targets/ESS.
         "calibration": {
-            "targets": [
-                {"name": "total_capital_gains", "target": 70e9, "final": 69.9e9, "relative_error": -0.001}
-            ],
-            "ess_before": 30_000.0,
-            "ess_after": 20_000.0,
+            "targets": [],
+            "ess_before": None,
+            "ess_after": None,
+            "note": "Stock Enhanced FRS 2023-24 weights; no populace recalibration.",
         },
         "validation": {
             "cgt_taxpayers": 400_000.0,
@@ -63,10 +66,11 @@ def fake_results() -> dict:
             ]
             for label in labels
         },
-        "winners_losers": [
-            {"decile": str(d), **dict.fromkeys(BAND_NAMES, 0.0)} for d in range(1, 11)
-        ]
-        + [{"decile": "All", **dict.fromkeys(BAND_NAMES, 0.0)}],
+        "winners_losers": {
+            label: [{"decile": str(d), **dict.fromkeys(BAND_NAMES, 0.0)} for d in range(1, 11)]
+            + [{"decile": "All", **dict.fromkeys(BAND_NAMES, 0.0)}]
+            for label in labels
+        },
         "sensitivity": [
             {"name": name, "e_mtr": e, "revenue_2026_bn": 1.0}
             for name, e in SENSITIVITY_CASES.items()
@@ -118,8 +122,17 @@ def test_decile_impact_keyed_by_fiscal_year():
 
 def test_winners_losers_rows():
     wl = fake_results()["winners_losers"]
-    assert wl[-1]["decile"] == "All"
-    assert set(wl[0]) == {"decile", *BAND_NAMES}
+    assert set(wl) == {"2026-27", "2027-28", "2028-29", "2029-30", "2030-31"}
+    rows = wl["2026-27"]
+    assert rows[-1]["decile"] == "All"
+    assert set(rows[0]) == {"decile", *BAND_NAMES}
+
+
+def test_calibration_marks_stock_weights():
+    cal = fake_results()["calibration"]
+    assert cal["targets"] == []
+    assert cal["ess_before"] is None
+    assert cal["ess_after"] is None
 
 
 def test_sensitivity_cases():

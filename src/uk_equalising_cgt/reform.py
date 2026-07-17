@@ -33,7 +33,10 @@ elasticity abstracting from short-run forestalling.
 from __future__ import annotations
 
 YEARS = [2026, 2027, 2028, 2029, 2030]  # fiscal years 2026-27 .. 2030-31
-PERIOD = "2026-01-01.2035-12-31"
+# policyengine.py reform dicts take a single effective date per value and
+# apply it open-endedly (equivalent to the old "2026-01-01.2035-12-31"
+# range over the 2026-2030 window simulated here).
+PERIOD = "2026-01-01"
 ELASTICITY = -0.7  # w.r.t. MTR; ~= Advani/CenTax central (retention e=1.0) at 40-45%
 
 # Reformed CGT rates, equal to the income tax rates for each band.
