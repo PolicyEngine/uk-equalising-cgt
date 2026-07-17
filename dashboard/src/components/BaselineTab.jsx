@@ -58,6 +58,20 @@ function formatTarget(value, money) {
   return money ? formatBn(value / 1e9) : formatCount(value);
 }
 
+const COMPARISON_LINKS = {
+  "CenTax central": "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=5",
+  "CenTax worst-case": "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=39",
+  "Advani & Summers 2020": "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/manage/publications/wp465.2020.pdf",
+  "HMRC ready reckoner": "https://www.gov.uk/government/statistics/direct-effects-of-illustrative-tax-changes",
+  "OBR baseline": "https://obr.uk/forecasts-in-depth/tax-by-tax-spend-by-spend/capital-gains-tax/",
+  "This model": "https://github.com/PolicyEngine/uk-equalising-cgt",
+};
+
+function comparisonLink(source) {
+  const key = Object.keys(COMPARISON_LINKS).find((prefix) => source.startsWith(prefix));
+  return key ? COMPARISON_LINKS[key] : null;
+}
+
 export default function BaselineTab({ data }) {
   const calibration = getCalibration(data);
   const validation = getValidation(data);
@@ -114,7 +128,7 @@ export default function BaselineTab({ data }) {
       <section className="section-card scroll-mt-24" id="comparison">
         <SectionHeading
           title="Comparison with other institutions"
-          description="Estimates differ mainly because the reforms modelled and the behavioural assumptions differ, not because the models disagree about the same question."
+          description="External revenue estimates for CGT–income tax equalisation, alongside this model's."
         />
         <table className="data-table">
           <thead>
@@ -136,24 +150,32 @@ export default function BaselineTab({ data }) {
                 <td>{row.source}</td>
                 <td>{row.reform_modelled}</td>
                 <td>{row.behavioural_assumption}</td>
-                <td>{formatSignedBn(row.revenue_bn_per_year)}</td>
+                <td>
+                  {comparisonLink(row.source) ? (
+                    <a
+                      href={comparisonLink(row.source)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline decoration-1 underline-offset-2 hover:opacity-80"
+                    >
+                      {formatSignedBn(row.revenue_bn_per_year)}
+                    </a>
+                  ) : (
+                    formatSignedBn(row.revenue_bn_per_year)
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
         <p className="mt-3 text-sm leading-6 text-slate-600">
-          The interpretation: equalising <em>rates only</em>, at Advani&apos;s
-          central elasticity, raises only about £2.3–2.8bn a year. CenTax&apos;s
-          much larger £14bn figure comes from pairing equalisation with base
-          broadening — removing the uplift at death and adding exit charges —
-          which shuts down the main avoidance margins and so supports a smaller
-          behavioural response (its worst case is £9.6bn). Advani &amp;
-          Summers&apos; £16.7bn is a static score of a similar reform;
-          HMRC&apos;s ready reckoner, with a much higher implied elasticity,
-          scores even a 10-point rate rise as <em>losing</em> around £2bn a
-          year. The IFS similarly argues that raising rates without reforming
-          the base would raise little. All sit against an OBR baseline of
-          roughly £16.2bn of CGT revenue.
+          Estimates differ mainly because the reforms and behavioural
+          assumptions differ, not because the models disagree: rate-only
+          equalisation at Advani&apos;s central elasticity raises ~£2.3–2.8bn a
+          year, CenTax&apos;s £14bn pairs equalisation with base broadening that
+          shuts down the main avoidance margins, Advani &amp; Summers&apos;
+          £16.7bn is static, and HMRC&apos;s ready reckoner implies so much
+          behaviour that rate rises lose revenue.
         </p>
       </section>
 

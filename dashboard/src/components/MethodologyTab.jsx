@@ -21,13 +21,40 @@ export default function MethodologyTab({ data }) {
   return (
     <div className="space-y-6">
 
+
+      <section className="section-card scroll-mt-24" id="calibration-method">
+        <SectionHeading
+          title="Baseline recalibration with populace"
+                  />
+        <p className="text-sm leading-6 text-slate-600">
+          The Enhanced FRS imputes capital gains onto survey households, but the
+          raw weights understate both the number of CGT taxpayers and total
+          gains. We use populace, PolicyEngine&apos;s survey-calibration
+          library, to adjust household weights by gradient descent against a
+          loss over calibration targets: total taxable gains (£70bn) and the
+          CGT taxpayer count (400k) from HMRC/OBR, alongside held targets for
+          the survey&apos;s existing income tax, employment income and benefit
+          aggregates so the recalibration cannot degrade the rest of the model.
+          The Baseline &amp; calibration tab reports every target, the achieved
+          value, and the effective-sample-size cost of the reweighting.
+        </p>
+      </section>
+
       <section className="section-card scroll-mt-24" id="elasticity">
         <SectionHeading
           title="Behavioural response: the Advani/CenTax elasticity"
           description="How the retention-rate elasticity in the literature maps onto the marginal-tax-rate elasticity the model applies."
         />
         <p className="text-sm leading-6 text-slate-600">
-          Arun Advani and CenTax express the responsiveness of realised gains as
+          <a
+            href="https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=38"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-1 underline-offset-2 hover:opacity-80"
+          >
+            Arun Advani and CenTax
+          </a>{" "}
+          express the responsiveness of realised gains as
           an elasticity with respect to the <em>retention rate</em> (1 − t): how
           much realisations rise when taxpayers keep a larger share of each
           pound of gain. PolicyEngine applies an elasticity with respect to the{" "}
@@ -45,25 +72,6 @@ export default function MethodologyTab({ data }) {
           {elasticity.mtr_elasticity_approx.toFixed(1)}, which is what the model
           applies. The reform tab&apos;s sensitivity table re-runs the analysis
           across the CenTax range and an HMRC-like high-response case.
-        </p>
-      </section>
-
-      <section className="section-card scroll-mt-24" id="calibration-method">
-        <SectionHeading
-          title="Baseline recalibration with populace"
-          description="Reweighting the Enhanced FRS so its imputed capital gains match administrative aggregates."
-        />
-        <p className="text-sm leading-6 text-slate-600">
-          The Enhanced FRS imputes capital gains onto survey households, but the
-          raw weights understate both the number of CGT taxpayers and total
-          gains. We use populace, PolicyEngine&apos;s survey-calibration
-          library, to adjust household weights by gradient descent against a
-          loss over calibration targets: total taxable gains (£70bn) and the
-          CGT taxpayer count (400k) from HMRC/OBR, alongside held targets for
-          the survey&apos;s existing income tax, employment income and benefit
-          aggregates so the recalibration cannot degrade the rest of the model.
-          The Baseline &amp; calibration tab reports every target, the achieved
-          value, and the effective-sample-size cost of the reweighting.
         </p>
       </section>
 
