@@ -311,53 +311,9 @@ export default function ReformTab({ data }) {
           </ResponsiveContainer>
         </div>
         <ChartLogo />
-        <table className="data-table mt-4">
-          <thead>
-            <tr>
-              <th>Year</th>
-              <TipHeader
-                label="Baseline CGT"
-                tip="CGT revenue with no reform, on the recalibrated baseline."
-              />
-              <TipHeader
-                label="Reform CGT"
-                tip="CGT revenue under equalised rates, after the behavioural response."
-              />
-              <TipHeader
-                label="CGT change"
-                tip="Reform minus baseline CGT revenue."
-              />
-              <TipHeader
-                label="Government balance"
-                tip="Net change in the consolidated government balance, including any knock-on tax effects."
-              />
-            </tr>
-          </thead>
-          <tbody>
-            {budget.map((row) => (
-              <tr key={row.year}>
-                <td>{row.year}</td>
-                <td>{formatBn(row.baseline_cgt_bn)}</td>
-                <td>{formatBn(row.reform_cgt_bn)}</td>
-                <td>{formatSignedBn(row.cgt_change_bn)}</td>
-                <td>{formatSignedBn(row.gov_balance_change_bn)}</td>
-              </tr>
-            ))}
-            <tr className="font-semibold">
-              <td>Five-year total</td>
-              <td>—</td>
-              <td>—</td>
-              <td>
-                {formatSignedBn(
-                  budget.reduce((sum, row) => sum + row.cgt_change_bn, 0),
-                )}
-              </td>
-              <td>{formatSignedBn(fiveYearTotal)}</td>
-            </tr>
-          </tbody>
-        </table>
       </section>
 
+      <div className="grid gap-6 xl:grid-cols-2">
       <section className="section-card">
         <SectionHeading
           title="Average household net income change by decile"
@@ -489,6 +445,7 @@ export default function ReformTab({ data }) {
         </div>
         <ChartLogo />
       </section>
+      </div>
 
       <section className="section-card">
         <SectionHeading
