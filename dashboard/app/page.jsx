@@ -86,7 +86,18 @@ function Dashboard() {
             >
               Advani, Lonsdale &amp; Summers (CenTax, 2024)
             </a>
-            . <TabLink onSelect={() => handleTabChange("reform")}>Reform impacts</TabLink>{" "}
+            . As{" "}
+            <a
+              href="https://www.bloomberg.com/news/articles/2026-05-21/streeting-backs-hiking-uk-capital-gains-levy-to-match-income-tax"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-1 underline-offset-2 hover:opacity-80"
+            >
+              Bloomberg
+            </a>{" "}
+            reports, leading Labour leadership contenders have backed this
+            reform, so the next government may well consider it.{" "}
+            <TabLink onSelect={() => handleTabChange("reform")}>Reform impacts</TabLink>{" "}
             shows revenue and distributional effects,{" "}
             <TabLink onSelect={() => handleTabChange("baseline")}>
               Baseline
