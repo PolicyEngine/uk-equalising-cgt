@@ -57,7 +57,7 @@ export default function BaselineTab({ data }) {
 
       <section className="section-card">
         <SectionHeading
-          title="Calibration targets versus achieved"
+          title="Calibration results"
           description={`Each row is a target the populace reweighting was asked to hit. The gains and taxpayer targets land within 0.05%, and the held aggregates that anchor the rest of the survey move by no more than 0.3%. The effective sample size falls from ${Math.round(calibration.ess_before)} to ${Math.round(calibration.ess_after)}, a modest cost in precision for a large gain in accuracy on gains.`}
         />
         <table className="data-table">
