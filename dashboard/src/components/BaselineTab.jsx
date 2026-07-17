@@ -50,7 +50,7 @@ export default function BaselineTab({ data }) {
       <div className="pt-2">
         <SectionHeading
           size="lg"
-          title="Recalibrating the baseline to HMRC capital gains data"
+          title="Baseline estimation"
           description="The Family Resources Survey barely captures capital gains, so PolicyEngine's Enhanced FRS imputes them. Before running the reform, household weights are recalibrated with populace so that the imputed gains hit HMRC and OBR aggregates — the number of CGT taxpayers and the total gains they realise — while holding the survey's existing income and benefit aggregates in place."
         />
       </div>
