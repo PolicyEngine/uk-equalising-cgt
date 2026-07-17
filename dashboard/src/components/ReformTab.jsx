@@ -179,7 +179,30 @@ export default function ReformTab({ data }) {
         <SectionHeading
           size="lg"
           title="The proposed reform"
-          description={`Capital gains are currently taxed at lower rates than income. The reform aligns each CGT rate with the corresponding income tax rate from ${firstYear}: the basic rate rises from ${formatPct(reform.basic_rate.baseline * 100, 0)} to ${formatPct(reform.basic_rate.reform * 100, 0)}, the higher rate from ${formatPct(reform.higher_rate.baseline * 100, 0)} to ${formatPct(reform.higher_rate.reform * 100, 0)}, and the additional rate from ${formatPct(reform.additional_rate.baseline * 100, 0)} to ${formatPct(reform.additional_rate.reform * 100, 0)}. Taxpayers respond by realising fewer gains, modelled with Advani/CenTax's central retention-rate elasticity of 1.0 (≈ MTR elasticity of −0.7).`}
+          description={
+            <>
+              Capital gains are currently taxed at lower rates than income. The
+              reform aligns each CGT rate with the corresponding income tax
+              rate from {firstYear}: the basic rate rises from{" "}
+              {formatPct(reform.basic_rate.baseline * 100, 0)} to{" "}
+              {formatPct(reform.basic_rate.reform * 100, 0)}, the higher rate
+              from {formatPct(reform.higher_rate.baseline * 100, 0)} to{" "}
+              {formatPct(reform.higher_rate.reform * 100, 0)}, and the
+              additional rate from{" "}
+              {formatPct(reform.additional_rate.baseline * 100, 0)} to{" "}
+              {formatPct(reform.additional_rate.reform * 100, 0)}. Taxpayers
+              respond by realising fewer gains, modelled with{" "}
+              <a
+                href="https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=38"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-1 underline-offset-2 hover:opacity-80"
+              >
+                Advani/CenTax&apos;s central retention-rate elasticity of 1.0
+              </a>{" "}
+              (≈ MTR elasticity of −0.7).
+            </>
+          }
         />
       </div>
 
