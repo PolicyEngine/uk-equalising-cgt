@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { formatPct } from "../lib/formatters";
+import { formatPct, formatSignedBn } from "../lib/formatters";
 import { getComparison, getElasticity, getReform } from "../lib/dataHelpers";
 import SectionHeading from "./SectionHeading";
 
@@ -199,13 +199,13 @@ export default function MethodologyTab({ data }) {
               <tr
                 key={row.source}
                 className={
-                  row.source.startsWith("PolicyEngine") ? "font-semibold" : ""
+                  row.source.startsWith("This model") ? "font-semibold" : ""
                 }
               >
                 <td>{row.source}</td>
                 <td>{row.reform_modelled}</td>
                 <td>{row.behavioural_assumption}</td>
-                <td>{row.revenue_bn_per_year}</td>
+                <td>{formatSignedBn(row.revenue_bn_per_year)}</td>
               </tr>
             ))}
           </tbody>
