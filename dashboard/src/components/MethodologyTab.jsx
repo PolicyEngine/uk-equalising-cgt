@@ -35,7 +35,7 @@ export default function MethodologyTab({ data }) {
           CGT taxpayer count (400k) from HMRC/OBR, alongside held targets for
           the survey&apos;s existing income tax, employment income and benefit
           aggregates so the recalibration cannot degrade the rest of the model.
-          The Baseline &amp; calibration tab reports every target, the achieved
+          The Baseline tab reports every target, the achieved
           value, and the effective-sample-size cost of the reweighting.
         </p>
       </section>
