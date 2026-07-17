@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { formatPct } from "../lib/formatters";
-import { getComparison } from "../lib/dataHelpers";
+import { getComparison, getElasticity, getReform } from "../lib/dataHelpers";
 import SectionHeading from "./SectionHeading";
 
 export default function MethodologyTab({ data }) {
@@ -16,8 +16,8 @@ export default function MethodologyTab({ data }) {
     }
   }, []);
 
-  const reform = data.metadata.reform;
-  const elasticity = data.metadata.elasticity;
+  const reform = getReform(data);
+  const elasticity = getElasticity(data);
   const comparison = getComparison(data);
 
   return (

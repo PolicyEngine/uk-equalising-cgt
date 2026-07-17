@@ -25,6 +25,7 @@ import {
   getFiveYearTotal,
   getSensitivity,
   getWinnersLosers,
+  getReform,
 } from "../lib/dataHelpers";
 import ChartLogo from "./ChartLogo";
 import SectionHeading from "./SectionHeading";
@@ -65,7 +66,7 @@ export default function ReformTab({ data }) {
   const deciles = getDecileImpact(data, firstYear);
   const winnersLosers = getWinnersLosers(data);
   const sensitivity = getSensitivity(data);
-  const reform = data.metadata.reform;
+  const reform = getReform(data);
   const firstYearRow = budget[0];
   const topDecile = deciles.find((d) => d.decile === 10);
   const allRow = winnersLosers.find((row) => row.decile === "All");

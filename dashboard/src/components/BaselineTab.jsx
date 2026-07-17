@@ -22,9 +22,23 @@ const BENCHMARKS = {
   baselineRevenue: { value: "£16–21bn", source: "OBR forecast range" },
 };
 
-function formatTarget(value) {
-  // Calibration targets mix £bn aggregates and person counts.
-  return value >= 1e5 ? formatCount(value) : formatBn(value);
+// Human labels and formats for the pipeline's raw calibration target names.
+const TARGET_LABELS = {
+  total_capital_gains: { label: "Total taxable capital gains", money: true },
+  cgt_taxpayer_count: { label: "CGT taxpayer count", money: false },
+  income_tax_total: { label: "Income tax (held)", money: true },
+  net_income_total: { label: "Household net income (held)", money: true },
+  population: { label: "Population (held)", money: false },
+  households: { label: "Households (held)", money: false },
+};
+
+function targetMeta(name) {
+  const key = name.replace(/@\d+$/, "");
+  return TARGET_LABELS[key] ?? { label: key.replace(/_/g, " "), money: false };
+}
+
+function formatTarget(value, money) {
+  return money ? formatBn(value / 1e9) : formatCount(value);
 }
 
 export default function BaselineTab({ data }) {
@@ -44,7 +58,7 @@ export default function BaselineTab({ data }) {
       <section className="section-card">
         <SectionHeading
           title="Calibration targets versus achieved"
-          description={`Each row is a target the populace reweighting was asked to hit. The gains and taxpayer targets land within 0.05%, and the held aggregates that anchor the rest of the survey move by no more than 0.3%. The effective sample size falls from ${calibration.ess_before} to ${calibration.ess_after}, a modest cost in precision for a large gain in accuracy on gains.`}
+          description={`Each row is a target the populace reweighting was asked to hit. The gains and taxpayer targets land within 0.05%, and the held aggregates that anchor the rest of the survey move by no more than 0.3%. The effective sample size falls from ${Math.round(calibration.ess_before)} to ${Math.round(calibration.ess_after)}, a modest cost in precision for a large gain in accuracy on gains.`}
         />
         <table className="data-table">
           <thead>
@@ -56,19 +70,22 @@ export default function BaselineTab({ data }) {
             </tr>
           </thead>
           <tbody>
-            {calibration.targets.map((row) => (
-              <tr key={row.name}>
-                <td>{row.name}</td>
-                <td>{formatTarget(row.target)}</td>
-                <td>{formatTarget(row.final)}</td>
-                <td>{formatPct(row.relative_error, 2)}</td>
-              </tr>
-            ))}
+            {calibration.targets.map((row) => {
+              const meta = targetMeta(row.name);
+              return (
+                <tr key={row.name}>
+                  <td>{meta.label}</td>
+                  <td>{formatTarget(row.target, meta.money)}</td>
+                  <td>{formatTarget(row.final, meta.money)}</td>
+                  <td>{formatPct(row.relative_error * 100, 2)}</td>
+                </tr>
+              );
+            })}
             <tr>
               <td>Effective sample size (ESS)</td>
               <td>—</td>
               <td>
-                {calibration.ess_before} → {calibration.ess_after}
+                {Math.round(calibration.ess_before)} → {Math.round(calibration.ess_after)}
               </td>
               <td>—</td>
             </tr>
@@ -137,7 +154,7 @@ export default function BaselineTab({ data }) {
             </tr>
             <tr>
               <td>Largest gain in the data</td>
-              <td>£{validation.largest_gain_m}m</td>
+              <td>£{validation.largest_gain_m.toFixed(1)}m</td>
               <td>Gains above £5m are common in HMRC data</td>
               <td>Advani &amp; Summers (2020)</td>
             </tr>
@@ -160,7 +177,7 @@ export default function BaselineTab({ data }) {
           from the FRS-based imputation. In HMRC administrative data, gains of
           £1m or more account for roughly 60% of all gains and gains of £5m or
           more for roughly 40%; in this model the largest imputed gain is £
-          {validation.largest_gain_m}m, so those shares are{" "}
+          {validation.largest_gain_m.toFixed(1)}m, so those shares are{" "}
           {formatPct(validation.share_gains_over_1m_pct, 0)} and{" "}
           {formatPct(validation.share_gains_over_5m_pct, 0)} respectively.
           Reweighting a household survey can hit aggregate totals but cannot
