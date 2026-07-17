@@ -15,15 +15,15 @@ import SectionHeading from "./SectionHeading";
 // rather than in the pipeline JSON.
 const BENCHMARKS = {
   taxpayers: { value: "~378k", source: "HMRC CGT statistics", url: "https://www.gov.uk/government/statistics/capital-gains-tax-statistics" },
-  totalGains: { value: "~£70bn", source: "HMRC CGT statistics", url: "https://www.gov.uk/government/statistics/capital-gains-tax-statistics" },
+  totalGains: { value: "~£66bn (2023-24)", source: "HMRC CGT statistics", url: "https://www.gov.uk/government/statistics/capital-gains-tax-statistics" },
   meanGain: { value: "~£174,000", source: "Implied by HMRC aggregates", url: "https://www.gov.uk/government/statistics/capital-gains-tax-statistics" },
   medianGain: { value: "~£25,000", source: "Advani & Summers (2020)", url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/" },
   shareOver1m: { value: "~60%", source: "Advani & Summers (2020)", url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/" },
   shareOver5m: { value: "~40%", source: "Advani & Summers (2020)", url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/" },
   staticEqualisation: {
     value: "£16.7bn",
-    source: "Advani & Summers (2020), static",
-    url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/manage/publications/wp465.2020.pdf",
+    source: "Advani & Summers, static, GDP-uprated",
+    url: "https://arunadvani.com/taxreform.html",
   },
   baselineRevenue: { value: "£16–21bn", source: "OBR forecast range", url: "https://obr.uk/forecasts-in-depth/tax-by-tax-spend-by-spend/capital-gains-tax/" },
 };

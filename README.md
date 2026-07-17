@@ -8,6 +8,12 @@ including Louise Haigh and Wes Streeting — using the standard
 (the `policyengine` package wrapping the PolicyEngine UK model) on the stock
 Enhanced FRS 2023-24 dataset.
 
+**Note on decile impacts vs revenue:** household net-income losses in the decile
+tables include both the extra tax paid and the gains taxpayers choose not to
+realise under the behavioural response, so they are roughly an order of
+magnitude larger than the net revenue raised. This is a mechanical property of
+modelling the response as a reduction in realised gains, not a bug.
+
 ## Reform (from 2026-27)
 
 | Band | Baseline CGT rate | Reformed rate (= income tax) |

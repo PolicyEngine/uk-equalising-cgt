@@ -66,7 +66,7 @@ export default function MethodologyTab({ data }) {
           <em>marginal tax rate</em> t. The two are related by
         </p>
         <p className="my-3 rounded-lg bg-slate-50 p-4 text-center font-mono text-sm">
-          e<sub>mtr</sub> = e<sub>retention</sub> × t / (1 − t)
+          e<sub>mtr</sub> = −e<sub>retention</sub> × t / (1 − t)
         </p>
         <p className="text-sm leading-6 text-slate-600">
           because a small rise in t is a proportionally larger fall in (1 − t)

@@ -347,7 +347,7 @@ export default function ReformTab({ data }) {
       <section className="section-card">
         <SectionHeading
           title="Average household net income change"
-          description="Average change in household net income by baseline income decile. Losses are concentrated in decile 10, where most taxable gains are realised."
+          description="Average change in household net income by baseline income decile. Losses include both the extra tax paid and the gains taxpayers choose not to realise in response, so they are much larger than the revenue raised. Losses are concentrated in decile 10, where most taxable gains are realised."
         />
         <div className="mb-3 flex flex-wrap items-center gap-4">
           <YearSelect years={years} value={decileYear} onChange={setDecileYear} />
@@ -410,7 +410,7 @@ export default function ReformTab({ data }) {
       <section className="section-card">
         <SectionHeading
           title="Winners and losers"
-          description="Share of people in each decile by outcome. The reform creates no gainers; changes below £1 a year count as no change."
+          description="Share of people in each decile by outcome. The reform creates no gainers; households whose net income changes by less than 0.1% count as no change."
         />
         <div className="mb-3 flex flex-wrap items-center gap-4">
           <YearSelect years={years} value={wlYear} onChange={setWlYear} />
@@ -482,7 +482,7 @@ export default function ReformTab({ data }) {
               <th>Scenario</th>
               <TipHeader
                 label="MTR elasticity"
-                tip="Percentage change in realised gains for a one per cent change in the marginal tax rate. Converted from retention-rate elasticities via e_mtr = e_retention × t/(1−t)."
+                tip="Percentage change in realised gains for a one per cent change in the marginal tax rate. Converted from retention-rate elasticities via e_mtr = −e_retention × t/(1−t)."
               />
               <TipHeader
                 label={`Revenue, ${firstYear}`}

@@ -4,7 +4,7 @@ equalisation (not all model the identical package).
 - CenTax (Advani, Lonsdale & Summers 2024): equalisation PLUS base broadening
   (death-uplift removal, rebasing on arrival / exit charge, investment
   allowance); retention-rate elasticity 1.0 (range 0.5-2.0); ~£14bn/yr
-  central, £9.6bn worst-case.
+  central, £9.7bn worst-case.
 - Advani & Summers (2020, CAGE): taxing gains at income tax rates, static:
   £16.7bn/yr.
 - HMRC ready reckoner: +10pp on higher CGT rates only, implied very high
@@ -32,13 +32,13 @@ EXTERNAL_ESTIMATES = [
         "revenue_bn_per_year": 14.0,
     },
     {
-        "source": "CenTax worst-case",
+        "source": "CenTax worst-case (elasticity upper bound)",
         "reform_modelled": "Equalisation + base broadening",
         "behavioural_assumption": "Retention-rate elasticity upper bound",
-        "revenue_bn_per_year": 9.6,
+        "revenue_bn_per_year": 9.7,
     },
     {
-        "source": "Advani & Summers 2020 (CAGE)",
+        "source": "Advani & Summers (GDP-uprated)",
         "reform_modelled": "Taxing gains at income tax rates, static",
         "behavioural_assumption": "None (static)",
         "revenue_bn_per_year": 16.7,
