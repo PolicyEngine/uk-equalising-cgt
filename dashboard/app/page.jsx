@@ -74,14 +74,10 @@ function Dashboard() {
             <a href="https://policyengine.org" target="_blank" rel="noreferrer" className="underline">
               PolicyEngine
             </a>{" "}
-            UK&apos;s microsimulation model to estimate the revenue and
-            distributional effects of equalising capital gains tax rates with
-            income tax rates from 2026-27: the basic CGT rate rises from 18% to
-            20%, the higher rate from 24% to 40%, and the additional rate from
-            24% to 45%. The reform is modelled over 2026-27 to 2030-31 on the
-            Enhanced Family Resources Survey, with the baseline recalibrated to
-            HMRC and OBR capital gains aggregates and a behavioural response
-            using elasticities from{" "}
+            UK&apos;s microsimulation model to estimate equalising capital
+            gains tax rates with income tax rates from 2026-27 (18%→20%,
+            24%→40%, 24%→45%), with the baseline recalibrated to HMRC and OBR
+            capital gains data and behavioural elasticities from{" "}
             <a
               href="https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf"
               target="_blank"
@@ -89,25 +85,15 @@ function Dashboard() {
               className="font-semibold underline decoration-1 underline-offset-2 hover:opacity-80"
             >
               Advani, Lonsdale &amp; Summers (CenTax, 2024)
-            </a>{" "}
-            (central retention-rate elasticity of 1.0, roughly a
-            marginal-tax-rate elasticity of −0.7). The{" "}
-            <TabLink onSelect={() => handleTabChange("reform")}>
-              Reform impacts
-            </TabLink>{" "}
-            tab shows the revenue raised each year, the distributional impact by
-            income decile, and how the estimate moves with the behavioural
-            elasticity. The{" "}
+            </a>
+            . <TabLink onSelect={() => handleTabChange("reform")}>Reform impacts</TabLink>{" "}
+            shows revenue and distributional effects,{" "}
             <TabLink onSelect={() => handleTabChange("baseline")}>
               Baseline &amp; calibration
             </TabLink>{" "}
-            tab reconciles the recalibrated baseline with HMRC statistics and
-            the academic evidence on the gains distribution. The{" "}
-            <TabLink onSelect={() => handleTabChange("methodology")}>
-              Methodology
-            </TabLink>{" "}
-            tab explains how every result is computed and compares the estimate
-            with other institutions&apos; costings.
+            validates the baseline against HMRC, and{" "}
+            <TabLink onSelect={() => handleTabChange("methodology")}>Methodology</TabLink>{" "}
+            explains the method and compares other institutions&apos; costings.
           </p>
         </div>
 
