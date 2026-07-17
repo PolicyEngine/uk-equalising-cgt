@@ -149,6 +149,6 @@ def test_comparison_rows_include_model_and_externals():
     )
     external = {r["source"]: r["revenue_bn_per_year"] for r in rows}
     assert external["CenTax central (Advani, Lonsdale & Summers 2024)"] == 14.0
-    assert external["CenTax worst-case"] == 9.6
+    assert external["CenTax worst-case (elasticity upper bound)"] == 9.7
     assert external["Advani & Summers 2020 (CAGE)"] == 16.7
     assert external["HMRC ready reckoner (+10pp higher rates, yr 3)"] == -2.0
