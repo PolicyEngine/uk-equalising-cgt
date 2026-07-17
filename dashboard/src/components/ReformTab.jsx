@@ -148,7 +148,7 @@ export default function ReformTab({ data }) {
   const firstYear = getFirstYear(data);
   const years = getYearLabels(data);
   const fiveYearTotal = getFiveYearTotal(data);
-  const [budgetView, setBudgetView] = useState("levels");
+  const [budgetView, setBudgetView] = useState("change");
   const [decileYear, setDecileYear] = useState(firstYear);
   const [decileMetric, setDecileMetric] = useState("relative");
   const [wlYear, setWlYear] = useState(firstYear);
