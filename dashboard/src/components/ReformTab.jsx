@@ -421,7 +421,7 @@ export default function ReformTab({ data }) {
 
       <section className="section-card">
         <SectionHeading
-          title="Winners and losers by decile"
+          title="Winners and losers"
           description="Share of people in each income decile by outcome. The reform creates no gainers: nobody's tax liability falls, so every bar is split between people whose household net income is unchanged and those who lose. Changes below £1 a year are counted as no change."
         />
         <div className="mb-3 flex flex-wrap items-center gap-4">
