@@ -408,24 +408,18 @@ export default function ReformTab({ data }) {
                 tick={AXIS_STYLE}
                 tickLine={false}
                 axisLine={false}
-                label={{
-                  value: "Income decile (1 = lowest income)",
-                  angle: -90,
-                  position: "insideLeft",
-                  offset: 0,
-                  fontSize: 12,
-                }}
               />
               <Tooltip
                 formatter={(v) => formatPct(v)}
                 labelFormatter={(label) => `Decile ${label}`}
               />
-              <Legend />
+              <Legend formatter={(value) => <span style={{ color: "#475569" }}>{value}</span>} />
               <Bar
                 dataKey="no_change_pct"
                 name="No change"
                 stackId="wl"
                 fill={colors.gray[200]}
+                radius={[6, 0, 0, 6]}
               />
               <Bar
                 dataKey="lose_less_5_pct"

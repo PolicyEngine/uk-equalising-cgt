@@ -10,7 +10,7 @@ import results from "../public/data/cgt_equalisation_results.json";
 
 const TAB_OPTIONS = [
   { id: "reform", label: "Reform impacts" },
-  { id: "baseline", label: "Baseline & calibration" },
+  { id: "baseline", label: "Baseline" },
   { id: "methodology", label: "Methodology" },
 ];
 
@@ -89,7 +89,7 @@ function Dashboard() {
             . <TabLink onSelect={() => handleTabChange("reform")}>Reform impacts</TabLink>{" "}
             shows revenue and distributional effects,{" "}
             <TabLink onSelect={() => handleTabChange("baseline")}>
-              Baseline &amp; calibration
+              Baseline
             </TabLink>{" "}
             validates the baseline against HMRC, and{" "}
             <TabLink onSelect={() => handleTabChange("methodology")}>Methodology</TabLink>{" "}
