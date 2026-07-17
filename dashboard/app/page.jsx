@@ -63,7 +63,7 @@ function Dashboard() {
       <PolicyEngineHeader />
       <header className="title-row">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 md:px-8">
-          <h1>Equalising capital gains tax rates with income tax</h1>
+          <h1>Capital gains tax analysis dashboard</h1>
         </div>
       </header>
 
