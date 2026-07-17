@@ -110,36 +110,6 @@ export default function BaselineTab({ data }) {
               <BenchmarkCell benchmark={BENCHMARKS.meanGain} />
             </tr>
             <tr>
-              <td>Median gain per CGT taxpayer</td>
-              <td>{formatCurrency(validation.median_gain)}</td>
-              <BenchmarkCell benchmark={BENCHMARKS.medianGain} />
-            </tr>
-            <tr>
-              <td>Share of gains from gains ≥ £1m</td>
-              <td>{formatPct(validation.share_gains_over_1m_pct, 0)}</td>
-              <BenchmarkCell benchmark={BENCHMARKS.shareOver1m} />
-            </tr>
-            <tr>
-              <td>Share of gains from gains ≥ £5m</td>
-              <td>{formatPct(validation.share_gains_over_5m_pct, 0)}</td>
-              <BenchmarkCell benchmark={BENCHMARKS.shareOver5m} />
-            </tr>
-            <tr>
-              <td>Largest gain in the data</td>
-              <td>£{validation.largest_gain_m.toFixed(1)}m</td>
-              <td>
-                <a
-                  href="https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline decoration-1 underline-offset-2 hover:opacity-80"
-                  title="Advani & Summers (2020)"
-                >
-                  Gains above £5m are common in HMRC data
-                </a>
-              </td>
-            </tr>
-            <tr>
               <td>Baseline CGT revenue</td>
               <td>{formatBn(validation.baseline_cgt_revenue_bn)}</td>
               <BenchmarkCell benchmark={BENCHMARKS.baselineRevenue} />
