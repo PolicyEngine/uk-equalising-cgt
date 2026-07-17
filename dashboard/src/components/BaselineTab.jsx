@@ -118,27 +118,6 @@ export default function BaselineTab({ data }) {
         </table>
       </section>
 
-      <section className="section-card note-card p-6">
-        <p className="note-eyebrow eyebrow mb-2">
-          Known limitation: the missing extreme tail
-        </p>
-        <p className="note-body text-sm leading-6">
-          The extreme top tail of the gains distribution is structurally missing
-          from the FRS-based imputation. In HMRC administrative data, gains of
-          £1m or more account for roughly 60% of all gains and gains of £5m or
-          more for roughly 40%; in this model the largest imputed gain is £
-          {validation.largest_gain_m.toFixed(1)}m, so those shares are{" "}
-          {formatPct(validation.share_gains_over_1m_pct, 0)} and{" "}
-          {formatPct(validation.share_gains_over_5m_pct, 0)} respectively.
-          Reweighting a household survey can hit aggregate totals but cannot
-          create the handful of individuals with eight-figure gains that
-          dominate the true distribution. The model instead spreads the same
-          aggregate gains across more mid-sized realisations — which is why the
-          median gain is above HMRC&apos;s and why revenue concentrated on the
-          very largest gains (and their behavioural response) is approximated
-          rather than directly observed.
-        </p>
-      </section>
     </div>
   );
 }
