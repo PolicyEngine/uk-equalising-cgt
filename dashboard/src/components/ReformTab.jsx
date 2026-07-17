@@ -492,8 +492,8 @@ export default function ReformTab({ data }) {
 
       <section className="section-card">
         <SectionHeading
-          title={`Sensitivity to the behavioural elasticity, ${firstYear}`}
-          description="The revenue estimate hinges on how strongly taxpayers reduce realisations when rates rise. Each row re-runs the reform with a different marginal-tax-rate elasticity of realised gains. The bold row is the central Advani/CenTax assumption used everywhere else in this dashboard; at HMRC-like responsiveness the reform loses money. Retention-rate elasticities are converted at the reformed 40\u201345% rates; CenTax\u2019s 0.5\u20132.0 range is anchored on Agersnap & Zidar (2021) and Lavecchia & Tazhitdinova (2024)."
+          title="Sensitivity to the behavioural elasticity"
+          description="The revenue estimate hinges on how strongly taxpayers reduce realisations when rates rise. Each row re-runs the reform with a different marginal-tax-rate elasticity of realised gains. The bold row is the central Advani/CenTax assumption used everywhere else in this dashboard; at HMRC-like responsiveness the reform loses money. Retention-rate elasticities are converted at the reformed 40–45% rates; CenTax’s 0.5–2.0 range is anchored on Agersnap & Zidar (2021) and Lavecchia & Tazhitdinova (2024). Modelled with policyengine-uk 2.89.2."
         />
         <table className="data-table">
           <thead>
