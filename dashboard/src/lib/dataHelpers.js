@@ -25,8 +25,16 @@ export function getDecileImpact(data, year) {
   return data.decile_impact[year];
 }
 
-export function getWinnersLosers(data) {
-  return data.winners_losers;
+export function getWinnersLosers(data, year) {
+  const wl = data.winners_losers;
+  if (Array.isArray(wl)) {
+    return wl; // legacy single-year output
+  }
+  return wl[year] ?? wl[Object.keys(wl)[0]];
+}
+
+export function getYearLabels(data) {
+  return Object.keys(data.decile_impact);
 }
 
 export function getSensitivity(data) {

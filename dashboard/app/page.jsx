@@ -81,9 +81,17 @@ function Dashboard() {
             24% to 45%. The reform is modelled over 2026-27 to 2030-31 on the
             Enhanced Family Resources Survey, with the baseline recalibrated to
             HMRC and OBR capital gains aggregates and a behavioural response
-            aligned with Arun Advani and CenTax&apos;s central estimate (a
-            retention-rate elasticity of 1.0, roughly a marginal-tax-rate
-            elasticity of −0.7). The{" "}
+            using elasticities from{" "}
+            <a
+              href="https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold underline decoration-1 underline-offset-2 hover:opacity-80"
+            >
+              Advani, Lonsdale &amp; Summers (CenTax, 2024)
+            </a>{" "}
+            (central retention-rate elasticity of 1.0, roughly a
+            marginal-tax-rate elasticity of −0.7). The{" "}
             <TabLink onSelect={() => handleTabChange("reform")}>
               Reform impacts
             </TabLink>{" "}

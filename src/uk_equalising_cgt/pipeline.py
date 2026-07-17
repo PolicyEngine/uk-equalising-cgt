@@ -78,9 +78,9 @@ def run(output_path: Path = OUTPUT_PATH) -> dict:
     print("Step 5: Decile impacts...")
     deciles = {fiscal_year_label(y): decile_impact(baseline, reformed, y) for y in YEARS}
 
-    # ── Step 6: winners and losers (2026-27) ──────────────────────────────
-    print("Step 6: Winners and losers by decile (2026-27)...")
-    wl = winners_losers(baseline, reformed, 2026)
+    # ── Step 6: winners and losers, all years ─────────────────────────────
+    print("Step 6: Winners and losers by decile, all years...")
+    wl = {fiscal_year_label(y): winners_losers(baseline, reformed, y) for y in YEARS}
 
     # ── Step 7: sensitivity to the behavioural elasticity ─────────────────
     print("Step 7: Elasticity sensitivity...")

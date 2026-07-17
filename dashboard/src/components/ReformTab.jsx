@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Bar,
   BarChart,
@@ -26,11 +27,52 @@ import {
   getSensitivity,
   getWinnersLosers,
   getReform,
+  getYearLabels,
 } from "../lib/dataHelpers";
 import ChartLogo from "./ChartLogo";
 import SectionHeading from "./SectionHeading";
 
 const AXIS_STYLE = { fontSize: 12, fill: colors.gray[500] };
+
+function Toggle({ options, value, onChange }) {
+  return (
+    <div className="inline-flex overflow-hidden rounded-md border border-slate-300 text-sm">
+      {options.map((option) => (
+        <button
+          key={option.value}
+          type="button"
+          onClick={() => onChange(option.value)}
+          className={
+            option.value === value
+              ? "bg-[color:var(--pe-color-primary-600)] px-3 py-1.5 font-semibold text-white"
+              : "bg-white px-3 py-1.5 text-slate-600 hover:bg-slate-50"
+          }
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function YearSelect({ years, value, onChange }) {
+  return (
+    <label className="inline-flex items-center gap-2 text-sm text-slate-600">
+      Year
+      <select
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className="rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-800"
+      >
+        {years.map((year) => (
+          <option key={year} value={year}>
+            {year}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
 
 function MetricCard({ label, value, note }) {
   return (
@@ -59,18 +101,68 @@ function TipHeader({ label, tip }) {
   );
 }
 
+// Where each sensitivity scenario's elasticity comes from. Keys match the
+// scenario names emitted by the pipeline's SENSITIVITY_CASES.
+const ELASTICITY_SOURCES = {
+  "Static (Advani & Summers 2020 style)": {
+    label: "Advani & Summers (2020), CAGE WP 465",
+    url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/",
+  },
+  "CenTax lower (retention e=0.5)": {
+    label: "Advani, Lonsdale & Summers (2024), CenTax",
+    url: "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf",
+  },
+  "CenTax central (retention e=1.0)": {
+    label: "Advani, Lonsdale & Summers (2024), CenTax",
+    url: "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf",
+  },
+  "CenTax upper (retention e=2.0)": {
+    label: "Advani, Lonsdale & Summers (2024), CenTax",
+    url: "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf",
+  },
+  "HMRC ready-reckoner-like": {
+    label: "HMRC, Direct effects of illustrative tax changes",
+    url: "https://www.gov.uk/government/statistics/direct-effects-of-illustrative-tax-changes",
+  },
+};
+
+function SourceLink({ name }) {
+  const source = ELASTICITY_SOURCES[name];
+  if (!source) return <td>—</td>;
+  return (
+    <td>
+      <a
+        href={source.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-normal text-[color:var(--pe-color-primary-600)] underline decoration-1 underline-offset-2 hover:opacity-80"
+      >
+        {source.label}
+      </a>
+    </td>
+  );
+}
+
 export default function ReformTab({ data }) {
   const budget = getBudget(data);
   const firstYear = getFirstYear(data);
+  const years = getYearLabels(data);
   const fiveYearTotal = getFiveYearTotal(data);
-  const deciles = getDecileImpact(data, firstYear);
-  const winnersLosers = getWinnersLosers(data);
+  const [budgetView, setBudgetView] = useState("levels");
+  const [decileYear, setDecileYear] = useState(firstYear);
+  const [decileMetric, setDecileMetric] = useState("relative");
+  const [wlYear, setWlYear] = useState(firstYear);
+  const deciles = getDecileImpact(data, decileYear);
+  const headlineDeciles = getDecileImpact(data, firstYear);
+  const winnersLosers = getWinnersLosers(data, wlYear);
+  const headlineWl = getWinnersLosers(data, firstYear);
   const sensitivity = getSensitivity(data);
   const reform = getReform(data);
   const firstYearRow = budget[0];
-  const topDecile = deciles.find((d) => d.decile === 10);
-  const allRow = winnersLosers.find((row) => row.decile === "All");
+  const topDecile = headlineDeciles.find((d) => d.decile === 10);
+  const allRow = headlineWl.find((row) => row.decile === "All");
   const decileRows = winnersLosers.filter((row) => row.decile !== "All");
+  const isDecileRelative = decileMetric === "relative";
   const loseAnyPct = allRow.lose_less_5_pct + allRow.lose_more_5_pct;
   const gainAnyPct = allRow.gain_less_5_pct + allRow.gain_more_5_pct;
 
@@ -113,11 +205,84 @@ export default function ReformTab({ data }) {
         </div>
       </section>
 
+      <details className="section-card group">
+        <summary className="cursor-pointer select-none font-semibold text-slate-800 marker:text-[color:var(--pe-color-primary-600)]">
+          What exactly does the reform change?
+          <span className="ml-2 text-sm font-normal text-slate-500 group-open:hidden">
+            (expand for the full specification)
+          </span>
+        </summary>
+        <div className="mt-4 space-y-3">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Policy parameter</th>
+                <th>Baseline (current policy)</th>
+                <th>Reform</th>
+                <th>What it means</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Basic CGT rate</td>
+                <td>{formatPct(reform.basic_rate.baseline * 100, 0)}</td>
+                <td className="font-semibold">{formatPct(reform.basic_rate.reform * 100, 0)}</td>
+                <td>Gains falling in the basic income tax band are taxed at the 20% basic income tax rate.</td>
+              </tr>
+              <tr>
+                <td>Higher CGT rate</td>
+                <td>{formatPct(reform.higher_rate.baseline * 100, 0)}</td>
+                <td className="font-semibold">{formatPct(reform.higher_rate.reform * 100, 0)}</td>
+                <td>Gains in the higher band are taxed at the 40% higher income tax rate — the largest rise in the package.</td>
+              </tr>
+              <tr>
+                <td>Additional CGT rate</td>
+                <td>{formatPct(reform.additional_rate.baseline * 100, 0)}</td>
+                <td className="font-semibold">{formatPct(reform.additional_rate.reform * 100, 0)}</td>
+                <td>Gains in the additional band (income over £125,140) are taxed at the 45% additional income tax rate.</td>
+              </tr>
+              <tr>
+                <td>Annual exempt amount</td>
+                <td>£3,000</td>
+                <td>£3,000</td>
+                <td>Unchanged: the first £3,000 of gains each year stays tax-free.</td>
+              </tr>
+              <tr>
+                <td>Base rules (death uplift, reliefs)</td>
+                <td>Current rules</td>
+                <td>Current rules</td>
+                <td>Unchanged: this is a rate-only reform, without the base broadening CenTax pairs with equalisation.</td>
+              </tr>
+              <tr>
+                <td>Behavioural response</td>
+                <td>—</td>
+                <td>MTR elasticity −0.7</td>
+                <td>Taxpayers realise fewer gains at higher rates, following Advani/CenTax's central retention-rate elasticity of 1.0.</td>
+              </tr>
+            </tbody>
+          </table>
+          <p className="text-sm leading-6 text-slate-600">
+            Effective from the 2026-27 fiscal year and held in place through 2030-31. All results on
+            this page compare this reform against current policy on the same recalibrated baseline.
+          </p>
+        </div>
+      </details>
+
       <section className="section-card">
         <SectionHeading
           title="Budgetary impact by year"
           description="Baseline and reform CGT revenue, and the net change in the government balance, for each fiscal year. Baseline revenue grows with the OBR's forecast of gains; the reform raises a broadly stable increment on top."
         />
+        <div className="mb-3 flex flex-wrap items-center gap-4">
+          <Toggle
+            options={[
+              { value: "levels", label: "Revenue levels" },
+              { value: "change", label: "Change vs baseline" },
+            ]}
+            value={budgetView}
+            onChange={setBudgetView}
+          />
+        </div>
         <div className="h-[380px] w-full">
           <ResponsiveContainer>
             <BarChart data={budget} margin={{ top: 10, right: 20, bottom: 5, left: 10 }}>
@@ -131,18 +296,29 @@ export default function ReformTab({ data }) {
               />
               <Tooltip formatter={(v) => formatBn(v)} />
               <Legend />
-              <Bar
-                dataKey="baseline_cgt_bn"
-                name="Baseline CGT revenue"
-                fill={colors.gray[400]}
-                radius={[6, 6, 0, 0]}
-              />
-              <Bar
-                dataKey="reform_cgt_bn"
-                name="Reform CGT revenue"
-                fill={colors.primary[600]}
-                radius={[6, 6, 0, 0]}
-              />
+              {budgetView === "levels" ? (
+                <>
+                  <Bar
+                    dataKey="baseline_cgt_bn"
+                    name="Baseline CGT revenue"
+                    fill={colors.gray[400]}
+                    radius={[6, 6, 0, 0]}
+                  />
+                  <Bar
+                    dataKey="reform_cgt_bn"
+                    name="Reform CGT revenue"
+                    fill={colors.primary[600]}
+                    radius={[6, 6, 0, 0]}
+                  />
+                </>
+              ) : (
+                <Bar
+                  dataKey="gov_balance_change_bn"
+                  name="Government balance change"
+                  fill={colors.primary[600]}
+                  radius={[6, 6, 0, 0]}
+                />
+              )}
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -196,9 +372,20 @@ export default function ReformTab({ data }) {
 
       <section className="section-card">
         <SectionHeading
-          title={`Average household net income change by decile, ${firstYear}`}
-          description="Relative change in household net income across all households in each baseline income decile, gainers and non-gainers alike. Every decile loses on average — nobody's tax falls — but the impact is concentrated in decile 10, where most taxable gains are realised. Decile 1's larger relative loss reflects a small number of low-income households with large realised gains."
+          title={`Average household net income change by decile, ${decileYear}`}
+          description="Change in household net income across all households in each baseline income decile, gainers and non-gainers alike. Every decile loses on average — nobody's tax falls — but the impact is concentrated in decile 10, where most taxable gains are realised. Decile 1's larger relative loss reflects a small number of low-income households with large realised gains."
         />
+        <div className="mb-3 flex flex-wrap items-center gap-4">
+          <Toggle
+            options={[
+              { value: "relative", label: "Relative (%)" },
+              { value: "absolute", label: "Average £ per household" },
+            ]}
+            value={decileMetric}
+            onChange={setDecileMetric}
+          />
+          <YearSelect years={years} value={decileYear} onChange={setDecileYear} />
+        </div>
         <div className="h-[380px] w-full">
           <ResponsiveContainer>
             <BarChart data={deciles} margin={{ top: 10, right: 20, bottom: 15, left: 10 }}>
@@ -215,20 +402,26 @@ export default function ReformTab({ data }) {
               />
               <YAxis
                 tick={AXIS_STYLE}
-                tickFormatter={(v) => formatSignedPct(v, 1)}
+                tickFormatter={(v) =>
+                  isDecileRelative ? formatSignedPct(v, 1) : formatSignedCurrency(v)
+                }
                 tickLine={false}
                 axisLine={false}
               />
               <Tooltip
                 formatter={(v, name, item) => [
-                  `${formatSignedPct(v)} (${formatSignedCurrency(item.payload.avg_change_gbp)}/household)`,
+                  `${formatSignedPct(item.payload.relative_change_pct)} (${formatSignedCurrency(item.payload.avg_change_gbp)}/household)`,
                   "Net income change",
                 ]}
                 labelFormatter={(label) => `Decile ${label}`}
               />
               <Bar
-                dataKey="relative_change_pct"
-                name="Relative net income change"
+                dataKey={isDecileRelative ? "relative_change_pct" : "avg_change_gbp"}
+                name={
+                  isDecileRelative
+                    ? "Relative net income change"
+                    : "Average change per household"
+                }
                 fill={colors.primary[600]}
                 radius={[0, 0, 6, 6]}
               />
@@ -240,9 +433,12 @@ export default function ReformTab({ data }) {
 
       <section className="section-card">
         <SectionHeading
-          title={`Winners and losers by decile, ${firstYear}`}
+          title={`Winners and losers by decile, ${wlYear}`}
           description="Share of people in each income decile by outcome. The reform creates no gainers: nobody's tax liability falls, so every bar is split between people whose household net income is unchanged and those who lose. Changes below £1 a year are counted as no change."
         />
+        <div className="mb-3 flex flex-wrap items-center gap-4">
+          <YearSelect years={years} value={wlYear} onChange={setWlYear} />
+        </div>
         <div className="h-[380px] w-full">
           <ResponsiveContainer>
             <BarChart
@@ -263,8 +459,9 @@ export default function ReformTab({ data }) {
               />
               <YAxis
                 tick={AXIS_STYLE}
-                tickFormatter={(v) => `${v}%`}
+                tickFormatter={(v) => `${Math.round(v)}%`}
                 domain={[0, 100]}
+                allowDataOverflow
                 tickLine={false}
                 axisLine={false}
               />
@@ -301,7 +498,7 @@ export default function ReformTab({ data }) {
       <section className="section-card">
         <SectionHeading
           title={`Sensitivity to the behavioural elasticity, ${firstYear}`}
-          description="The revenue estimate hinges on how strongly taxpayers reduce realisations when rates rise. Each row re-runs the reform with a different marginal-tax-rate elasticity of realised gains. The bold row is the central Advani/CenTax assumption used everywhere else in this dashboard; at HMRC-like responsiveness the reform loses money."
+          description="The revenue estimate hinges on how strongly taxpayers reduce realisations when rates rise. Each row re-runs the reform with a different marginal-tax-rate elasticity of realised gains. The bold row is the central Advani/CenTax assumption used everywhere else in this dashboard; at HMRC-like responsiveness the reform loses money. Retention-rate elasticities are converted at the reformed 40\u201345% rates; CenTax\u2019s 0.5\u20132.0 range is anchored on Agersnap & Zidar (2021) and Lavecchia & Tazhitdinova (2024)."
         />
         <table className="data-table">
           <thead>
@@ -315,6 +512,7 @@ export default function ReformTab({ data }) {
                 label={`Revenue, ${firstYear}`}
                 tip="Net change in the government balance in the first year of the reform under this elasticity."
               />
+              <th>Source</th>
             </tr>
           </thead>
           <tbody>
@@ -326,6 +524,7 @@ export default function ReformTab({ data }) {
                 <td>{row.name}</td>
                 <td>{row.e_mtr.toFixed(2)}</td>
                 <td>{formatSignedBn(row.revenue_2026_bn)}</td>
+                <SourceLink name={row.name} />
               </tr>
             ))}
           </tbody>
