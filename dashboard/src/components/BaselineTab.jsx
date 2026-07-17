@@ -10,7 +10,7 @@ import {
 import { getCalibration, getComparison, getValidation } from "../lib/dataHelpers";
 import SectionHeading from "./SectionHeading";
 
-// External benchmarks the recalibrated baseline is validated against. These
+// External benchmarks the baseline is validated against. These
 // are published HMRC/Advani figures, not model outputs, so they live here
 // rather than in the pipeline JSON.
 const BENCHMARKS = {
@@ -90,7 +90,7 @@ export default function BaselineTab({ data }) {
         <SectionHeading
           size="lg"
           title="Baseline estimation"
-          description="The Family Resources Survey barely captures capital gains, so PolicyEngine's Enhanced FRS imputes them and household weights are recalibrated with populace to hit HMRC and OBR capital gains aggregates, holding the survey's existing income and benefit aggregates in place. The table compares the recalibrated baseline with published HMRC statistics and the OBR forecast."
+          description="The Family Resources Survey barely captures capital gains, so PolicyEngine's Enhanced FRS imputes them from HMRC administrative data. This analysis runs on the stock Enhanced FRS 2023-24 weights through policyengine.py — no reweighting is applied — and the imputation overshoots HMRC's aggregates, so baseline CGT revenue sits above the OBR forecast. The table compares the baseline and reform estimates with published statistics."
         />
       </div>
 

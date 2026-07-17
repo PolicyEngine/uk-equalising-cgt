@@ -76,8 +76,8 @@ function Dashboard() {
             </a>{" "}
             UK&apos;s microsimulation model to estimate equalising capital
             gains tax rates with income tax rates from 2026-27 (18%→20%,
-            24%→40%, 24%→45%), with the baseline recalibrated to HMRC and OBR
-            capital gains data and behavioural elasticities from{" "}
+            24%→40%, 24%→45%) on the Enhanced Family Resources Survey, with
+            behavioural elasticities from{" "}
             <a
               href="https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf"
               target="_blank"
@@ -150,7 +150,7 @@ function Dashboard() {
               PolicyEngine/uk-equalising-cgt
             </a>
             {data?.metadata?.policyengine_uk_version
-              ? `, run on policyengine-uk ${data.metadata.policyengine_uk_version}`
+              ? `, run on policyengine ${data.metadata.policyengine_version ?? ""} (policyengine-uk ${data.metadata.policyengine_uk_version})`
               : ""}
             .
           </p>

@@ -222,7 +222,7 @@ export default function ReformTab({ data }) {
         <div className="mt-4 space-y-3">
           <p className="text-sm leading-6 text-slate-600">
             Effective from the 2026-27 fiscal year and held in place through 2030-31. All results on
-            this page compare this reform against current policy on the same recalibrated baseline.
+            this page compare this reform against current policy on the same baseline.
           </p>
           <table className="data-table">
             <thead>

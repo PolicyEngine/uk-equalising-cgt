@@ -22,21 +22,26 @@ export default function MethodologyTab({ data }) {
     <div className="space-y-6">
 
 
-      <section className="section-card scroll-mt-24" id="calibration-method">
-        <SectionHeading
-          title="Baseline recalibration with populace"
-                  />
+      <section className="section-card scroll-mt-24" id="pathway">
+        <SectionHeading title="Data and simulation pathway" />
         <p className="text-sm leading-6 text-slate-600">
-          The Enhanced FRS imputes capital gains onto survey households, but the
-          raw weights understate both the number of CGT taxpayers and total
-          gains. We use populace, PolicyEngine&apos;s survey-calibration
-          library, to adjust household weights by gradient descent against a
-          loss over calibration targets: total taxable gains (£70bn) and the
-          CGT taxpayer count (400k) from HMRC/OBR, alongside held targets for
-          the survey&apos;s existing income tax, employment income and benefit
-          aggregates so the recalibration cannot degrade the rest of the model.
-          The Baseline tab reports every target, the achieved
-          value, and the effective-sample-size cost of the reweighting.
+          All simulations run through{" "}
+          <a
+            href="https://github.com/PolicyEngine/policyengine.py"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-1 underline-offset-2 hover:opacity-80"
+          >
+            policyengine.py
+          </a>{" "}
+          — PolicyEngine&apos;s standard simulation wrapper — on the Enhanced
+          FRS 2023-24 dataset with its stock weights; no reweighting is
+          applied. Budget, decile and winners/losers outputs use the
+          wrapper&apos;s standard computations, with aggregates taken via
+          native microdf weighted operations. The behavioural response is
+          applied through a policy simulation modifier that registers the
+          baseline branch, and the pipeline verifies the elasticity is active
+          before writing results.
         </p>
       </section>
 
