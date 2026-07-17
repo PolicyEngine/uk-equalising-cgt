@@ -139,7 +139,7 @@ function Dashboard() {
               PolicyEngine/uk-equalising-cgt
             </a>
             {data?.metadata?.policyengine_uk_version
-              ? `, run on ${data.metadata.policyengine_uk_version}`
+              ? `, run on policyengine-uk ${data.metadata.policyengine_uk_version} with a populace-calibrated baseline`
               : ""}
             .
           </p>
