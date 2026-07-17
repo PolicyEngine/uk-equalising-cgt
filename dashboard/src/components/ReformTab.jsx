@@ -411,7 +411,7 @@ export default function ReformTab({ data }) {
                     : "Average change per household"
                 }
                 fill={colors.primary[600]}
-                radius={[0, 0, 6, 6]}
+                radius={[6, 6, 0, 0]}
               />
             </BarChart>
           </ResponsiveContainer>
@@ -431,27 +431,34 @@ export default function ReformTab({ data }) {
           <ResponsiveContainer>
             <BarChart
               data={decileRows}
+              layout="vertical"
               stackOffset="none"
               margin={{ top: 10, right: 20, bottom: 15, left: 10 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke={colors.border.light} />
               <XAxis
-                dataKey="decile"
-                tick={AXIS_STYLE}
-                label={{
-                  value: "Income decile (1 = lowest income)",
-                  position: "insideBottom",
-                  offset: -8,
-                  fontSize: 12,
-                }}
-              />
-              <YAxis
+                type="number"
                 tick={AXIS_STYLE}
                 tickFormatter={(v) => `${Math.round(v)}%`}
                 domain={[0, 100]}
                 allowDataOverflow
                 tickLine={false}
                 axisLine={false}
+              />
+              <YAxis
+                type="category"
+                dataKey="decile"
+                reversed
+                tick={AXIS_STYLE}
+                tickLine={false}
+                axisLine={false}
+                label={{
+                  value: "Income decile (1 = lowest income)",
+                  angle: -90,
+                  position: "insideLeft",
+                  offset: 0,
+                  fontSize: 12,
+                }}
               />
               <Tooltip
                 formatter={(v) => formatPct(v)}
@@ -475,7 +482,7 @@ export default function ReformTab({ data }) {
                 name="Lose more than 5%"
                 stackId="wl"
                 fill={colors.primary[800]}
-                radius={[6, 6, 0, 0]}
+                radius={[0, 6, 6, 0]}
               />
             </BarChart>
           </ResponsiveContainer>
