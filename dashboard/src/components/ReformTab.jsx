@@ -327,15 +327,17 @@ export default function ReformTab({ data }) {
           description="Average change in household net income by baseline income decile. Losses are concentrated in decile 10, where most taxable gains are realised."
         />
         <div className="mb-3 flex flex-wrap items-center gap-4">
-          <Toggle
-            options={[
-              { value: "absolute", label: "Average £ per household" },
-              { value: "relative", label: "Relative (%)" },
-            ]}
-            value={decileMetric}
-            onChange={setDecileMetric}
-          />
           <YearSelect years={years} value={decileYear} onChange={setDecileYear} />
+          <div className="ml-auto">
+            <Toggle
+              options={[
+                { value: "absolute", label: "Average £ per household" },
+                { value: "relative", label: "Relative (%)" },
+              ]}
+              value={decileMetric}
+              onChange={setDecileMetric}
+            />
+          </div>
         </div>
         <div className="h-[380px] w-full">
           <ResponsiveContainer>
