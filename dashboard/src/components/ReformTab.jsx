@@ -247,18 +247,6 @@ export default function ReformTab({ data }) {
                 <td>£3,000</td>
                 <td>Unchanged: the first £3,000 of gains each year stays tax-free.</td>
               </tr>
-              <tr>
-                <td>Base rules (death uplift, reliefs)</td>
-                <td>Current rules</td>
-                <td>Current rules</td>
-                <td>Unchanged: this is a rate-only reform, without the base broadening CenTax pairs with equalisation.</td>
-              </tr>
-              <tr>
-                <td>Behavioural response</td>
-                <td>—</td>
-                <td>MTR elasticity −0.7</td>
-                <td>Taxpayers realise fewer gains at higher rates, following Advani/CenTax's central retention-rate elasticity of 1.0.</td>
-              </tr>
             </tbody>
           </table>
           <p className="text-sm leading-6 text-slate-600">
