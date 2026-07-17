@@ -360,7 +360,7 @@ export default function ReformTab({ data }) {
 
       <section className="section-card">
         <SectionHeading
-          title={`Average household net income change by decile, ${decileYear}`}
+          title="Average household net income change by decile"
           description="Change in household net income across all households in each baseline income decile, gainers and non-gainers alike. Every decile loses on average — nobody's tax falls — but the impact is concentrated in decile 10, where most taxable gains are realised. Decile 1's larger relative loss reflects a small number of low-income households with large realised gains."
         />
         <div className="mb-3 flex flex-wrap items-center gap-4">
@@ -421,7 +421,7 @@ export default function ReformTab({ data }) {
 
       <section className="section-card">
         <SectionHeading
-          title={`Winners and losers by decile, ${wlYear}`}
+          title="Winners and losers by decile"
           description="Share of people in each income decile by outcome. The reform creates no gainers: nobody's tax liability falls, so every bar is split between people whose household net income is unchanged and those who lose. Changes below £1 a year are counted as no change."
         />
         <div className="mb-3 flex flex-wrap items-center gap-4">
