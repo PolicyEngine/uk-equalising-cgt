@@ -105,8 +105,9 @@ function TipHeader({ label, tip }) {
 // scenario names emitted by the pipeline's SENSITIVITY_CASES.
 const ELASTICITY_SOURCES = {
   "Static (Advani & Summers 2020 style)": {
-    label: "Advani & Summers (2020), CAGE WP 465",
-    url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/manage/publications/wp465.2020.pdf",
+    label: "Advani & Summers, equalise rates (static)",
+    // Text fragment lands on the "Capital Gains Tax: equalise rates" row.
+    url: "https://arunadvani.com/taxreform.html#:~:text=Capital%20Gains%20Tax%3A%20equalise%20rates",
   },
   "CenTax lower (retention e=0.5)": {
     label: "Advani, Lonsdale & Summers (2024), CenTax",
@@ -474,7 +475,38 @@ export default function ReformTab({ data }) {
       <section className="section-card">
         <SectionHeading
           title="Sensitivity to the behavioural elasticity"
-          description="The revenue estimate hinges on how strongly taxpayers reduce realisations when rates rise. Each row re-runs the reform with a different marginal-tax-rate elasticity of realised gains. The bold row is this dashboard's central assumption, converted from CenTax's central retention-rate elasticity of 1.0 at the reformed 40–45% rates. That conversion is exact only for a marginal rate change, so applying −0.7 across the full 24%→40% jump is somewhat more responsive than CenTax's own convention implies (roughly −0.5 here); at HMRC-like responsiveness the reform loses money. CenTax's 0.5–2.0 range is anchored on Agersnap & Zidar (2021) and Lavecchia & Tazhitdinova (2024)."
+          description={
+            <>
+              The revenue estimate hinges on how strongly taxpayers reduce
+              realisations when rates rise. Each row re-runs the reform with a
+              different marginal-tax-rate elasticity of realised gains. The bold
+              row is this dashboard&apos;s central assumption, converted from
+              CenTax&apos;s central retention-rate elasticity of 1.0 at the
+              reformed 40–45% rates. That conversion is exact only for a
+              marginal rate change, so applying −0.7 across the full 24%→40%
+              jump is somewhat more responsive than CenTax&apos;s own convention
+              implies (roughly −0.5 here); at HMRC-like responsiveness the
+              reform loses money. CenTax&apos;s 0.5–2.0 range is anchored on{" "}
+              <a
+                href="https://www.aeaweb.org/articles?id=10.1257/aeri.20200535"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-1 underline-offset-2 hover:opacity-80"
+              >
+                Agersnap &amp; Zidar (2021)
+              </a>{" "}
+              and{" "}
+              <a
+                href="https://www.nber.org/papers/w28514"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline decoration-1 underline-offset-2 hover:opacity-80"
+              >
+                Lavecchia &amp; Tazhitdinova (2024)
+              </a>
+              .
+            </>
+          }
         />
         <table className="data-table">
           <thead>
