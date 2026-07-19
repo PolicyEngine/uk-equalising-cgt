@@ -225,12 +225,12 @@ export default function ReformTab({ data }) {
           <MetricCard
             label="Top decile net income change"
             value={formatSignedPct(topDecile.relative_change_pct)}
-            note={`Average of ${formatSignedCurrency(topDecile.avg_change_gbp)} per household in decile 10, where realised gains are concentrated.`}
+            note={`Average of ${formatSignedCurrency(topDecile.avg_change_gbp)} per household in decile 10, which holds most realised gains. Includes the gains taxpayers stop realising under the −0.7 elasticity, not just tax paid.`}
           />
           <MetricCard
             label="People losing income"
             value={formatPct(loseAnyPct)}
-            note={`${formatPct(allRow.lose_more_5_pct)} of people lose more than 5% of net income; ${gainAnyPct === 0 ? "no household gains" : `${formatPct(gainAnyPct)} gain`}. Only those realising gains are affected.`}
+            note={`${formatPct(allRow.lose_more_5_pct)} of people lose more than 5% of net income; ${gainAnyPct === 0 ? "no household gains" : `${formatPct(gainAnyPct)} gain`}. Losses fall almost entirely on households realising gains.`}
           />
         </div>
       </section>
@@ -289,7 +289,7 @@ export default function ReformTab({ data }) {
       <section className="section-card">
         <SectionHeading
           title="Budgetary impact by year"
-          description="Baseline and reform CGT revenue, and the net change in the government balance, for each fiscal year. Baseline revenue grows with the OBR's forecast of gains; the reform raises a broadly stable increment on top."
+          description="Baseline and reform CGT revenue, and the net change in the government balance, for each fiscal year. Baseline revenue grows as the dataset is uprated to each year; the reform raises a broadly stable increment on top."
         />
         <div className="mb-3 flex flex-wrap items-center gap-4">
           <Toggle
@@ -474,7 +474,7 @@ export default function ReformTab({ data }) {
       <section className="section-card">
         <SectionHeading
           title="Sensitivity to the behavioural elasticity"
-          description="The revenue estimate hinges on how strongly taxpayers reduce realisations when rates rise. Each row re-runs the reform with a different marginal-tax-rate elasticity of realised gains. The bold row is the central Advani/CenTax assumption used everywhere else in this dashboard; at HMRC-like responsiveness the reform loses money. Retention-rate elasticities are converted at the reformed 40–45% rates; CenTax’s 0.5–2.0 range is anchored on Agersnap & Zidar (2021) and Lavecchia & Tazhitdinova (2024)."
+          description="The revenue estimate hinges on how strongly taxpayers reduce realisations when rates rise. Each row re-runs the reform with a different marginal-tax-rate elasticity of realised gains. The bold row is this dashboard's central assumption, converted from CenTax's central retention-rate elasticity of 1.0 at the reformed 40–45% rates. That conversion is exact only for a marginal rate change, so applying −0.7 across the full 24%→40% jump is somewhat more responsive than CenTax's own convention implies (roughly −0.5 here); at HMRC-like responsiveness the reform loses money. CenTax's 0.5–2.0 range is anchored on Agersnap & Zidar (2021) and Lavecchia & Tazhitdinova (2024)."
         />
         <table className="data-table">
           <thead>

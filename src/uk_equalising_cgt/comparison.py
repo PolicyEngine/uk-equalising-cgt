@@ -66,7 +66,7 @@ def comparison_rows(
         {
             "source": "This model, 2026-27 (rate-only, e=-0.7)",
             "reform_modelled": "Rate equalisation only",
-            "behavioural_assumption": "MTR elasticity -0.7 (~= CenTax central retention e=1.0)",
+            "behavioural_assumption": "MTR elasticity -0.7 (from CenTax retention e=1.0, converted at reformed rates)",
             "revenue_bn_per_year": revenue_2026_bn,
         },
         {

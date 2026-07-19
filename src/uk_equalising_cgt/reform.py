@@ -37,7 +37,12 @@ YEARS = [2026, 2027, 2028, 2029, 2030]  # fiscal years 2026-27 .. 2030-31
 # apply it open-endedly (equivalent to the old "2026-01-01.2035-12-31"
 # range over the 2026-2030 window simulated here).
 PERIOD = "2026-01-01"
-ELASTICITY = -0.7  # w.r.t. MTR; ~= Advani/CenTax central (retention e=1.0) at 40-45%
+# w.r.t. MTR, converted from CenTax's central retention elasticity of 1.0 at the
+# reformed 40-45% rates. That conversion is exact only marginally: applied across
+# the whole 24%->40% jump it is more responsive than CenTax's own convention
+# (which implies ~-0.5 for a change this size). Matches PolicyEngine's own
+# Autumn Budget 2024 CGT house assumption.
+ELASTICITY = -0.7
 
 # Reformed CGT rates, equal to the income tax rates for each band.
 BURNHAM_RATES = {

@@ -25,7 +25,7 @@ const BENCHMARKS = {
     source: "Advani & Summers, static, GDP-uprated",
     url: "https://arunadvani.com/taxreform.html",
   },
-  baselineRevenue: { value: "£16–21bn", source: "OBR forecast range", url: "https://obr.uk/forecasts-in-depth/tax-by-tax-spend-by-spend/capital-gains-tax/" },
+  baselineRevenue: { value: "£20.3bn (2025-26)", source: "OBR forecast", url: "https://obr.uk/forecasts-in-depth/tax-by-tax-spend-by-spend/capital-gains-tax/" },
 };
 
 function BenchmarkCell({ benchmark }) {
