@@ -22,6 +22,69 @@ export default function MethodologyTab({ data }) {
     <div className="space-y-6">
 
 
+      <section className="section-card scroll-mt-24" id="calibration">
+        <SectionHeading title="Weight calibration" />
+        <p className="text-sm leading-6 text-slate-600">
+          The Enhanced FRS imputes capital gains onto survey households, but the
+          imputation is not constrained to administrative totals: on the stock
+          weights it produces about 1.29m CGT taxpayers holding £112bn of gains,
+          against HMRC&apos;s 378k taxpayers and £66bn. Because that overstates
+          how widely gains are spread, it distorts every distributional result —
+          the share of people affected comes out roughly three times too high.
+        </p>
+        <p className="mt-3 text-sm leading-6 text-slate-600">
+          Household weights are therefore recalibrated with{" "}
+          <a
+            href="https://github.com/PolicyEngine/populace"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-1 underline-offset-2 hover:opacity-80"
+          >
+            populace
+          </a>
+          , PolicyEngine&apos;s survey-calibration library, by gradient descent
+          against the targets below. Two are drawn from HMRC/OBR; the rest are
+          held at their own baseline values so the reweighting cannot degrade
+          the rest of the model.
+        </p>
+        <table className="data-table mt-4">
+          <thead>
+            <tr>
+              <th>Target</th>
+              <th>Source</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Total taxable capital gains</td>
+              <td>HMRC/OBR</td>
+              <td>£70bn</td>
+            </tr>
+            <tr>
+              <td>CGT taxpayer count</td>
+              <td>HMRC</td>
+              <td>400,000</td>
+            </tr>
+            <tr>
+              <td>Income tax, net income, population, households</td>
+              <td>Held at baseline</td>
+              <td>unchanged</td>
+            </tr>
+          </tbody>
+        </table>
+        <p className="mt-3 text-sm leading-6 text-slate-600">
+          All six targets land within 0.13%, and the effective sample size falls
+          only from 981 to 905 — a modest precision cost for a large accuracy
+          gain on gains. The calibration is applied by writing a reweighted copy
+          of each year&apos;s dataset, which policyengine.py then simulates; no
+          microdata is generated and no imputation is changed, only how many
+          households each record represents. Note that the published populace-UK
+          release does not itself include capital gains targets, so this step is
+          specific to this analysis.
+        </p>
+      </section>
+
       <section className="section-card scroll-mt-24" id="pathway">
         <SectionHeading title="Data and simulation pathway" />
         <p className="text-sm leading-6 text-slate-600">
@@ -35,8 +98,10 @@ export default function MethodologyTab({ data }) {
             policyengine.py
           </a>{" "}
           — PolicyEngine&apos;s standard simulation wrapper — on the Enhanced
-          FRS 2023-24 dataset with its stock weights; no reweighting is
-          applied. Budget, decile and winners/losers outputs use the
+          FRS 2023-24 dataset, reweighted with populace so the imputed gains
+          match HMRC's CGT taxpayer count (400k) and total gains (£70bn) while
+          income tax, net income, population and household counts are held at
+          their original aggregates. Budget, decile and winners/losers outputs use the
           wrapper&apos;s standard computations, with aggregates taken via
           native microdf weighted operations. The behavioural response is
           applied through a policy simulation modifier that registers the

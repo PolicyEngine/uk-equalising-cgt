@@ -90,7 +90,7 @@ export default function BaselineTab({ data }) {
         <SectionHeading
           size="lg"
           title="Baseline estimation"
-          description="The Family Resources Survey barely captures capital gains, so PolicyEngine's Enhanced FRS imputes them from HMRC administrative data. This analysis runs on the stock Enhanced FRS 2023-24 weights through policyengine.py — no reweighting is applied — and the imputation overshoots HMRC's aggregates, so baseline CGT revenue sits above the OBR forecast. The table compares the baseline and reform estimates with published statistics."
+          description="The Family Resources Survey barely captures capital gains, so PolicyEngine's Enhanced FRS imputes them from HMRC administrative data. Left as imputed, that baseline has roughly three times as many CGT taxpayers as HMRC records, so household weights are recalibrated with populace to hit HMRC's taxpayer count and total gains while holding income tax, net income, population and household counts fixed. policyengine.py then simulates the reform on the reweighted dataset."
         />
       </div>
 
