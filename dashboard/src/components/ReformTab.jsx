@@ -230,7 +230,7 @@ export default function ReformTab({ data }) {
           <MetricCard
             label="People losing income"
             value={formatPct(loseAnyPct)}
-            note={`${formatPct(allRow.lose_more_5_pct)} of people lose more than 5% of net income; ${gainAnyPct === 0 ? "no household gains" : `${formatPct(gainAnyPct)} gain`}. Losses fall almost entirely on households realising gains.`}
+            note={`${formatPct(allRow.lose_more_5_pct)} of people lose more than 5% of net income; ${gainAnyPct === 0 ? "no household gains" : `${formatPct(gainAnyPct)} gain`}. Only households realising gains are affected.`}
           />
         </div>
       </section>
