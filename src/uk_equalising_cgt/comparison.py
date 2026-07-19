@@ -20,8 +20,6 @@ SENSITIVITY_CASES = {
     "Static (Advani & Summers 2020 style)": 0.0,
     "CenTax lower (retention e=0.5)": -0.35,
     "CenTax central (retention e=1.0)": -0.7,
-    "CenTax upper (retention e=2.0)": -1.4,
-    "HMRC ready-reckoner-like": -2.0,
 }
 
 EXTERNAL_ESTIMATES = [

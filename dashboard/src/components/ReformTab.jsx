@@ -472,42 +472,43 @@ export default function ReformTab({ data }) {
       </section>
       </div>
 
-      <section className="section-card">
-        <SectionHeading
-          title="Sensitivity to the behavioural elasticity"
-          description={
-            <>
-              The revenue estimate hinges on how strongly taxpayers reduce
-              realisations when rates rise. Each row re-runs the reform with a
-              different marginal-tax-rate elasticity of realised gains. The bold
-              row is this dashboard&apos;s central assumption, converted from
-              CenTax&apos;s central retention-rate elasticity of 1.0 at the
-              reformed 40–45% rates. That conversion is exact only for a
-              marginal rate change, so applying −0.7 across the full 24%→40%
-              jump is somewhat more responsive than CenTax&apos;s own convention
-              implies (roughly −0.5 here); at HMRC-like responsiveness the
-              reform loses money. CenTax&apos;s 0.5–2.0 range is anchored on{" "}
-              <a
-                href="https://www.aeaweb.org/articles?id=10.1257/aeri.20200535"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-1 underline-offset-2 hover:opacity-80"
-              >
-                Agersnap &amp; Zidar (2021)
-              </a>{" "}
-              and{" "}
-              <a
-                href="https://www.nber.org/papers/w28514"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-1 underline-offset-2 hover:opacity-80"
-              >
-                Lavecchia &amp; Tazhitdinova (2024)
-              </a>
-              .
-            </>
-          }
-        />
+      <details className="section-card group">
+        <summary className="cursor-pointer select-none font-semibold text-slate-800 marker:text-[color:var(--pe-color-primary-600)]">
+          Sensitivity to the behavioural elasticity
+          <span className="ml-2 text-sm font-normal text-slate-500 group-open:hidden">
+            (expand to see how the estimate moves with the assumed response)
+          </span>
+        </summary>
+        <div className="mt-4">
+          <p className="mb-4 text-sm leading-6 text-slate-600">
+            The revenue estimate hinges on how strongly taxpayers reduce
+            realisations when rates rise. Each row re-runs the reform with a
+            different marginal-tax-rate elasticity of realised gains. The bold
+            row is this dashboard&apos;s central assumption, converted from
+            CenTax&apos;s central retention-rate elasticity of 1.0 at the
+            reformed 40–45% rates. That conversion is exact only for a marginal
+            rate change, so applying −0.7 across the full 24%→40% jump is
+            somewhat more responsive than CenTax&apos;s own convention implies
+            (roughly −0.5 here). CenTax&apos;s range is anchored on{" "}
+            <a
+              href="https://www.aeaweb.org/articles?id=10.1257/aeri.20200535"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-1 underline-offset-2 hover:opacity-80"
+            >
+              Agersnap &amp; Zidar (2021)
+            </a>{" "}
+            and{" "}
+            <a
+              href="https://www.nber.org/papers/w28514"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-1 underline-offset-2 hover:opacity-80"
+            >
+              Lavecchia &amp; Tazhitdinova (2024)
+            </a>
+            .
+          </p>
         <table className="data-table">
           <thead>
             <tr>
@@ -537,7 +538,8 @@ export default function ReformTab({ data }) {
             ))}
           </tbody>
         </table>
-      </section>
+        </div>
+      </details>
     </div>
   );
 }

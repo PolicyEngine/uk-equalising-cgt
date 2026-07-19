@@ -153,7 +153,7 @@ def test_calibration_reports_targets_and_ess():
 
 def test_sensitivity_cases():
     rows = fake_results()["sensitivity"]
-    assert [r["e_mtr"] for r in rows] == [0.0, -0.35, -0.7, -1.4, -2.0]
+    assert [r["e_mtr"] for r in rows] == [0.0, -0.35, -0.7]
 
 
 def test_comparison_rows_include_model_and_externals():
