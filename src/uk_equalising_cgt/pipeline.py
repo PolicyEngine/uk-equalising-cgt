@@ -1,12 +1,17 @@
 """Main pipeline: build the dashboard JSON for the Burnham CGT reform.
 
 Everything runs on the standard policyengine.py stack: per-year certified
-datasets from ``pe.uk.ensure_datasets`` (stock Enhanced FRS weights — no
-reweighting), one ``policyengine.Simulation`` per (scenario, year), and
-policyengine.py's standard decile/intra-decile outputs. The pipeline
-asserts that the behavioural CGT elasticity actually fires (the static
-e=0 and central e=-0.7 reform runs must differ materially) before
-writing any results.
+datasets from ``pe.uk.ensure_datasets``, one ``policyengine.Simulation``
+per (scenario, year), and policyengine.py's standard decile/intra-decile
+outputs. The pipeline asserts that the behavioural CGT elasticity actually
+fires (the static e=0 and central e=-0.7 reform runs must differ
+materially) before writing any results.
+
+The stock Enhanced FRS weights badly overshoot HMRC's CGT aggregates, so a
+probe baseline run on the stock 2026 dataset feeds populace-calibrate
+(:mod:`.calibration`), and the resulting household weight ratio is written
+back as a **reweighted input dataset** (``calibrated_frs_year_YYYY.h5``)
+that every scored simulation then runs on.
 """
 
 from __future__ import annotations
@@ -16,6 +21,14 @@ import importlib.metadata
 import json
 from pathlib import Path
 
+from .calibration import (
+    CAL_YEAR,
+    GAINS_TARGET,
+    MAX_TARGET_RELATIVE_ERROR,
+    PAYERS_TARGET,
+    calibrate_baseline,
+    write_calibrated_datasets,
+)
 from .comparison import SENSITIVITY_CASES, comparison_rows
 from .impacts import (
     budget_impact,
@@ -38,7 +51,27 @@ def run(output_path: Path = OUTPUT_PATH) -> dict:
     """Run the pipeline end-to-end and write the results JSON."""
     # ── Step 1: certified per-year datasets (stock Enhanced FRS weights) ──
     print(f"Step 1: Ensuring {DATASET} datasets for {YEARS}...")
-    datasets = ensure_uk_datasets(YEARS, DATASET_FOLDER)
+    stock_datasets = ensure_uk_datasets(YEARS, DATASET_FOLDER)
+
+    # ── Step 1b: calibrate household weights to HMRC/OBR CGT aggregates ───
+    # A throwaway probe baseline on the stock dataset supplies the
+    # calibration inputs; the calibrated ratio (computed once on CAL_YEAR)
+    # is written back as a reweighted input dataset for every year.
+    print(f"Step 1b: Calibrating household weights on {CAL_YEAR}...")
+    probe = run_simulation(stock_datasets[CAL_YEAR], sim_id=f"probe_baseline_{CAL_YEAR}")
+    cal = calibrate_baseline(probe)
+    for d in cal.diagnostics:
+        print(
+            f"    {d['name']:<22} target {d['target']:>16,.0f} "
+            f"final {d['final']:>16,.0f}  rel err {d['relative_error']:+.4%}"
+        )
+    print(f"    ESS {cal.ess_before:,.0f} -> {cal.ess_after:,.0f}")
+    assert cal.worst_relative_error <= MAX_TARGET_RELATIVE_ERROR, (
+        "populace-calibrate missed the HMRC/OBR CGT targets by more than 1% "
+        f"(worst {cal.worst_relative_error:.2%}; targets £{GAINS_TARGET / 1e9:.0f}bn "
+        f"gains and {PAYERS_TARGET:,} taxpayers). Refusing to write results."
+    )
+    datasets = write_calibrated_datasets(stock_datasets, cal.weight_ratio, DATASET_FOLDER)
 
     # ── Step 2: baseline and reformed simulations, one per year ───────────
     print("Step 2: Running baseline and reformed simulations...")
@@ -46,9 +79,9 @@ def run(output_path: Path = OUTPUT_PATH) -> dict:
     baseline_sims, reform_sims = {}, {}
     for year in YEARS:
         print(f"    {fiscal_year_label(year)}...")
-        baseline_sims[year] = run_simulation(datasets[year], sim_id=f"baseline_{year}")
+        baseline_sims[year] = run_simulation(datasets[year], sim_id=f"baseline_{year}_cal")
         reform_sims[year] = run_simulation(
-            datasets[year], policy=reform_policy, sim_id=f"burnham_e07_{year}"
+            datasets[year], policy=reform_policy, sim_id=f"burnham_e07_{year}_cal"
         )
 
     # ── Step 3: elasticity sensitivity (2026), which doubles as the check
@@ -63,7 +96,7 @@ def run(output_path: Path = OUTPUT_PATH) -> dict:
         return run_simulation(
             datasets[2026],
             policy=make_policy(burnham_reform(e), tag),
-            sim_id=f"{tag}_2026",
+            sim_id=f"{tag}_2026_cal",
         )
 
     sens = sensitivity(base_cgt_2026, SENSITIVITY_CASES, run_case)
@@ -77,8 +110,8 @@ def run(output_path: Path = OUTPUT_PATH) -> dict:
         f"{central_2026:.2f}bn. Refusing to write results."
     )
 
-    # ── Step 4: baseline validation (native microdf, stock weights) ───────
-    print("Step 4: Validating the stock-weight baseline against HMRC/Advani...")
+    # ── Step 4: baseline validation (native microdf, calibrated weights) ──
+    print("Step 4: Validating the calibrated baseline against HMRC/Advani...")
     validation = validation_stats(baseline_sims[2026])
     print(
         f"    {validation['cgt_taxpayers'] / 1e6:,.2f}m CGT taxpayers, "
@@ -97,9 +130,7 @@ def run(output_path: Path = OUTPUT_PATH) -> dict:
     # ── Step 6: decile impacts and winners/losers (policyengine.py
     # standard outputs), all years ─────────────────────────────────────────
     print("Step 6: Decile impacts and winners/losers...")
-    deciles = {
-        fiscal_year_label(y): decile_impact(baseline_sims[y], reform_sims[y]) for y in YEARS
-    }
+    deciles = {fiscal_year_label(y): decile_impact(baseline_sims[y], reform_sims[y]) for y in YEARS}
     wl = {fiscal_year_label(y): winners_losers(baseline_sims[y], reform_sims[y]) for y in YEARS}
 
     # ── Step 7: comparison with other institutions ────────────────────────
@@ -117,18 +148,13 @@ def run(output_path: Path = OUTPUT_PATH) -> dict:
             "policyengine_version": importlib.metadata.version("policyengine"),
             "policyengine_uk_version": importlib.metadata.version("policyengine-uk"),
             "dataset": DATASET,
+            "calibrated": True,
             "reform_period_start": PERIOD,
             "elasticity": ELASTICITY,
             "reform": dict(BURNHAM_RATES),
             "years": list(YEARS),
         },
-        # Stock Enhanced FRS weights: no reweighting/calibration is applied.
-        "calibration": {
-            "targets": [],
-            "ess_before": None,
-            "ess_after": None,
-            "note": "Stock Enhanced FRS 2023-24 weights; no populace recalibration.",
-        },
+        "calibration": cal.as_json(),
         "validation": validation,
         "budget": budget,
         "decile_impact": deciles,

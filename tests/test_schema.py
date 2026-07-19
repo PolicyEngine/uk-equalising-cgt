@@ -1,6 +1,7 @@
 """Schema tests: the results-JSON shape agreed with the dashboard, checked
 against a fake results dict (no simulation)."""
 
+from uk_equalising_cgt.calibration import CALIBRATION_TARGET_NAMES
 from uk_equalising_cgt.comparison import EXTERNAL_ESTIMATES, SENSITIVITY_CASES, comparison_rows
 from uk_equalising_cgt.impacts import BAND_NAMES, fiscal_year_label
 from uk_equalising_cgt.reform import YEARS
@@ -26,17 +27,26 @@ def fake_results() -> dict:
             "policyengine_version": "4.20.0",
             "policyengine_uk_version": "2.89.2",
             "dataset": "enhanced_frs_2023_24",
+            "calibrated": True,
             "reform_period_start": "2026-01-01",
             "elasticity": -0.7,
             "reform": {"basic_rate": 0.20, "higher_rate": 0.40, "additional_rate": 0.45},
             "years": list(YEARS),
         },
-        # Stock Enhanced FRS weights: no reweighting, so no targets/ESS.
+        # Enhanced FRS weights recalibrated to HMRC/OBR CGT aggregates.
         "calibration": {
-            "targets": [],
-            "ess_before": None,
-            "ess_after": None,
-            "note": "Stock Enhanced FRS 2023-24 weights; no populace recalibration.",
+            "targets": [
+                {
+                    "name": name,
+                    "target": 1.0,
+                    "final": 1.0,
+                    "relative_error": 0.0,
+                }
+                for name in CALIBRATION_TARGET_NAMES
+            ],
+            "ess_before": 20_000.0,
+            "ess_after": 15_000.0,
+            "note": "Calibrated with populace-calibrate.",
         },
         "validation": {
             "cgt_taxpayers": 400_000.0,
@@ -61,7 +71,12 @@ def fake_results() -> dict:
         ],
         "decile_impact": {
             label: [
-                {"decile": d, "avg_change_gbp": -10.0, "relative_change_pct": -0.1, "total_change_bn": -0.1}
+                {
+                    "decile": d,
+                    "avg_change_gbp": -10.0,
+                    "relative_change_pct": -0.1,
+                    "total_change_bn": -0.1,
+                }
                 for d in range(1, 11)
             ]
             for label in labels
@@ -128,11 +143,12 @@ def test_winners_losers_rows():
     assert set(rows[0]) == {"decile", *BAND_NAMES}
 
 
-def test_calibration_marks_stock_weights():
+def test_calibration_reports_targets_and_ess():
     cal = fake_results()["calibration"]
-    assert cal["targets"] == []
-    assert cal["ess_before"] is None
-    assert cal["ess_after"] is None
+    assert [t["name"] for t in cal["targets"]] == list(CALIBRATION_TARGET_NAMES)
+    assert all(set(t) == {"name", "target", "final", "relative_error"} for t in cal["targets"])
+    assert cal["ess_before"] > 0
+    assert cal["ess_after"] > 0
 
 
 def test_sensitivity_cases():

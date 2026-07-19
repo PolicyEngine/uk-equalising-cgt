@@ -49,7 +49,7 @@ def _household(sim):
 
 
 def validation_stats(baseline) -> dict:
-    """Baseline (stock Enhanced FRS weights) CGT statistics vs HMRC/Advani.
+    """Baseline (calibrated Enhanced FRS weights) CGT statistics vs HMRC/Advani.
 
     All statistics are weighted microdf operations over the person table.
     A "CGT taxpayer" is a person with taxable gains above the £3,000

@@ -7,7 +7,8 @@ policyengine.py wrapper), never by constructing
 - ``pe.uk.ensure_datasets`` materialises the stock Enhanced FRS 2023-24
   dataset (``enhanced_frs_2023_24`` in the policyengine.py release
   manifest) as one certified per-year dataset file per simulated year.
-  Weights are the stock Enhanced FRS weights — no reweighting.
+  ``uk_equalising_cgt.calibration`` then writes reweighted copies of
+  those files, and the scored simulations run on those.
 - ``policyengine.Simulation`` runs the model for one (dataset-year,
   policy) pair, with deterministic ids so policyengine.py's
   output-dataset cache (``<id>.h5`` beside the input dataset file) lets a
