@@ -323,7 +323,7 @@ export default function ReformTab({ data }) {
         <ChartLogo />
       </section>
 
-      <section className="section-card relative left-1/2 w-[min(100vw-2rem,96rem)] -translate-x-1/2">
+      <section className="section-card">
         <SectionHeading
           title="Who bears the cost of the reform"
           description="Change in household net income, grouped by the household's position in the baseline income distribution. Almost the entire cost falls on the highest-income group, where realised capital gains are concentrated: losses include both the extra tax paid and the gains that taxpayers choose not to realise in response, so they exceed the revenue raised. The switches show the same change grouped by income quintile or quartile, by household type, or by region."
