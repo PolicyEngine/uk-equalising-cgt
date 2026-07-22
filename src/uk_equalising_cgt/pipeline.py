@@ -2,17 +2,18 @@
 
 Everything runs on the standard policyengine.py stack: per-year certified
 datasets from ``pe.uk.ensure_datasets``, one ``policyengine.Simulation``
-per (scenario, year), and policyengine.py's standard decile/intra-decile
-outputs. The pipeline asserts that the behavioural CGT elasticity actually
+per (scenario, year), with distributional outputs grouped by weighted
+income quantile, household type and region. The pipeline asserts that the behavioural CGT elasticity actually
 fires (the static e=0 and central e=-0.7 reform runs must differ
 materially) before writing any results.
 
 Simulations run directly on the Enhanced FRS dataset as published by
 policyengine-uk-data, with no local reweighting: all calibration and
 weighting belongs upstream in policyengine-uk-data, not in an analysis
-repo. The published gains imputation spreads capital gains more widely
-than HMRC records, so the distributional breadth should be read as an
-upper bound (see the dashboard methodology and benchmarks tabs).
+repo. The published dataset calibrates to HMRC's CGT aggregates and
+size-of-gain distribution; the modelled taxpayer count still runs above
+HMRC's, so breadth reads as a modest upper bound (see the dashboard
+methodology and benchmarks tabs).
 """
 
 from __future__ import annotations
@@ -26,11 +27,10 @@ from .comparison import SENSITIVITY_CASES, comparison_rows
 from .impacts import (
     budget_impact,
     cgt_revenue,
-    decile_impact,
     fiscal_year_label,
+    income_change_groups,
     sensitivity,
     validation_stats,
-    winners_losers,
 )
 from .reform import BURNHAM_RATES, ELASTICITY, PERIOD, YEARS, burnham_reform
 from .simulations import DATASET, ensure_uk_datasets, make_policy, run_simulation
@@ -107,11 +107,13 @@ def run(output_path: Path = OUTPUT_PATH) -> dict:
     five_year_total = sum(r["gov_balance_change_bn"] for r in budget)
     print(f"    Five-year total budgetary impact: £{five_year_total:.1f}bn")
 
-    # ── Step 6: decile impacts and winners/losers (policyengine.py
-    # standard outputs), all years ─────────────────────────────────────────
-    print("Step 6: Decile impacts and winners/losers...")
-    deciles = {fiscal_year_label(y): decile_impact(baseline_sims[y], reform_sims[y]) for y in YEARS}
-    wl = {fiscal_year_label(y): winners_losers(baseline_sims[y], reform_sims[y]) for y in YEARS}
+    # ── Step 6: distributional impacts (income quantiles, household type,
+    # region), all years ──────────────────────────────────────────────────
+    print("Step 6: Distributional impacts...")
+    groups = {
+        fiscal_year_label(y): income_change_groups(baseline_sims[y], reform_sims[y])
+        for y in YEARS
+    }
 
     # ── Step 7: comparison with other institutions ────────────────────────
     comparison = comparison_rows(
@@ -142,8 +144,7 @@ def run(output_path: Path = OUTPUT_PATH) -> dict:
         },
         "validation": validation,
         "budget": budget,
-        "decile_impact": deciles,
-        "winners_losers": wl,
+        "income_change_groups": groups,
         "sensitivity": sens,
         "comparison": comparison,
     }

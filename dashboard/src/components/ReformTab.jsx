@@ -21,11 +21,10 @@ import {
 } from "../lib/formatters";
 import {
   getBudget,
-  getDecileImpact,
   getFirstYear,
   getFiveYearTotal,
+  getIncomeChangeGroups,
   getSensitivity,
-  getWinnersLosers,
   getReform,
   getYearLabels,
 } from "../lib/dataHelpers";
@@ -142,29 +141,23 @@ export default function ReformTab({ data }) {
   const years = getYearLabels(data);
   const fiveYearTotal = getFiveYearTotal(data);
   const [budgetView, setBudgetView] = useState("change");
-  const [decileYear, setDecileYear] = useState(firstYear);
-  const [decileMetric, setDecileMetric] = useState("absolute");
-  const [wlYear, setWlYear] = useState(firstYear);
-  const deciles = getDecileImpact(data, decileYear);
-  const headlineDeciles = getDecileImpact(data, firstYear);
-  const winnersLosers = getWinnersLosers(data, wlYear);
-  const headlineWl = getWinnersLosers(data, firstYear);
+  const [groupYear, setGroupYear] = useState(firstYear);
+  const [groupMetric, setGroupMetric] = useState("absolute");
+  const [grouping, setGrouping] = useState("quintile");
+  const groups = getIncomeChangeGroups(data, groupYear);
+  const headlineGroups = getIncomeChangeGroups(data, firstYear);
   const sensitivity = getSensitivity(data);
   const reform = getReform(data);
   const firstYearRow = budget[0];
-  const topDecile = headlineDeciles.find((d) => d.decile === 10);
-  const allRow = headlineWl.find((row) => row.decile === "All");
-  const decileRows = winnersLosers.filter((row) => row.decile !== "All");
-  const wlAllRow = winnersLosers.find((row) => row.decile === "All");
-  // "All" on top, a blank spacer row for visual separation, then deciles 10..1.
-  const wlChartRows = [
-    { ...wlAllRow, decile: "All" },
-    { decile: " " },
-    ...[...decileRows].reverse(),
-  ];
-  const isDecileRelative = decileMetric === "relative";
-  const loseAnyPct = allRow.lose_less_5_pct + allRow.lose_more_5_pct;
-  const gainAnyPct = allRow.gain_less_5_pct + allRow.gain_more_5_pct;
+  const topQuintile = headlineGroups.quintile[headlineGroups.quintile.length - 1];
+  const staticRow = sensitivity.find((row) => row.e_mtr === 0);
+  const isRelative = groupMetric === "relative";
+  const metricKey = isRelative ? "relative_change_pct" : "avg_change_gbp";
+  const metricName = isRelative
+    ? "Relative net income change"
+    : "Average change per household";
+  const formatMetric = (v) =>
+    isRelative ? formatSignedPct(v, 1) : formatSignedCurrency(v);
 
   return (
     <div className="space-y-6">
@@ -216,14 +209,14 @@ export default function ReformTab({ data }) {
             note="Sum of the annual government balance changes over the five modelled years."
           />
           <MetricCard
-            label="Top decile net income change"
-            value={formatSignedPct(topDecile.relative_change_pct)}
-            note={`Average of ${formatSignedCurrency(topDecile.avg_change_gbp)} per household in decile 10, which holds most realised gains. Includes the gains taxpayers stop realising under the −0.7 elasticity, not just tax paid.`}
+            label="Top quintile net income change"
+            value={formatSignedPct(topQuintile.relative_change_pct)}
+            note={`Average of ${formatSignedCurrency(topQuintile.avg_change_gbp)} per household in the highest-income 20%, which holds most realised gains. Includes the gains taxpayers stop realising under the −0.7 elasticity, not just tax paid.`}
           />
           <MetricCard
-            label="People losing income"
-            value={formatPct(loseAnyPct)}
-            note={`${formatPct(allRow.lose_more_5_pct)} of people lose more than 5% of net income; ${gainAnyPct === 0 ? "no household gains" : `${formatPct(gainAnyPct)} gain`}. Only households realising gains are affected.`}
+            label={`Static revenue, ${firstYear}`}
+            value={staticRow ? formatSignedBn(staticRow.revenue_2026_bn, 1) : "—"}
+            note="Revenue with no behavioural response (e=0) — the upper bound of the estimate range in the sensitivity section below."
           />
         </div>
       </section>
@@ -336,34 +329,44 @@ export default function ReformTab({ data }) {
         <ChartLogo />
       </section>
 
-      <div className="grid gap-6 xl:grid-cols-2">
-      <section className="section-card">
+      <section className="section-card relative left-1/2 w-[min(100vw-2rem,96rem)] -translate-x-1/2">
         <SectionHeading
-          title="Average household net income change"
-          description="Average change in household net income by baseline income decile. Losses include both the extra tax paid and the gains taxpayers choose not to realise in response, so they are much larger than the revenue raised. Losses are concentrated in decile 10, where most taxable gains are realised."
+          title="Who bears the cost of the reform"
+          description="Change in household net income, grouped by the household's position in the baseline income distribution. Almost the entire cost falls on the highest-income group, where realised capital gains are concentrated: losses include both the extra tax paid and the gains that taxpayers choose not to realise in response, so they exceed the revenue raised. Expand below the chart for the same change broken down by household type and region."
         />
         <div className="mb-3 flex flex-wrap items-center gap-4">
-          <YearSelect years={years} value={decileYear} onChange={setDecileYear} />
+          <YearSelect years={years} value={groupYear} onChange={setGroupYear} />
+          <Toggle
+            options={[
+              { value: "quintile", label: "Quintiles" },
+              { value: "quartile", label: "Quartiles" },
+            ]}
+            value={grouping}
+            onChange={setGrouping}
+          />
           <div className="ml-auto">
             <Toggle
               options={[
                 { value: "absolute", label: "Average £ per household" },
                 { value: "relative", label: "Relative (%)" },
               ]}
-              value={decileMetric}
-              onChange={setDecileMetric}
+              value={groupMetric}
+              onChange={setGroupMetric}
             />
           </div>
         </div>
-        <div className="h-[380px] w-full">
+        <div className="h-[420px] w-full">
           <ResponsiveContainer>
-            <BarChart data={deciles} margin={{ top: 10, right: 20, bottom: 15, left: 10 }}>
+            <BarChart
+              data={groups[grouping]}
+              margin={{ top: 10, right: 20, bottom: 15, left: 10 }}
+            >
               <CartesianGrid strokeDasharray="3 3" stroke={colors.border.light} />
               <XAxis
-                dataKey="decile"
+                dataKey="group"
                 tick={AXIS_STYLE}
                 label={{
-                  value: "Income decile (1 = lowest income)",
+                  value: "Baseline household income group",
                   position: "insideBottom",
                   offset: -8,
                   fontSize: 12,
@@ -371,9 +374,7 @@ export default function ReformTab({ data }) {
               />
               <YAxis
                 tick={AXIS_STYLE}
-                tickFormatter={(v) =>
-                  isDecileRelative ? formatSignedPct(v, 1) : formatSignedCurrency(v)
-                }
+                tickFormatter={formatMetric}
                 tickLine={false}
                 axisLine={false}
               />
@@ -382,15 +383,10 @@ export default function ReformTab({ data }) {
                   `${formatSignedPct(item.payload.relative_change_pct)} (${formatSignedCurrency(item.payload.avg_change_gbp)}/household)`,
                   "Net income change",
                 ]}
-                labelFormatter={(label) => `Decile ${label}`}
               />
               <Bar
-                dataKey={isDecileRelative ? "relative_change_pct" : "avg_change_gbp"}
-                name={
-                  isDecileRelative
-                    ? "Relative net income change"
-                    : "Average change per household"
-                }
+                dataKey={metricKey}
+                name={metricName}
                 fill={colors.primary[600]}
                 radius={[6, 6, 0, 0]}
               />
@@ -398,71 +394,103 @@ export default function ReformTab({ data }) {
           </ResponsiveContainer>
         </div>
         <ChartLogo />
-      </section>
 
-      <section className="section-card">
-        <SectionHeading
-          title="Winners and losers"
-          description="Share of people in each decile by outcome. The reform creates no gainers; households whose net income changes by less than 0.1% count as no change."
-        />
-        <div className="mb-3 flex flex-wrap items-center gap-4">
-          <YearSelect years={years} value={wlYear} onChange={setWlYear} />
-        </div>
-        <div className="h-[380px] w-full">
-          <ResponsiveContainer>
-            <BarChart
-              data={wlChartRows}
-              layout="vertical"
-              stackOffset="none"
-              margin={{ top: 10, right: 20, bottom: 15, left: 10 }}
-            >
-              <XAxis
-                type="number"
-                tick={AXIS_STYLE}
-                tickFormatter={(v) => `${Math.round(v)}%`}
-                domain={[0, 100]}
-                allowDataOverflow
-                tickLine={false}
-                axisLine={false}
-              />
-              <YAxis
-                type="category"
-                dataKey="decile"
-                tick={AXIS_STYLE}
-                tickLine={false}
-                axisLine={false}
-              />
-              <Tooltip
-                formatter={(v) => formatPct(v)}
-                labelFormatter={(label) => `Decile ${label}`}
-              />
-              <Legend formatter={(value) => <span style={{ color: "#475569" }}>{value}</span>} />
-              <Bar
-                dataKey="no_change_pct"
-                name="No change"
-                stackId="wl"
-                fill={colors.gray[200]}
-                radius={[6, 0, 0, 6]}
-              />
-              <Bar
-                dataKey="lose_less_5_pct"
-                name="Lose less than 5%"
-                stackId="wl"
-                fill={colors.primary[400]}
-              />
-              <Bar
-                dataKey="lose_more_5_pct"
-                name="Lose more than 5%"
-                stackId="wl"
-                fill={colors.primary[800]}
-                radius={[0, 6, 6, 0]}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-        <ChartLogo />
+        <details className="group mt-4 border-t border-slate-100 pt-4">
+          <summary className="cursor-pointer select-none font-semibold text-slate-800 marker:text-[color:var(--pe-color-primary-600)]">
+            Breakdown by household type and region
+            <span className="ml-2 text-sm font-normal text-slate-500 group-open:hidden">
+              (expand for the same change grouped differently)
+            </span>
+          </summary>
+          <div className="mt-4 grid gap-6 xl:grid-cols-2">
+            <div>
+              <h3 className="mb-2 text-sm font-semibold text-slate-700">
+                By household type
+              </h3>
+              <div className="h-[320px] w-full">
+                <ResponsiveContainer>
+                  <BarChart
+                    data={groups.household_type}
+                    margin={{ top: 10, right: 20, bottom: 5, left: 10 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke={colors.border.light} />
+                    <XAxis dataKey="group" tick={AXIS_STYLE} />
+                    <YAxis
+                      tick={AXIS_STYLE}
+                      tickFormatter={formatMetric}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <Tooltip
+                      formatter={(v, name, item) => [
+                        `${formatSignedPct(item.payload.relative_change_pct)} (${formatSignedCurrency(item.payload.avg_change_gbp)}/household)`,
+                        "Net income change",
+                      ]}
+                    />
+                    <Bar
+                      dataKey={metricKey}
+                      name={metricName}
+                      fill={colors.primary[600]}
+                      radius={[6, 6, 0, 0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            <div>
+              <h3 className="mb-2 text-sm font-semibold text-slate-700">
+                By region
+              </h3>
+              <div className="h-[320px] w-full">
+                <ResponsiveContainer>
+                  <BarChart
+                    data={groups.region}
+                    layout="vertical"
+                    margin={{ top: 10, right: 20, bottom: 5, left: 30 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke={colors.border.light} />
+                    <XAxis
+                      type="number"
+                      tick={AXIS_STYLE}
+                      tickFormatter={formatMetric}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis
+                      type="category"
+                      dataKey="group"
+                      width={110}
+                      tick={{ ...AXIS_STYLE, fontSize: 11 }}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <Tooltip
+                      formatter={(v, name, item) => [
+                        `${formatSignedPct(item.payload.relative_change_pct)} (${formatSignedCurrency(item.payload.avg_change_gbp)}/household)`,
+                        "Net income change",
+                      ]}
+                    />
+                    <Bar
+                      dataKey={metricKey}
+                      name={metricName}
+                      fill={colors.primary[600]}
+                      radius={[0, 6, 6, 0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+          <p className="mt-3 text-sm leading-6 text-slate-600">
+            Household types: &ldquo;Pensioner&rdquo; households have no
+            working-age adults; &ldquo;With children&rdquo; households contain
+            at least one child. Regional averages reflect where households
+            holding taxable gains live in the survey data and carry more
+            sampling noise than the income groups; households without an
+            assigned area are excluded.
+          </p>
+        </details>
       </section>
-      </div>
 
       <details className="section-card group">
         <summary className="cursor-pointer select-none font-semibold text-slate-800 marker:text-[color:var(--pe-color-primary-600)]">

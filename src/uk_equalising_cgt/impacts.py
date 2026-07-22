@@ -1,38 +1,40 @@
-"""Budgetary, validation, decile, winners/losers and sensitivity impacts.
+"""Budgetary, validation, distributional and sensitivity impacts.
 
-Decile and winners/losers tables come from policyengine.py's own standard
-outputs (``policyengine.outputs.decile_impact`` and
-``policyengine.outputs.intra_decile_impact``) so they match what
-PolicyEngine's app would report; grouping uses the model's pre-computed
-``household_income_decile`` (decile -1, negative/zero baseline income, is
-excluded because the standard outputs iterate deciles 1-10 only).
-
-Aggregates the wrapper does not provide directly — budget totals,
-per-decile total change, and the baseline validation statistics — are
-computed from the simulations' output datasets with native microdf
-weighted operations (``MicroSeries.sum/mean/median/count`` and weighted
-``groupby``); there is no manual weight arithmetic anywhere.
+Distributional outputs group the change in household net income by
+weighted baseline-income quantile (quintiles and quartiles), by household
+type, and by region. Aggregates are computed from the simulations' output
+datasets with native microdf weighted operations
+(``MicroSeries.sum/mean/median/count`` and weighted ``groupby``); there is
+no manual weight arithmetic anywhere.
 """
 
 from __future__ import annotations
 
+import numpy as np
+
 AEA = 3_000  # annual exempt amount, unchanged by the reform
 
-BAND_NAMES = [
-    "gain_more_5_pct",
-    "gain_less_5_pct",
-    "no_change_pct",
-    "lose_less_5_pct",
-    "lose_more_5_pct",
-]
+# ONS region codes carried on the output dataset's households. Households
+# cloned without an assigned output area have an empty code and are
+# excluded from the regional breakdown.
+REGION_NAMES = {
+    "E12000001": "North East",
+    "E12000002": "North West",
+    "E12000003": "Yorkshire and the Humber",
+    "E12000004": "East Midlands",
+    "E12000005": "West Midlands",
+    "E12000006": "East of England",
+    "E12000007": "London",
+    "E12000008": "South East",
+    "E12000009": "South West",
+    "W99999999": "Wales",
+    "S99999999": "Scotland",
+    "N99999999": "Northern Ireland",
+}
 
-# policyengine.py IntraDecileImpact field -> dashboard band key.
-INTRA_DECILE_BAND_MAP = {
-    "gain_more_than_5pct": "gain_more_5_pct",
-    "gain_less_than_5pct": "gain_less_5_pct",
-    "no_change": "no_change_pct",
-    "lose_less_than_5pct": "lose_less_5_pct",
-    "lose_more_than_5pct": "lose_more_5_pct",
+QUANTILE_LABELS = {
+    4: ["Lowest 25%", "25–50%", "50–75%", "Highest 25%"],
+    5: ["Lowest 20%", "20–40%", "40–60%", "60–80%", "Highest 20%"],
 }
 
 
@@ -106,66 +108,72 @@ def budget_impact(baseline_sims: dict, reform_sims: dict, years: list[int]) -> l
     return rows
 
 
-def decile_impact(baseline, reformed) -> list[dict]:
-    """Change in household net income by baseline income decile.
-
-    Uses policyengine.py's standard ``calculate_decile_impacts`` (grouped
-    by the model's ``household_income_decile``; deciles 1-10 only, so the
-    decile -1 convention for negative incomes is excluded), plus a
-    microdf weighted groupby for the per-decile total change in £bn.
-    """
-    from policyengine.outputs.decile_impact import calculate_decile_impacts
-
-    impacts = calculate_decile_impacts(
-        baseline_simulation=baseline,
-        reform_simulation=reformed,
-        income_variable="household_net_income",
-        decile_variable="household_income_decile",
-        entity="household",
-    )
-    base_hh, ref_hh = _household(baseline), _household(reformed)
-    gain = ref_hh["household_net_income"] - base_hh["household_net_income"]
-    deciles = base_hh["household_income_decile"].values.astype(int)
-    total_bn = gain.groupby(deciles).sum() / 1e9
+def _group_rows(gain, base_income, labels, order) -> list[dict]:
+    """Weighted average and relative net-income change per group."""
+    avg = gain.groupby(labels).mean()
+    total = gain.groupby(labels).sum()
+    income = base_income.groupby(labels).sum()
     return [
         {
-            "decile": int(row.decile),
-            "avg_change_gbp": float(row.absolute_change),
-            "relative_change_pct": float(row.relative_change),
-            "total_change_bn": float(total_bn.get(row.decile, 0.0)),
+            "group": str(group),
+            "avg_change_gbp": float(avg.get(group, 0.0)),
+            "relative_change_pct": float(100 * total.get(group, 0.0) / income.get(group)),
         }
-        for row in impacts.outputs
+        for group in order
+        if group in set(labels)
     ]
 
 
-def map_intra_decile_row(row: dict) -> dict[str, float]:
-    """Map a policyengine.py intra-decile row (proportions, wrapper band
-    names) to the dashboard's percentage band keys."""
-    return {ours: 100 * float(row[theirs]) for theirs, ours in INTRA_DECILE_BAND_MAP.items()}
+def income_change_groups(baseline, reformed) -> dict:
+    """Change in household net income by weighted baseline-income quantile
+    (quintiles and quartiles), by household type, and by region."""
+    base_hh, ref_hh = _household(baseline), _household(reformed)
+    gain = ref_hh["household_net_income"] - base_hh["household_net_income"]
+    base_income = base_hh["household_net_income"]
 
+    result = {}
+    for n, key, rank in (
+        (5, "quintile", base_income.quintile_rank()),
+        (4, "quartile", base_income.quartile_rank()),
+    ):
+        labels = np.array(QUANTILE_LABELS[n], dtype=object)[
+            rank.values.astype(int) - 1
+        ]
+        result[key] = _group_rows(gain, base_income, labels, QUANTILE_LABELS[n])
 
-def winners_losers(baseline, reformed) -> list[dict]:
-    """Winner/loser band shares of people by decile plus an "All" row.
+    # Household type from the members of each household: any child ->
+    # "With children"; otherwise all adults at State Pension age ->
+    # "Pensioner"; otherwise working-age without children.
+    import pandas as pd
 
-    Uses policyengine.py's standard intra-decile output (people-weighted,
-    ±5% relative-change bands with a ±0.1% no-change band), grouped by
-    the model's ``household_income_decile``. The wrapper's decile-0
-    overall row becomes the dashboard's "All" row.
-    """
-    from policyengine.outputs.intra_decile_impact import compute_intra_decile_impacts
+    person = _person(baseline)
+    members = pd.DataFrame(
+        {
+            "household_id": person["household_id"].values,
+            "is_child": person["is_child"].values.astype(bool),
+            "working_age_adult": (
+                person["is_adult"].values.astype(bool)
+                & ~person["is_SP_age"].values.astype(bool)
+            ),
+        }
+    ).groupby("household_id")
+    has_children = members["is_child"].any()
+    has_working_age_adult = members["working_age_adult"].any()
+    hh_ids = base_hh["household_id"].values
+    child = has_children.reindex(hh_ids).fillna(False).values
+    pensioner = ~has_working_age_adult.reindex(hh_ids).fillna(False).values & ~child
+    type_order = ["With children", "Pensioner", "Working-age, no children"]
+    type_labels = np.where(child, type_order[0], np.where(pensioner, type_order[1], type_order[2]))
+    result["household_type"] = _group_rows(gain, base_income, type_labels, type_order)
 
-    impacts = compute_intra_decile_impacts(
-        baseline_simulation=baseline,
-        reform_simulation=reformed,
-        income_variable="household_net_income",
-        decile_variable="household_income_decile",
-        entity="household",
+    region_labels = (
+        base_hh["region_code_oa"].astype(str).map(REGION_NAMES).fillna("").values
     )
-    rows = []
-    for out in impacts.outputs:
-        bands = map_intra_decile_row(out.model_dump(include=set(INTRA_DECILE_BAND_MAP)))
-        rows.append({"decile": "All" if out.decile == 0 else str(out.decile), **bands})
-    return rows
+    keep = region_labels != ""
+    result["region"] = _group_rows(
+        gain[keep], base_income[keep], region_labels[keep], list(REGION_NAMES.values())
+    )
+    return result
 
 
 def sensitivity(baseline_cgt: float, cases: dict[str, float], run_case) -> list[dict]:

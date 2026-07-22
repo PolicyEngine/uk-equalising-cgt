@@ -21,16 +21,12 @@ export function getBudget(data) {
   return data.budget;
 }
 
-export function getDecileImpact(data, year) {
-  return data.decile_impact[year];
-}
-
-export function getWinnersLosers(data, year) {
-  return data.winners_losers[year];
+export function getIncomeChangeGroups(data, year) {
+  return data.income_change_groups[year];
 }
 
 export function getYearLabels(data) {
-  return Object.keys(data.decile_impact);
+  return Object.keys(data.income_change_groups);
 }
 
 export function getSensitivity(data) {
@@ -66,7 +62,7 @@ export function getElasticity(data) {
 }
 
 export function getFirstYear(data) {
-  // metadata.years may hold calendar ints (2026) while decile_impact is keyed
+  // metadata.years may hold calendar ints (2026) while income_change_groups is keyed
   // by fiscal labels ("2026-27") — normalise to the fiscal label.
   const year = data.metadata.years[0];
   if (typeof year === "number") {

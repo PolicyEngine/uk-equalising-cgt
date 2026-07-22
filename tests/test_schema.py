@@ -2,7 +2,9 @@
 against a fake results dict (no simulation)."""
 
 from uk_equalising_cgt.comparison import EXTERNAL_ESTIMATES, SENSITIVITY_CASES, comparison_rows
-from uk_equalising_cgt.impacts import BAND_NAMES, fiscal_year_label
+from uk_equalising_cgt.impacts import fiscal_year_label
+
+YEAR_LABELS = [fiscal_year_label(y) for y in range(2026, 2031)]
 from uk_equalising_cgt.reform import YEARS
 
 TOP_LEVEL_KEYS = {
@@ -10,8 +12,7 @@ TOP_LEVEL_KEYS = {
     "calibration",
     "validation",
     "budget",
-    "decile_impact",
-    "winners_losers",
+    "income_change_groups",
     "sensitivity",
     "comparison",
 }
@@ -60,22 +61,25 @@ def fake_results() -> dict:
             }
             for label in labels
         ],
-        "decile_impact": {
-            label: [
-                {
-                    "decile": d,
-                    "avg_change_gbp": -10.0,
-                    "relative_change_pct": -0.1,
-                    "total_change_bn": -0.1,
-                }
-                for d in range(1, 11)
-            ]
-            for label in labels
-        },
-        "winners_losers": {
-            label: [{"decile": str(d), **dict.fromkeys(BAND_NAMES, 0.0)} for d in range(1, 11)]
-            + [{"decile": "All", **dict.fromkeys(BAND_NAMES, 0.0)}]
-            for label in labels
+        "income_change_groups": {
+            label: {
+                "quintile": [
+                    {"group": g, "avg_change_gbp": 0.0, "relative_change_pct": 0.0}
+                    for g in ["Lowest 20%", "20–40%", "40–60%", "60–80%", "Highest 20%"]
+                ],
+                "quartile": [
+                    {"group": g, "avg_change_gbp": 0.0, "relative_change_pct": 0.0}
+                    for g in ["Lowest 25%", "25–50%", "50–75%", "Highest 25%"]
+                ],
+                "household_type": [
+                    {"group": g, "avg_change_gbp": 0.0, "relative_change_pct": 0.0}
+                    for g in ["With children", "Pensioner", "Working-age, no children"]
+                ],
+                "region": [
+                    {"group": "London", "avg_change_gbp": 0.0, "relative_change_pct": 0.0}
+                ],
+            }
+            for label in YEAR_LABELS
         },
         "sensitivity": [
             {"name": name, "e_mtr": e, "revenue_2026_bn": 1.0}
@@ -115,23 +119,16 @@ def test_budget_rows_use_fiscal_year_labels():
     }
 
 
-def test_decile_impact_keyed_by_fiscal_year():
-    di = fake_results()["decile_impact"]
-    assert set(di) == {"2026-27", "2027-28", "2028-29", "2029-30", "2030-31"}
-    assert set(di["2026-27"][0]) == {
-        "decile",
+def test_income_change_groups_keyed_by_fiscal_year():
+    groups = fake_results()["income_change_groups"]
+    assert set(groups) == {"2026-27", "2027-28", "2028-29", "2029-30", "2030-31"}
+    year = groups["2026-27"]
+    assert set(year) == {"quintile", "quartile", "household_type", "region"}
+    assert set(year["quintile"][0]) == {
+        "group",
         "avg_change_gbp",
         "relative_change_pct",
-        "total_change_bn",
     }
-
-
-def test_winners_losers_rows():
-    wl = fake_results()["winners_losers"]
-    assert set(wl) == {"2026-27", "2027-28", "2028-29", "2029-30", "2030-31"}
-    rows = wl["2026-27"]
-    assert rows[-1]["decile"] == "All"
-    assert set(rows[0]) == {"decile", *BAND_NAMES}
 
 
 def test_calibration_block_is_explicitly_empty():

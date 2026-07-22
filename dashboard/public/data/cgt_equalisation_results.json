@@ -81,769 +81,632 @@
       "gov_balance_change_bn": 2.552960330849609
     }
   ],
-  "decile_impact": {
-    "2026-27": [
-      {
-        "decile": 1,
-        "avg_change_gbp": -79.98099293283555,
-        "relative_change_pct": -0.15200895861311783,
-        "total_change_bn": -0.29272951900609917
-      },
-      {
-        "decile": 2,
-        "avg_change_gbp": -93.63285608374153,
-        "relative_change_pct": -0.09523768680431538,
-        "total_change_bn": -0.3135827969618391
-      },
-      {
-        "decile": 3,
-        "avg_change_gbp": -268.12303776976097,
-        "relative_change_pct": -0.07938784440244868,
-        "total_change_bn": -0.7802556202078783
-      },
-      {
-        "decile": 4,
-        "avg_change_gbp": -524.9713467575787,
-        "relative_change_pct": -0.07760011125906979,
-        "total_change_bn": -1.7987988654731675
-      },
-      {
-        "decile": 5,
-        "avg_change_gbp": -146.27427936863438,
-        "relative_change_pct": -0.07455384863272398,
-        "total_change_bn": -0.43950180853100884
-      },
-      {
-        "decile": 6,
-        "avg_change_gbp": -797.5636485525464,
-        "relative_change_pct": -0.08249300496355802,
-        "total_change_bn": -2.5464880780935686
-      },
-      {
-        "decile": 7,
-        "avg_change_gbp": -608.839729984192,
-        "relative_change_pct": -0.087404347478833,
-        "total_change_bn": -2.0283930097641245
-      },
-      {
-        "decile": 8,
-        "avg_change_gbp": -346.7572293056293,
-        "relative_change_pct": -0.11387136157595505,
-        "total_change_bn": -0.900010809926686
-      },
-      {
-        "decile": 9,
-        "avg_change_gbp": -918.5092193669781,
-        "relative_change_pct": -0.11763122659766817,
-        "total_change_bn": -2.5817271167021243
-      },
-      {
-        "decile": 10,
-        "avg_change_gbp": -3398.361969807645,
-        "relative_change_pct": -0.2852995303930227,
-        "total_change_bn": -9.972173854520074
-      }
-    ],
-    "2027-28": [
-      {
-        "decile": 1,
-        "avg_change_gbp": -83.62038282148045,
-        "relative_change_pct": -0.15964441109379782,
-        "total_change_bn": -0.3066272692657034
-      },
-      {
-        "decile": 2,
-        "avg_change_gbp": -97.29352432845106,
-        "relative_change_pct": -0.09696688716130308,
-        "total_change_bn": -0.32732193812578286
-      },
-      {
-        "decile": 3,
-        "avg_change_gbp": -279.01725277160415,
-        "relative_change_pct": -0.08270028461622496,
-        "total_change_bn": -0.8144388907129327
-      },
-      {
-        "decile": 4,
-        "avg_change_gbp": -539.2237323182229,
-        "relative_change_pct": -0.0802230910795267,
-        "total_change_bn": -1.8653403288125838
-      },
-      {
-        "decile": 5,
-        "avg_change_gbp": -152.211979257943,
-        "relative_change_pct": -0.07629766718438245,
-        "total_change_bn": -0.455766614883322
-      },
-      {
-        "decile": 6,
-        "avg_change_gbp": -833.1822603515016,
-        "relative_change_pct": -0.08680434667708171,
-        "total_change_bn": -2.6555710605532394
-      },
-      {
-        "decile": 7,
-        "avg_change_gbp": -626.4786294321859,
-        "relative_change_pct": -0.08906448702861842,
-        "total_change_bn": -2.098908762725411
-      },
-      {
-        "decile": 8,
-        "avg_change_gbp": -361.5302683020216,
-        "relative_change_pct": -0.12034240654401786,
-        "total_change_bn": -0.9411125466778293
-      },
-      {
-        "decile": 9,
-        "avg_change_gbp": -940.6965650803023,
-        "relative_change_pct": -0.11787595442389111,
-        "total_change_bn": -2.670076237480264
-      },
-      {
-        "decile": 10,
-        "avg_change_gbp": -3511.40459838224,
-        "relative_change_pct": -0.2875500595788774,
-        "total_change_bn": -10.34477238499923
-      }
-    ],
-    "2028-29": [
-      {
-        "decile": 1,
-        "avg_change_gbp": -87.1350499514519,
-        "relative_change_pct": -0.14204220369032136,
-        "total_change_bn": -0.32239160371544545
-      },
-      {
-        "decile": 2,
-        "avg_change_gbp": -100.81135529882938,
-        "relative_change_pct": -0.09861274906029636,
-        "total_change_bn": -0.3358470966747119
-      },
-      {
-        "decile": 3,
-        "avg_change_gbp": -288.4169637617121,
-        "relative_change_pct": -0.08720708680465418,
-        "total_change_bn": -0.8534070963516345
-      },
-      {
-        "decile": 4,
-        "avg_change_gbp": -550.1021947511094,
-        "relative_change_pct": -0.0812398977660351,
-        "total_change_bn": -1.915590508524719
-      },
-      {
-        "decile": 5,
-        "avg_change_gbp": -165.6785791719218,
-        "relative_change_pct": -0.08018235848564902,
-        "total_change_bn": -0.49225842001888215
-      },
-      {
-        "decile": 6,
-        "avg_change_gbp": -859.7575422623577,
-        "relative_change_pct": -0.08945496226908164,
-        "total_change_bn": -2.755131497081033
-      },
-      {
-        "decile": 7,
-        "avg_change_gbp": -652.6521228204533,
-        "relative_change_pct": -0.09263906508156876,
-        "total_change_bn": -2.17996579880036
-      },
-      {
-        "decile": 8,
-        "avg_change_gbp": -368.94420595285726,
-        "relative_change_pct": -0.12279435215605086,
-        "total_change_bn": -0.9825062359307712
-      },
-      {
-        "decile": 9,
-        "avg_change_gbp": -961.2924198657995,
-        "relative_change_pct": -0.11786334085090792,
-        "total_change_bn": -2.7636996351723413
-      },
-      {
-        "decile": 10,
-        "avg_change_gbp": -3659.571216262763,
-        "relative_change_pct": -0.29261153992900724,
-        "total_change_bn": -10.712741790377574
-      }
-    ],
-    "2029-30": [
-      {
-        "decile": 1,
-        "avg_change_gbp": -90.79738876503133,
-        "relative_change_pct": -0.16070860883709348,
-        "total_change_bn": -0.3361564548851446
-      },
-      {
-        "decile": 2,
-        "avg_change_gbp": -104.85394339988197,
-        "relative_change_pct": -0.10083955102539897,
-        "total_change_bn": -0.35087008409992937
-      },
-      {
-        "decile": 3,
-        "avg_change_gbp": -298.8709500468611,
-        "relative_change_pct": -0.0911153878903084,
-        "total_change_bn": -0.8892807368190631
-      },
-      {
-        "decile": 4,
-        "avg_change_gbp": -561.4054593426811,
-        "relative_change_pct": -0.08243417092131322,
-        "total_change_bn": -1.9840235241129254
-      },
-      {
-        "decile": 5,
-        "avg_change_gbp": -175.0626996476989,
-        "relative_change_pct": -0.08360376575876129,
-        "total_change_bn": -0.5185255425010753
-      },
-      {
-        "decile": 6,
-        "avg_change_gbp": -898.1228866515374,
-        "relative_change_pct": -0.09076677498561728,
-        "total_change_bn": -2.8523350499480293
-      },
-      {
-        "decile": 7,
-        "avg_change_gbp": -678.6293759496239,
-        "relative_change_pct": -0.09747732645227376,
-        "total_change_bn": -2.246243182163167
-      },
-      {
-        "decile": 8,
-        "avg_change_gbp": -399.2748488151129,
-        "relative_change_pct": -0.12712040318455475,
-        "total_change_bn": -1.0879487890950248
-      },
-      {
-        "decile": 9,
-        "avg_change_gbp": -941.7058185442634,
-        "relative_change_pct": -0.11793017249879573,
-        "total_change_bn": -2.7079225465821275
-      },
-      {
-        "decile": 10,
-        "avg_change_gbp": -3745.6640625241134,
-        "relative_change_pct": -0.29137887337550833,
-        "total_change_bn": -11.178765384537883
-      }
-    ],
-    "2030-31": [
-      {
-        "decile": 1,
-        "avg_change_gbp": -94.22321862889154,
-        "relative_change_pct": -0.1739918389497667,
-        "total_change_bn": -0.3499000192390935
-      },
-      {
-        "decile": 2,
-        "avg_change_gbp": -108.1622879464996,
-        "relative_change_pct": -0.10188722663319516,
-        "total_change_bn": -0.3653533162286407
-      },
-      {
-        "decile": 3,
-        "avg_change_gbp": -299.3570335600114,
-        "relative_change_pct": -0.09249052468279863,
-        "total_change_bn": -0.9107009870270042
-      },
-      {
-        "decile": 4,
-        "avg_change_gbp": -602.8099232813079,
-        "relative_change_pct": -0.0872523436062841,
-        "total_change_bn": -2.071635271494668
-      },
-      {
-        "decile": 5,
-        "avg_change_gbp": -176.63835187847764,
-        "relative_change_pct": -0.08480534839550563,
-        "total_change_bn": -0.5449105873931511
-      },
-      {
-        "decile": 6,
-        "avg_change_gbp": -932.6581209947544,
-        "relative_change_pct": -0.09646737460277191,
-        "total_change_bn": -2.9781100903630553
-      },
-      {
-        "decile": 7,
-        "avg_change_gbp": -752.1680603070188,
-        "relative_change_pct": -0.10970889156244723,
-        "total_change_bn": -2.4622504422785103
-      },
-      {
-        "decile": 8,
-        "avg_change_gbp": -362.46337727013764,
-        "relative_change_pct": -0.13001401915630856,
-        "total_change_bn": -0.9977266365366196
-      },
-      {
-        "decile": 9,
-        "avg_change_gbp": -972.1871977609713,
-        "relative_change_pct": -0.11953709594003889,
-        "total_change_bn": -2.814680325997215
-      },
-      {
-        "decile": 10,
-        "avg_change_gbp": -3909.4645082542925,
-        "relative_change_pct": -0.2958394713484298,
-        "total_change_bn": -11.581586864047985
-      }
-    ]
-  },
-  "winners_losers": {
-    "2026-27": [
-      {
-        "decile": "1",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.36865127036548,
-        "lose_less_5_pct": 2.0758846609421693,
-        "lose_more_5_pct": 0.555464068692357
-      },
-      {
-        "decile": "2",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.36489138222728,
-        "lose_less_5_pct": 2.4135534821209603,
-        "lose_more_5_pct": 0.22155513565175347
-      },
-      {
-        "decile": "3",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.04448390626015,
-        "lose_less_5_pct": 1.7426801853748883,
-        "lose_more_5_pct": 0.21283590836496485
-      },
-      {
-        "decile": "4",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.71406392020592,
-        "lose_less_5_pct": 1.9830047711703467,
-        "lose_more_5_pct": 0.30293130862373513
-      },
-      {
-        "decile": "5",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.87190318577609,
-        "lose_less_5_pct": 1.8355080850342362,
-        "lose_more_5_pct": 0.2925887291896773
-      },
-      {
-        "decile": "6",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.79182106890579,
-        "lose_less_5_pct": 1.8652145619158598,
-        "lose_more_5_pct": 0.3429643691783421
-      },
-      {
-        "decile": "7",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.41109059129533,
-        "lose_less_5_pct": 2.181962486873308,
-        "lose_more_5_pct": 0.4069469218313611
-      },
-      {
-        "decile": "8",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.26825200813394,
-        "lose_less_5_pct": 2.3270482580296616,
-        "lose_more_5_pct": 0.404699733836386
-      },
-      {
-        "decile": "9",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.37729368227448,
-        "lose_less_5_pct": 2.1993074642353236,
-        "lose_more_5_pct": 0.423398853490195
-      },
-      {
-        "decile": "10",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 96.95302418705435,
-        "lose_less_5_pct": 2.287254282729668,
-        "lose_more_5_pct": 0.7597215302159703
-      },
-      {
-        "decile": "All",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.51654752024989,
-        "lose_less_5_pct": 2.091141823842642,
-        "lose_more_5_pct": 0.3923106559074742
-      }
-    ],
-    "2027-28": [
-      {
-        "decile": "1",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.37194938063551,
-        "lose_less_5_pct": 2.0554895337344425,
-        "lose_more_5_pct": 0.5725610856300414
-      },
-      {
-        "decile": "2",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.38595735452174,
-        "lose_less_5_pct": 2.387677167589227,
-        "lose_more_5_pct": 0.22636547788903266
-      },
-      {
-        "decile": "3",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 98.015069825518,
-        "lose_less_5_pct": 1.7605425529445324,
-        "lose_more_5_pct": 0.22438762153746608
-      },
-      {
-        "decile": "4",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.68987165306598,
-        "lose_less_5_pct": 1.9856604319522149,
-        "lose_more_5_pct": 0.3244679149818076
-      },
-      {
-        "decile": "5",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.86982664272537,
-        "lose_less_5_pct": 1.828754775309359,
-        "lose_more_5_pct": 0.3014185819652622
-      },
-      {
-        "decile": "6",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.7497466289781,
-        "lose_less_5_pct": 1.8798298921650722,
-        "lose_more_5_pct": 0.37042347885681537
-      },
-      {
-        "decile": "7",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.42136133658367,
-        "lose_less_5_pct": 2.17115877124042,
-        "lose_more_5_pct": 0.40747989217591385
-      },
-      {
-        "decile": "8",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.20195595327421,
-        "lose_less_5_pct": 2.375811687890607,
-        "lose_more_5_pct": 0.4222323588351773
-      },
-      {
-        "decile": "9",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.38010048656734,
-        "lose_less_5_pct": 2.1972244341163063,
-        "lose_more_5_pct": 0.4226750793163527
-      },
-      {
-        "decile": "10",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 96.93924959589539,
-        "lose_less_5_pct": 2.2964992680976892,
-        "lose_more_5_pct": 0.7642511360069191
-      },
-      {
-        "decile": "All",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.50250888577654,
-        "lose_less_5_pct": 2.093864851503987,
-        "lose_more_5_pct": 0.40362626271947877
-      }
-    ],
-    "2028-29": [
-      {
-        "decile": "1",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.36714566004572,
-        "lose_less_5_pct": 2.0510039305258547,
-        "lose_more_5_pct": 0.5818504094284171
-      },
-      {
-        "decile": "2",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.38864757995606,
-        "lose_less_5_pct": 2.38555337533252,
-        "lose_more_5_pct": 0.2257990447114222
-      },
-      {
-        "decile": "3",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.99664673054215,
-        "lose_less_5_pct": 1.7592938940112577,
-        "lose_more_5_pct": 0.24405937544658002
-      },
-      {
-        "decile": "4",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.70174435455046,
-        "lose_less_5_pct": 1.9663035520367405,
-        "lose_more_5_pct": 0.3319520934128036
-      },
-      {
-        "decile": "5",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.83930655042057,
-        "lose_less_5_pct": 1.8364647760766601,
-        "lose_more_5_pct": 0.32422867350276363
-      },
-      {
-        "decile": "6",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.74803457216427,
-        "lose_less_5_pct": 1.8655121645211123,
-        "lose_more_5_pct": 0.38645326331460483
-      },
-      {
-        "decile": "7",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.50077818767977,
-        "lose_less_5_pct": 2.059851352304371,
-        "lose_more_5_pct": 0.43937046001586366
-      },
-      {
-        "decile": "8",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.15283898713058,
-        "lose_less_5_pct": 2.4232881179705,
-        "lose_more_5_pct": 0.4238728948989111
-      },
-      {
-        "decile": "9",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.38917263971955,
-        "lose_less_5_pct": 2.177838530461847,
-        "lose_more_5_pct": 0.4329888298186029
-      },
-      {
-        "decile": "10",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 96.86288341460249,
-        "lose_less_5_pct": 2.3646400873968805,
-        "lose_more_5_pct": 0.7724764980006208
-      },
-      {
-        "decile": "All",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.49471986768116,
-        "lose_less_5_pct": 2.0889749780637743,
-        "lose_more_5_pct": 0.41630515425505904
-      }
-    ],
-    "2029-30": [
-      {
-        "decile": "1",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.36726657793241,
-        "lose_less_5_pct": 2.045434549681022,
-        "lose_more_5_pct": 0.58729887238657
-      },
-      {
-        "decile": "2",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.41473779063787,
-        "lose_less_5_pct": 2.347532598579136,
-        "lose_more_5_pct": 0.23772961078299396
-      },
-      {
-        "decile": "3",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.94450609436055,
-        "lose_less_5_pct": 1.7949535696400607,
-        "lose_more_5_pct": 0.2605403359993931
-      },
-      {
-        "decile": "4",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.75376732392036,
-        "lose_less_5_pct": 1.9065476165834614,
-        "lose_more_5_pct": 0.33968505949617783
-      },
-      {
-        "decile": "5",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.79465545194354,
-        "lose_less_5_pct": 1.864363796121593,
-        "lose_more_5_pct": 0.34098075193487704
-      },
-      {
-        "decile": "6",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.73147451019997,
-        "lose_less_5_pct": 1.8621959183063708,
-        "lose_more_5_pct": 0.4063295714936472
-      },
-      {
-        "decile": "7",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.60013151287048,
-        "lose_less_5_pct": 1.9613685806705354,
-        "lose_more_5_pct": 0.43849990645899095
-      },
-      {
-        "decile": "8",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.03037026519891,
-        "lose_less_5_pct": 2.518139830013646,
-        "lose_more_5_pct": 0.4514899047874462
-      },
-      {
-        "decile": "9",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.36654668453703,
-        "lose_less_5_pct": 2.19680128154181,
-        "lose_more_5_pct": 0.43665203392116186
-      },
-      {
-        "decile": "10",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 96.87149942508894,
-        "lose_less_5_pct": 2.355468294706261,
-        "lose_more_5_pct": 0.7730322802048049
-      },
-      {
-        "decile": "All",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.48749556366901,
-        "lose_less_5_pct": 2.0852806035843896,
-        "lose_more_5_pct": 0.4272238327466063
-      }
-    ],
-    "2030-31": [
-      {
-        "decile": "1",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.39341869459189,
-        "lose_less_5_pct": 2.01771696640501,
-        "lose_more_5_pct": 0.588864339003104
-      },
-      {
-        "decile": "2",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.44180443770838,
-        "lose_less_5_pct": 2.3092173655890944,
-        "lose_more_5_pct": 0.24897819670251484
-      },
-      {
-        "decile": "3",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.92295244754146,
-        "lose_less_5_pct": 1.8118363777098425,
-        "lose_more_5_pct": 0.26521117474869654
-      },
-      {
-        "decile": "4",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.67871501195633,
-        "lose_less_5_pct": 1.956007851062426,
-        "lose_more_5_pct": 0.3652771369812445
-      },
-      {
-        "decile": "5",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.84724771761569,
-        "lose_less_5_pct": 1.7873965430821839,
-        "lose_more_5_pct": 0.36535573930212784
-      },
-      {
-        "decile": "6",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.7883654342409,
-        "lose_less_5_pct": 1.772013843328602,
-        "lose_more_5_pct": 0.4396207224305054
-      },
-      {
-        "decile": "7",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.43306059587749,
-        "lose_less_5_pct": 2.111547374186848,
-        "lose_more_5_pct": 0.45539202993566014
-      },
-      {
-        "decile": "8",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.06628788455414,
-        "lose_less_5_pct": 2.4700793427457506,
-        "lose_more_5_pct": 0.4636327727001004
-      },
-      {
-        "decile": "9",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.3607020438702,
-        "lose_less_5_pct": 2.198807830042703,
-        "lose_more_5_pct": 0.4404901260870863
-      },
-      {
-        "decile": "10",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 96.77874941117526,
-        "lose_less_5_pct": 2.4400008384475513,
-        "lose_more_5_pct": 0.7812497503771929
-      },
-      {
-        "decile": "All",
-        "gain_more_5_pct": 0.0,
-        "gain_less_5_pct": 0.0,
-        "no_change_pct": 97.47113036791318,
-        "lose_less_5_pct": 2.087462433260001,
-        "lose_more_5_pct": 0.4414071988268232
-      }
-    ]
+  "income_change_groups": {
+    "2026-27": {
+      "quintile": [
+        {
+          "group": "Lowest 20%",
+          "avg_change_gbp": -6.795115281911413,
+          "relative_change_pct": -0.04754473262466444
+        },
+        {
+          "group": "20\u201340%",
+          "avg_change_gbp": -10.819057532674531,
+          "relative_change_pct": -0.033585521006676965
+        },
+        {
+          "group": "40\u201360%",
+          "avg_change_gbp": -20.62026966155429,
+          "relative_change_pct": -0.043663962041960845
+        },
+        {
+          "group": "60\u201380%",
+          "avg_change_gbp": -45.34090268467717,
+          "relative_change_pct": -0.07000774636835816
+        },
+        {
+          "group": "Highest 20%",
+          "avg_change_gbp": -3335.1634252028625,
+          "relative_change_pct": -2.769929717957248
+        }
+      ],
+      "quartile": [
+        {
+          "group": "Lowest 25%",
+          "avg_change_gbp": -7.4895527048019215,
+          "relative_change_pct": -0.044569955689414985
+        },
+        {
+          "group": "25\u201350%",
+          "avg_change_gbp": -14.063975170653944,
+          "relative_change_pct": -0.03719335930086992
+        },
+        {
+          "group": "50\u201375%",
+          "avg_change_gbp": -30.84440186070149,
+          "relative_change_pct": -0.05363581294204978
+        },
+        {
+          "group": "Highest 25%",
+          "avg_change_gbp": -2703.96452222994,
+          "relative_change_pct": -2.4269339555060925
+        }
+      ],
+      "household_type": [
+        {
+          "group": "With children",
+          "avg_change_gbp": -610.0683887508281,
+          "relative_change_pct": -0.8048849121669318
+        },
+        {
+          "group": "Pensioner",
+          "avg_change_gbp": -659.2054917252998,
+          "relative_change_pct": -1.5985070048273005
+        },
+        {
+          "group": "Working-age, no children",
+          "avg_change_gbp": -750.4064957699671,
+          "relative_change_pct": -1.4791677914406771
+        }
+      ],
+      "region": [
+        {
+          "group": "North East",
+          "avg_change_gbp": -530.8875360747702,
+          "relative_change_pct": -0.7161323041119976
+        },
+        {
+          "group": "North West",
+          "avg_change_gbp": -798.4693173283122,
+          "relative_change_pct": -1.5246497013441678
+        },
+        {
+          "group": "Yorkshire and the Humber",
+          "avg_change_gbp": -633.505173268477,
+          "relative_change_pct": -1.2739796485913641
+        },
+        {
+          "group": "East Midlands",
+          "avg_change_gbp": -369.96953098088704,
+          "relative_change_pct": -0.6437681230153702
+        },
+        {
+          "group": "West Midlands",
+          "avg_change_gbp": -752.0345392733441,
+          "relative_change_pct": -1.3106846230711233
+        },
+        {
+          "group": "East of England",
+          "avg_change_gbp": -406.95449070739613,
+          "relative_change_pct": -0.6885458996758922
+        },
+        {
+          "group": "London",
+          "avg_change_gbp": -650.9657519093824,
+          "relative_change_pct": -1.136998929501703
+        },
+        {
+          "group": "South East",
+          "avg_change_gbp": -638.8931692943022,
+          "relative_change_pct": -1.1210727304711574
+        },
+        {
+          "group": "South West",
+          "avg_change_gbp": -835.0480328948684,
+          "relative_change_pct": -1.5054573080455445
+        },
+        {
+          "group": "Wales",
+          "avg_change_gbp": -1730.8375135621793,
+          "relative_change_pct": -3.2591553408398224
+        },
+        {
+          "group": "Scotland",
+          "avg_change_gbp": -591.1190712877332,
+          "relative_change_pct": -1.1819568746277787
+        }
+      ]
+    },
+    "2027-28": {
+      "quintile": [
+        {
+          "group": "Lowest 20%",
+          "avg_change_gbp": -7.062815039963381,
+          "relative_change_pct": -0.049220808718049756
+        },
+        {
+          "group": "20\u201340%",
+          "avg_change_gbp": -11.150811188204633,
+          "relative_change_pct": -0.0340940056060583
+        },
+        {
+          "group": "40\u201360%",
+          "avg_change_gbp": -22.759771065326717,
+          "relative_change_pct": -0.04740084127714206
+        },
+        {
+          "group": "60\u201380%",
+          "avg_change_gbp": -47.103512356526245,
+          "relative_change_pct": -0.07141342675424588
+        },
+        {
+          "group": "Highest 20%",
+          "avg_change_gbp": -3475.2812495871835,
+          "relative_change_pct": -2.825880595921983
+        }
+      ],
+      "quartile": [
+        {
+          "group": "Lowest 25%",
+          "avg_change_gbp": -7.711194770740573,
+          "relative_change_pct": -0.04555395154202358
+        },
+        {
+          "group": "25\u201350%",
+          "avg_change_gbp": -15.180916914940367,
+          "relative_change_pct": -0.03952846023248928
+        },
+        {
+          "group": "50\u201375%",
+          "avg_change_gbp": -33.613671443224085,
+          "relative_change_pct": -0.05750847727295831
+        },
+        {
+          "group": "Highest 25%",
+          "avg_change_gbp": -2790.9337682717573,
+          "relative_change_pct": -2.4613251547309853
+        }
+      ],
+      "household_type": [
+        {
+          "group": "With children",
+          "avg_change_gbp": -631.1196410433572,
+          "relative_change_pct": -0.8182172297362565
+        },
+        {
+          "group": "Pensioner",
+          "avg_change_gbp": -681.9516651544776,
+          "relative_change_pct": -1.6292228859785411
+        },
+        {
+          "group": "Working-age, no children",
+          "avg_change_gbp": -776.071150951122,
+          "relative_change_pct": -1.5051453089507723
+        }
+      ],
+      "region": [
+        {
+          "group": "North East",
+          "avg_change_gbp": -549.3962725760465,
+          "relative_change_pct": -0.7277858121018133
+        },
+        {
+          "group": "North West",
+          "avg_change_gbp": -826.7308022104979,
+          "relative_change_pct": -1.5562885778086026
+        },
+        {
+          "group": "Yorkshire and the Humber",
+          "avg_change_gbp": -655.3869911091821,
+          "relative_change_pct": -1.2980883886604342
+        },
+        {
+          "group": "East Midlands",
+          "avg_change_gbp": -383.2648209641608,
+          "relative_change_pct": -0.6559508899295183
+        },
+        {
+          "group": "West Midlands",
+          "avg_change_gbp": -777.7488268943441,
+          "relative_change_pct": -1.3329962709501288
+        },
+        {
+          "group": "East of England",
+          "avg_change_gbp": -421.47049167190585,
+          "relative_change_pct": -0.7014276739431564
+        },
+        {
+          "group": "London",
+          "avg_change_gbp": -673.2000909124295,
+          "relative_change_pct": -1.1553474343216343
+        },
+        {
+          "group": "South East",
+          "avg_change_gbp": -661.2314272741551,
+          "relative_change_pct": -1.1418726322512007
+        },
+        {
+          "group": "South West",
+          "avg_change_gbp": -863.3782322095162,
+          "relative_change_pct": -1.5306241809127812
+        },
+        {
+          "group": "Wales",
+          "avg_change_gbp": -1787.4476482344992,
+          "relative_change_pct": -3.30980787736397
+        },
+        {
+          "group": "Scotland",
+          "avg_change_gbp": -610.7824287500295,
+          "relative_change_pct": -1.2004259016078576
+        }
+      ]
+    },
+    "2028-29": {
+      "quintile": [
+        {
+          "group": "Lowest 20%",
+          "avg_change_gbp": -7.2504856942606555,
+          "relative_change_pct": -0.05018121543995831
+        },
+        {
+          "group": "20\u201340%",
+          "avg_change_gbp": -11.5896584310422,
+          "relative_change_pct": -0.034940325615358314
+        },
+        {
+          "group": "40\u201360%",
+          "avg_change_gbp": -24.44006007385452,
+          "relative_change_pct": -0.05009943797989796
+        },
+        {
+          "group": "60\u201380%",
+          "avg_change_gbp": -49.931442221408545,
+          "relative_change_pct": -0.07447723827743004
+        },
+        {
+          "group": "Highest 20%",
+          "avg_change_gbp": -3588.070307923918,
+          "relative_change_pct": -2.8665955191133192
+        }
+      ],
+      "quartile": [
+        {
+          "group": "Lowest 25%",
+          "avg_change_gbp": -7.868461153410713,
+          "relative_change_pct": -0.046088361513397534
+        },
+        {
+          "group": "25\u201350%",
+          "avg_change_gbp": -16.38704631833189,
+          "relative_change_pct": -0.04208903013981341
+        },
+        {
+          "group": "50\u201375%",
+          "avg_change_gbp": -35.61739966742088,
+          "relative_change_pct": -0.05999716792912132
+        },
+        {
+          "group": "Highest 25%",
+          "avg_change_gbp": -2883.3207989913208,
+          "relative_change_pct": -2.4982307212942976
+        }
+      ],
+      "household_type": [
+        {
+          "group": "With children",
+          "avg_change_gbp": -652.0036881068972,
+          "relative_change_pct": -0.8322390100455238
+        },
+        {
+          "group": "Pensioner",
+          "avg_change_gbp": -704.8515098723582,
+          "relative_change_pct": -1.6572260531173868
+        },
+        {
+          "group": "Working-age, no children",
+          "avg_change_gbp": -801.4126470691297,
+          "relative_change_pct": -1.5291664593767298
+        }
+      ],
+      "region": [
+        {
+          "group": "North East",
+          "avg_change_gbp": -568.2429767582317,
+          "relative_change_pct": -0.7406500421672197
+        },
+        {
+          "group": "North West",
+          "avg_change_gbp": -853.7842512111088,
+          "relative_change_pct": -1.5844570933507043
+        },
+        {
+          "group": "Yorkshire and the Humber",
+          "avg_change_gbp": -677.583154379325,
+          "relative_change_pct": -1.3223223902503383
+        },
+        {
+          "group": "East Midlands",
+          "avg_change_gbp": -396.4657733349105,
+          "relative_change_pct": -0.6686979068535422
+        },
+        {
+          "group": "West Midlands",
+          "avg_change_gbp": -803.6385075854203,
+          "relative_change_pct": -1.3565976299052203
+        },
+        {
+          "group": "East of England",
+          "avg_change_gbp": -436.3662426901051,
+          "relative_change_pct": -0.7148373263933044
+        },
+        {
+          "group": "London",
+          "avg_change_gbp": -695.4235918673046,
+          "relative_change_pct": -1.173112197960132
+        },
+        {
+          "group": "South East",
+          "avg_change_gbp": -683.1998628110794,
+          "relative_change_pct": -1.1609342803187976
+        },
+        {
+          "group": "South West",
+          "avg_change_gbp": -891.3244848178729,
+          "relative_change_pct": -1.5549854291871044
+        },
+        {
+          "group": "Wales",
+          "avg_change_gbp": -1843.7405328114103,
+          "relative_change_pct": -3.355610070021017
+        },
+        {
+          "group": "Scotland",
+          "avg_change_gbp": -630.2868466595639,
+          "relative_change_pct": -1.2172771102576636
+        }
+      ]
+    },
+    "2029-30": {
+      "quintile": [
+        {
+          "group": "Lowest 20%",
+          "avg_change_gbp": -7.496452927629594,
+          "relative_change_pct": -0.05140255032280697
+        },
+        {
+          "group": "20\u201340%",
+          "avg_change_gbp": -12.010208340373588,
+          "relative_change_pct": -0.03572865569414061
+        },
+        {
+          "group": "40\u201360%",
+          "avg_change_gbp": -26.110732516238414,
+          "relative_change_pct": -0.05282348332932736
+        },
+        {
+          "group": "60\u201380%",
+          "avg_change_gbp": -52.631121318219726,
+          "relative_change_pct": -0.07734522183689757
+        },
+        {
+          "group": "Highest 20%",
+          "avg_change_gbp": -3697.8187188678344,
+          "relative_change_pct": -2.9035831186414676
+        }
+      ],
+      "quartile": [
+        {
+          "group": "Lowest 25%",
+          "avg_change_gbp": -8.060555741931411,
+          "relative_change_pct": -0.04670098836614352
+        },
+        {
+          "group": "25\u201350%",
+          "avg_change_gbp": -17.413197517824333,
+          "relative_change_pct": -0.044068364308568024
+        },
+        {
+          "group": "50\u201375%",
+          "avg_change_gbp": -37.64830337063919,
+          "relative_change_pct": -0.06240304244906513
+        },
+        {
+          "group": "Highest 25%",
+          "avg_change_gbp": -2973.786863897084,
+          "relative_change_pct": -2.5323917503976676
+        }
+      ],
+      "household_type": [
+        {
+          "group": "With children",
+          "avg_change_gbp": -672.5413194106138,
+          "relative_change_pct": -0.8455158850899569
+        },
+        {
+          "group": "Pensioner",
+          "avg_change_gbp": -727.376558495295,
+          "relative_change_pct": -1.6822673518493672
+        },
+        {
+          "group": "Working-age, no children",
+          "avg_change_gbp": -826.4315924415491,
+          "relative_change_pct": -1.5517999333570833
+        }
+      ],
+      "region": [
+        {
+          "group": "North East",
+          "avg_change_gbp": -586.4915260093383,
+          "relative_change_pct": -0.751949950836807
+        },
+        {
+          "group": "North West",
+          "avg_change_gbp": -880.2735395548865,
+          "relative_change_pct": -1.6111267408232965
+        },
+        {
+          "group": "Yorkshire and the Humber",
+          "avg_change_gbp": -699.2472219904339,
+          "relative_change_pct": -1.3438973172484598
+        },
+        {
+          "group": "East Midlands",
+          "avg_change_gbp": -410.2323134995866,
+          "relative_change_pct": -0.6810362849422402
+        },
+        {
+          "group": "West Midlands",
+          "avg_change_gbp": -829.1471138486752,
+          "relative_change_pct": -1.3788877581813244
+        },
+        {
+          "group": "East of England",
+          "avg_change_gbp": -450.7055404617297,
+          "relative_change_pct": -0.7271427865649837
+        },
+        {
+          "group": "London",
+          "avg_change_gbp": -717.4195324239247,
+          "relative_change_pct": -1.1890938925299857
+        },
+        {
+          "group": "South East",
+          "avg_change_gbp": -704.8603242281903,
+          "relative_change_pct": -1.1792367194381228
+        },
+        {
+          "group": "South West",
+          "avg_change_gbp": -919.0950419376325,
+          "relative_change_pct": -1.578642298419987
+        },
+        {
+          "group": "Wales",
+          "avg_change_gbp": -1898.9112171043942,
+          "relative_change_pct": -3.4015458380952843
+        },
+        {
+          "group": "Scotland",
+          "avg_change_gbp": -649.5092553258113,
+          "relative_change_pct": -1.2340847454268542
+        }
+      ]
+    },
+    "2030-31": {
+      "quintile": [
+        {
+          "group": "Lowest 20%",
+          "avg_change_gbp": -7.356078882564177,
+          "relative_change_pct": -0.05022298296334352
+        },
+        {
+          "group": "20\u201340%",
+          "avg_change_gbp": -12.301766335139304,
+          "relative_change_pct": -0.03632976364416915
+        },
+        {
+          "group": "40\u201360%",
+          "avg_change_gbp": -28.743070943261042,
+          "relative_change_pct": -0.057250575070975876
+        },
+        {
+          "group": "60\u201380%",
+          "avg_change_gbp": -55.946185819644896,
+          "relative_change_pct": -0.08079242552777532
+        },
+        {
+          "group": "Highest 20%",
+          "avg_change_gbp": -3816.027794405249,
+          "relative_change_pct": -2.938545689961764
+        }
+      ],
+      "quartile": [
+        {
+          "group": "Lowest 25%",
+          "avg_change_gbp": -8.089237480797784,
+          "relative_change_pct": -0.04667382916451213
+        },
+        {
+          "group": "25\u201350%",
+          "avg_change_gbp": -18.34243939013567,
+          "relative_change_pct": -0.04595378843103267
+        },
+        {
+          "group": "50\u201375%",
+          "avg_change_gbp": -40.445956505596996,
+          "relative_change_pct": -0.0659603524115899
+        },
+        {
+          "group": "Highest 25%",
+          "avg_change_gbp": -3068.458380054621,
+          "relative_change_pct": -2.5636659909251613
+        }
+      ],
+      "household_type": [
+        {
+          "group": "With children",
+          "avg_change_gbp": -695.7145324820485,
+          "relative_change_pct": -0.8610640541497354
+        },
+        {
+          "group": "Pensioner",
+          "avg_change_gbp": -752.017416243488,
+          "relative_change_pct": -1.7118456680556329
+        },
+        {
+          "group": "Working-age, no children",
+          "avg_change_gbp": -853.8683761059484,
+          "relative_change_pct": -1.5777711262802878
+        }
+      ],
+      "region": [
+        {
+          "group": "North East",
+          "avg_change_gbp": -606.9249888344557,
+          "relative_change_pct": -0.7634131833755953
+        },
+        {
+          "group": "North West",
+          "avg_change_gbp": -909.7284258506442,
+          "relative_change_pct": -1.643634985142204
+        },
+        {
+          "group": "Yorkshire and the Humber",
+          "avg_change_gbp": -722.707393269026,
+          "relative_change_pct": -1.3692799360821264
+        },
+        {
+          "group": "East Midlands",
+          "avg_change_gbp": -425.0022254845643,
+          "relative_change_pct": -0.6941926720961497
+        },
+        {
+          "group": "West Midlands",
+          "avg_change_gbp": -857.2679839348265,
+          "relative_change_pct": -1.4036934029157206
+        },
+        {
+          "group": "East of England",
+          "avg_change_gbp": -466.3913339171054,
+          "relative_change_pct": -0.7402478853947762
+        },
+        {
+          "group": "London",
+          "avg_change_gbp": -741.5499496671347,
+          "relative_change_pct": -1.209560234182548
+        },
+        {
+          "group": "South East",
+          "avg_change_gbp": -728.5635973717759,
+          "relative_change_pct": -1.198555891619218
+        },
+        {
+          "group": "South West",
+          "avg_change_gbp": -951.2708254003951,
+          "relative_change_pct": -1.6090437997274865
+        },
+        {
+          "group": "Wales",
+          "avg_change_gbp": -1959.3200138259913,
+          "relative_change_pct": -3.454340253011479
+        },
+        {
+          "group": "Scotland",
+          "avg_change_gbp": -670.7092446569047,
+          "relative_change_pct": -1.2529702468186945
+        }
+      ]
+    }
   },
   "sensitivity": [
     {

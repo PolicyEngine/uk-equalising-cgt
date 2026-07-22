@@ -95,9 +95,10 @@ export default function MethodologyTab({ data }) {
             >
               policyengine.py
             </a>
-            , PolicyEngine&apos;s standard simulation wrapper: budget, decile
-            and winners/losers outputs use the wrapper&apos;s standard
-            computations with weighted microdf aggregates.
+            , PolicyEngine&apos;s standard simulation wrapper: budget and
+            distributional outputs (income quintiles/quartiles, household
+            type and region) are weighted microdf aggregates over the
+            simulation outputs.
           </li>
           <li>
             <strong>Behavioural response.</strong> Applied through a policy
