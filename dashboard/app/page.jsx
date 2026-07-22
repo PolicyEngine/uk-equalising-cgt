@@ -149,8 +149,8 @@ function Dashboard() {
             >
               PolicyEngine/uk-equalising-cgt
             </a>
-            {data?.metadata?.policyengine_uk_version
-              ? `, run on policyengine ${data.metadata.policyengine_version ?? ""} and policyengine-uk ${data.metadata.policyengine_uk_version}`
+            {data?.metadata?.policyengine_version
+              ? `, run on policyengine.py ${data.metadata.policyengine_version}`
               : ""}
             .
           </p>

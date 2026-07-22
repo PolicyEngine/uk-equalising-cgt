@@ -54,6 +54,25 @@ function Toggle({ options, value, onChange }) {
   );
 }
 
+function LabelledSelect({ label, options, value, onChange }) {
+  return (
+    <label className="inline-flex items-center gap-2 text-sm text-slate-600">
+      {label}
+      <select
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className="rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-800"
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
 function YearSelect({ years, value, onChange }) {
   return (
     <label className="inline-flex items-center gap-2 text-sm text-slate-600">
@@ -151,6 +170,13 @@ export default function ReformTab({ data }) {
   const firstYearRow = budget[0];
   const topQuintile = headlineGroups.quintile[headlineGroups.quintile.length - 1];
   const isRelative = groupMetric === "relative";
+  const metricSortKey = groupMetric === "relative" ? "relative_change_pct" : "avg_change_gbp";
+  // Regions are ordered by impact (largest loss first); the quantile and
+  // household-type groupings keep their natural order.
+  const chartData =
+    grouping === "region"
+      ? [...groups.region].sort((a, b) => a[metricSortKey] - b[metricSortKey])
+      : groups[grouping];
   const metricKey = isRelative ? "relative_change_pct" : "avg_change_gbp";
   const metricName = isRelative
     ? "Relative net income change"
@@ -330,31 +356,31 @@ export default function ReformTab({ data }) {
         />
         <div className="mb-3 flex flex-wrap items-center gap-4">
           <YearSelect years={years} value={groupYear} onChange={setGroupYear} />
-          <Toggle
+          <LabelledSelect
+            label="Group by"
             options={[
-              { value: "quintile", label: "Quintiles" },
-              { value: "quartile", label: "Quartiles" },
+              { value: "quintile", label: "Income quintiles" },
+              { value: "quartile", label: "Income quartiles" },
               { value: "household_type", label: "Household type" },
               { value: "region", label: "Region" },
             ]}
             value={grouping}
             onChange={setGrouping}
           />
-          <div className="ml-auto">
-            <Toggle
-              options={[
-                { value: "absolute", label: "Average £ per household" },
-                { value: "relative", label: "Relative (%)" },
-              ]}
-              value={groupMetric}
-              onChange={setGroupMetric}
-            />
-          </div>
+          <LabelledSelect
+            label="Metric"
+            options={[
+              { value: "absolute", label: "Average £ per household" },
+              { value: "relative", label: "Relative (%)" },
+            ]}
+            value={groupMetric}
+            onChange={setGroupMetric}
+          />
         </div>
         <div className="h-[420px] w-full">
           <ResponsiveContainer>
             <BarChart
-              data={groups[grouping]}
+              data={chartData}
               layout={grouping === "region" ? "vertical" : "horizontal"}
               margin={{ top: 10, right: 20, bottom: 15, left: grouping === "region" ? 30 : 10 }}
             >
