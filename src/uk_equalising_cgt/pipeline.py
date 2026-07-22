@@ -7,11 +7,12 @@ outputs. The pipeline asserts that the behavioural CGT elasticity actually
 fires (the static e=0 and central e=-0.7 reform runs must differ
 materially) before writing any results.
 
-The stock Enhanced FRS weights badly overshoot HMRC's CGT aggregates, so a
-probe baseline run on the stock 2026 dataset feeds populace-calibrate
-(:mod:`.calibration`), and the resulting household weight ratio is written
-back as a **reweighted input dataset** (``calibrated_frs_year_YYYY.h5``)
-that every scored simulation then runs on.
+Simulations run directly on the Enhanced FRS dataset as published by
+policyengine-uk-data, with no local reweighting: all calibration and
+weighting belongs upstream in policyengine-uk-data, not in an analysis
+repo. The published gains imputation spreads capital gains more widely
+than HMRC records, so the distributional breadth should be read as an
+upper bound (see the dashboard methodology and benchmarks tabs).
 """
 
 from __future__ import annotations
@@ -21,14 +22,6 @@ import importlib.metadata
 import json
 from pathlib import Path
 
-from .calibration import (
-    CAL_YEAR,
-    GAINS_TARGET,
-    MAX_TARGET_RELATIVE_ERROR,
-    PAYERS_TARGET,
-    calibrate_baseline,
-    write_calibrated_datasets,
-)
 from .comparison import SENSITIVITY_CASES, comparison_rows
 from .impacts import (
     budget_impact,
@@ -46,32 +39,17 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_PATH = REPO_ROOT / "data" / "cgt_equalisation_results.json"
 DATASET_FOLDER = REPO_ROOT / "data" / "policyengine_datasets"
 
+# Simulation ids double as output-cache filenames (`<id>.h5` beside the
+# per-year dataset files), so they must be keyed by dataset vintage —
+# otherwise a dataset upgrade silently reuses stale cached outputs.
+DATASET_STEM = Path(DATASET.rsplit("@", 1)[0]).stem
+
 
 def run(output_path: Path = OUTPUT_PATH) -> dict:
     """Run the pipeline end-to-end and write the results JSON."""
-    # ── Step 1: certified per-year datasets (stock Enhanced FRS weights) ──
+    # ── Step 1: certified per-year datasets, as published upstream ───────
     print(f"Step 1: Ensuring {DATASET} datasets for {YEARS}...")
-    stock_datasets = ensure_uk_datasets(YEARS, DATASET_FOLDER)
-
-    # ── Step 1b: calibrate household weights to HMRC/OBR CGT aggregates ───
-    # A throwaway probe baseline on the stock dataset supplies the
-    # calibration inputs; the calibrated ratio (computed once on CAL_YEAR)
-    # is written back as a reweighted input dataset for every year.
-    print(f"Step 1b: Calibrating household weights on {CAL_YEAR}...")
-    probe = run_simulation(stock_datasets[CAL_YEAR], sim_id=f"probe_baseline_{CAL_YEAR}")
-    cal = calibrate_baseline(probe)
-    for d in cal.diagnostics:
-        print(
-            f"    {d['name']:<22} target {d['target']:>16,.0f} "
-            f"final {d['final']:>16,.0f}  rel err {d['relative_error']:+.4%}"
-        )
-    print(f"    ESS {cal.ess_before:,.0f} -> {cal.ess_after:,.0f}")
-    assert cal.worst_relative_error <= MAX_TARGET_RELATIVE_ERROR, (
-        "populace-calibrate missed the HMRC/OBR CGT targets by more than 1% "
-        f"(worst {cal.worst_relative_error:.2%}; targets £{GAINS_TARGET / 1e9:.0f}bn "
-        f"gains and {PAYERS_TARGET:,} taxpayers). Refusing to write results."
-    )
-    datasets = write_calibrated_datasets(stock_datasets, cal.weight_ratio, DATASET_FOLDER)
+    datasets = ensure_uk_datasets(YEARS, DATASET_FOLDER)
 
     # ── Step 2: baseline and reformed simulations, one per year ───────────
     print("Step 2: Running baseline and reformed simulations...")
@@ -79,9 +57,11 @@ def run(output_path: Path = OUTPUT_PATH) -> dict:
     baseline_sims, reform_sims = {}, {}
     for year in YEARS:
         print(f"    {fiscal_year_label(year)}...")
-        baseline_sims[year] = run_simulation(datasets[year], sim_id=f"baseline_{year}_cal")
+        baseline_sims[year] = run_simulation(
+            datasets[year], sim_id=f"{DATASET_STEM}_baseline_{year}"
+        )
         reform_sims[year] = run_simulation(
-            datasets[year], policy=reform_policy, sim_id=f"burnham_e07_{year}_cal"
+            datasets[year], policy=reform_policy, sim_id=f"{DATASET_STEM}_burnham_e07_{year}"
         )
 
     # ── Step 3: elasticity sensitivity (2026), which doubles as the check
@@ -96,7 +76,7 @@ def run(output_path: Path = OUTPUT_PATH) -> dict:
         return run_simulation(
             datasets[2026],
             policy=make_policy(burnham_reform(e), tag),
-            sim_id=f"{tag}_2026_cal",
+            sim_id=f"{DATASET_STEM}_{tag}_2026",
         )
 
     sens = sensitivity(base_cgt_2026, SENSITIVITY_CASES, run_case)
@@ -110,8 +90,8 @@ def run(output_path: Path = OUTPUT_PATH) -> dict:
         f"{central_2026:.2f}bn. Refusing to write results."
     )
 
-    # ── Step 4: baseline validation (native microdf, calibrated weights) ──
-    print("Step 4: Validating the calibrated baseline against HMRC/Advani...")
+    # ── Step 4: baseline validation (native microdf, published weights) ──
+    print("Step 4: Validating the published baseline against HMRC/Advani...")
     validation = validation_stats(baseline_sims[2026])
     print(
         f"    {validation['cgt_taxpayers'] / 1e6:,.2f}m CGT taxpayers, "
@@ -148,13 +128,18 @@ def run(output_path: Path = OUTPUT_PATH) -> dict:
             "policyengine_version": importlib.metadata.version("policyengine"),
             "policyengine_uk_version": importlib.metadata.version("policyengine-uk"),
             "dataset": DATASET,
-            "calibrated": True,
+            "calibrated": False,
             "reform_period_start": PERIOD,
             "elasticity": ELASTICITY,
             "reform": dict(BURNHAM_RATES),
             "years": list(YEARS),
         },
-        "calibration": cal.as_json(),
+        "calibration": {
+            "targets": [],
+            "ess_before": None,
+            "ess_after": None,
+            "note": ("No local reweighting; calibration is upstream in policyengine-uk-data."),
+        },
         "validation": validation,
         "budget": budget,
         "decile_impact": deciles,

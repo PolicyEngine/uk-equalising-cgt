@@ -117,14 +117,6 @@ const ELASTICITY_SOURCES = {
     label: "Advani, Lonsdale & Summers (2024), CenTax",
     url: "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=38",
   },
-  "CenTax upper (retention e=2.0)": {
-    label: "Advani, Lonsdale & Summers (2024), CenTax",
-    url: "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=38",
-  },
-  "HMRC ready-reckoner-like": {
-    label: "HMRC, Direct effects of illustrative tax changes",
-    url: "https://www.gov.uk/government/statistics/direct-effects-of-illustrative-tax-changes",
-  },
 };
 
 function SourceLink({ name }) {

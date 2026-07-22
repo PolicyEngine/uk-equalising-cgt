@@ -26,11 +26,7 @@ export function getDecileImpact(data, year) {
 }
 
 export function getWinnersLosers(data, year) {
-  const wl = data.winners_losers;
-  if (Array.isArray(wl)) {
-    return wl; // legacy single-year output
-  }
-  return wl[year] ?? wl[Object.keys(wl)[0]];
+  return data.winners_losers[year];
 }
 
 export function getYearLabels(data) {

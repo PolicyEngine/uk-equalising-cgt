@@ -2,8 +2,9 @@
 
 Models raising UK CGT rates to income tax rates (basic 18->20%, higher
 24->40%, additional 24->45%) from 2026-27, over fiscal years 2026-27 to
-2030-31, via the policyengine.py wrapper (Enhanced FRS 2023-24 weights
-recalibrated to HMRC/OBR capital gains aggregates) with an Advani/CenTax-aligned behavioural response.
+2030-31, via the policyengine.py wrapper (Enhanced FRS 2024-25 as published by
+policyengine-uk-data, with no local reweighting) and an
+Advani/CenTax-aligned behavioural response.
 """
 
 from .reform import BURNHAM_RATES, ELASTICITY, YEARS, burnham_reform, retention_to_mtr_elasticity

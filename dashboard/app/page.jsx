@@ -102,9 +102,10 @@ function Dashboard() {
             <TabLink onSelect={() => handleTabChange("baseline")}>
               Baseline
             </TabLink>{" "}
-            validates the baseline against HMRC, and{" "}
+            validates the baseline against HMRC and compares other institutions&apos;
+            costings, and{" "}
             <TabLink onSelect={() => handleTabChange("methodology")}>Methodology</TabLink>{" "}
-            explains the method and compares other institutions&apos; costings.
+            explains the method.
           </p>
         </div>
 
@@ -150,7 +151,7 @@ function Dashboard() {
               PolicyEngine/uk-equalising-cgt
             </a>
             {data?.metadata?.policyengine_uk_version
-              ? `, run on policyengine ${data.metadata.policyengine_version ?? ""}`
+              ? `, run on policyengine ${data.metadata.policyengine_version ?? ""} and policyengine-uk ${data.metadata.policyengine_uk_version}`
               : ""}
             .
           </p>

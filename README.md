@@ -6,9 +6,9 @@ Labour leadership contest, associated with Andy Burnham and backed by allies
 including Louise Haigh and Wes Streeting — using the standard
 [policyengine.py](https://github.com/PolicyEngine/policyengine.py) stack
 (the `policyengine` package wrapping the PolicyEngine UK model) on the
-Enhanced FRS 2023-24 dataset, reweighted to HMRC/OBR capital gains
-aggregates with
-[populace-calibrate](https://github.com/PolicyEngine/populace).
+Enhanced FRS 2024-25 dataset exactly as published by
+[policyengine-uk-data](https://github.com/PolicyEngine/policyengine-uk-data),
+with no local reweighting.
 
 **Note on decile impacts vs revenue:** household net-income losses in the decile
 tables include both the extra tax paid and the gains taxpayers choose not to
@@ -31,11 +31,11 @@ Annual exempt amount unchanged at £3,000. Fiscal years 2026-27 through
 
 ### The policyengine.py pathway
 
-- `pe.uk.ensure_datasets(datasets=["enhanced_frs_2023_24"], years=[2026..2030])`
+- `pe.uk.ensure_datasets(datasets=["hf://policyengine/policyengine-uk-data/enhanced_frs_2024_25.h5"], years=[2026..2030])`
   materialises one certified per-year dataset file per simulated year.
-- Those stock weights are then **recalibrated** (see below) and written back
-  as a reweighted input dataset, `calibrated_frs_year_YYYY.h5`, which every
-  scored simulation runs on.
+- Simulations run on those files **unmodified**. All calibration and
+  weighting belongs upstream in `policyengine-uk-data`, not in an analysis
+  repo, so this pipeline does no local reweighting.
 - Each (scenario, year) pair is one `policyengine.Simulation`, with
   deterministic ids so policyengine.py's output-dataset cache skips
   completed runs.
@@ -51,47 +51,36 @@ Annual exempt amount unchanged at £3,000. Fiscal years 2026-27 through
   (`MicroSeries.sum/mean/median/count`, weighted `groupby`) — no manual
   weight arithmetic.
 
-### Weight calibration (load-bearing)
+### Data caveat: the gains imputation is too broad (load-bearing)
 
-The stock Enhanced FRS baseline overshoots CGT badly relative to HMRC
-outturn — far more taxable gains across ~1.3m taxpayers in 2026, versus
-HMRC's £65.9bn across 378k in 2023-24 — leaving baseline CGT revenue well
-above the OBR's £16-21bn forecast. The Advani & Summers-based gains
-imputation is aggregate-unconstrained, and the OBR CGT calibration target is
-silently dropped in `policyengine-uk-data` (the EFO parser reads sheet 3.9;
-the CGT row moved to 3.8).
+The Enhanced FRS gains imputation is aggregate-unconstrained, and the OBR
+CGT calibration target is silently dropped in `policyengine-uk-data` (the
+EFO parser reads sheet 3.9; the CGT row moved to 3.8). As a result the
+published data spreads capital gains far more widely than HMRC records:
+roughly 1.1-1.3m CGT taxpayers in 2026 against HMRC's 378,000 in 2023-24,
+with a mean gain well below HMRC's ~£174,000, and no one with a very large
+gain (the Pareto tail is missing).
 
-`src/uk_equalising_cgt/calibration.py` fixes this with populace-calibrate.
-A throwaway **probe** baseline simulation on the stock 2026 dataset supplies
-the inputs (read from its output dataset — nothing here builds a
-`policyengine_uk.Microsimulation` by hand). Targets for 2026:
+Consequences, stated plainly:
 
-| Target | Value | Source |
-|---|---|---|
-| Total capital gains | £70bn | OBR-consistent uprated HMRC |
-| CGT taxpayer count | 400,000 | HMRC, persons with gains > £3,000 AEA |
-| Income tax, household net income, population, household count | baseline | HOLD |
+- Because the number of people holding gains is overstated, the **share of
+  people affected by the reform is overstated by roughly the same factor**.
+  The winners/losers and decile figures are upper bounds on breadth, not
+  point estimates.
+- **Revenue totals are less affected** than the distributional breakdown,
+  since revenue is driven by the gains total and the rate change rather
+  than by headcount.
+- The missing top tail understates static yield and the top-end
+  behavioural response.
 
-Calibration runs with `weight_entity="household"`, `seed=0`, `epochs=500`,
-`learning_rate=0.01`, `mass="free"`, `max_weight_ratio=5.0`. `mass="free"`
-is deliberate: `mass="conserve"` diverges on these heavy-tailed weights, and
-the explicit household-count target is what makes free mass safe.
+The `validation` block of the output JSON reports the measured baseline
+statistics, and the dashboard's benchmarks table shows them against HMRC
+outturn, so the gap is disclosed rather than hidden.
 
-The resulting household weight **ratio is computed once on 2026 and applied
-to every year 2026-2030**. Applying it means copying each per-year certified
-dataset, overwriting `household_weight` and recomputing the derived
-`person_weight` / `benunit_weight` from it, and saving as
-`calibrated_frs_year_YYYY.h5`; simulation ids carry a `_cal` suffix so no
-stock-weight cache entry is reused. The pipeline refuses to write results if
-either HMRC/OBR target is missed by more than 1%, and the `calibration`
-block of the output JSON reports every target's final estimate, relative
-error, and the effective sample size before and after.
-
-Aggregates align; the extreme tail does not. The FRS-based imputation
-contains no one with very large gains, so no reweighting can reproduce the
-HMRC/Advani top tail. Static reform yield is therefore somewhat understated,
-as is the top-end behavioural response. The `validation` block reports these
-baseline statistics so results can be read against that caveat.
+Upstream fixes are in progress — `policyengine-uk-data` PR #440 (adding
+HMRC CGT targets) and PR #443 (restoring the missing Pareto tail in the
+gains imputation). This analysis will improve automatically once they land
+in a published release.
 
 ### Behavioural response (aligned with Arun Advani / CenTax)
 
@@ -125,8 +114,8 @@ longer needed. The pipeline asserts that the static (e=0) and central
 ### Outputs
 
 `data/cgt_equalisation_results.json`: metadata (wrapper and model
-versions), the `calibration` diagnostics (per-target value, final estimate
-and relative error, plus ESS before/after), baseline validation vs HMRC/Advani, budget impact by year, decile
+versions), an explicitly empty `calibration` block (no local reweighting),
+baseline validation vs HMRC/Advani, budget impact by year, decile
 impacts, winners/losers bands, the elasticity sensitivity, and a comparison
 with CenTax (£14.0bn central / £9.6bn worst-case), Advani & Summers 2020
 static (£16.7bn), the HMRC ready reckoner (−£2bn) and the OBR baseline

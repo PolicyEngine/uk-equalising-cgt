@@ -3,29 +3,27 @@
 import {
   formatBn,
   formatCount,
-  formatCurrency,
-  formatPct,
   formatSignedBn,
 } from "../lib/formatters";
-import { getCalibration, getComparison, getValidation } from "../lib/dataHelpers";
+import { getComparison, getValidation } from "../lib/dataHelpers";
 import SectionHeading from "./SectionHeading";
 
 // External benchmarks the baseline is validated against. These
 // are published HMRC/Advani figures, not model outputs, so they live here
 // rather than in the pipeline JSON.
 const BENCHMARKS = {
-  taxpayers: { value: "~378k", source: "HMRC CGT statistics", url: "https://www.gov.uk/government/statistics/capital-gains-tax-statistics" },
-  totalGains: { value: "~£66bn (2023-24)", source: "HMRC CGT statistics", url: "https://www.gov.uk/government/statistics/capital-gains-tax-statistics" },
-  meanGain: { value: "~£174,000", source: "Implied by HMRC aggregates", url: "https://www.gov.uk/government/statistics/capital-gains-tax-statistics" },
-  medianGain: { value: "~£25,000", source: "Advani & Summers (2020)", url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/" },
-  shareOver1m: { value: "~60%", source: "Advani & Summers (2020)", url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/" },
-  shareOver5m: { value: "~40%", source: "Advani & Summers (2020)", url: "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/publications/workingpapers/2020/capital_gains_and_uk_inequality/" },
-  staticEqualisation: {
-    value: "£16.7bn",
-    source: "Advani & Summers, static, GDP-uprated",
-    url: "https://arunadvani.com/taxreform.html",
-  },
-  baselineRevenue: { value: "£20.3bn (2025-26)", source: "OBR forecast", url: "https://obr.uk/forecasts-in-depth/tax-by-tax-spend-by-spend/capital-gains-tax/" },
+  // Figures below are from HMRC's Capital Gains Tax statistics, 2023-24
+  // (provisional). The aggregate £65.9bn is stated in the published
+  // commentary; the band figures are from Table 2.1a (sheet 2_1a_2023-24 of
+  // the size-of-gain ODS, linked directly). Shares are ratios within that
+  // table: gains of £1m+ = £38.3bn and £5m+ = £22.7bn of the £62.9bn table
+  // total (the published aggregate differs slightly through rounding).
+  totalGains: { value: "£66bn", source: "HMRC CGT statistics commentary", url: "https://www.gov.uk/government/statistics/capital-gains-tax-statistics/capital-gains-tax-commentary" },
+  shareOver1m: { value: "61%", source: "HMRC CGT statistics, Table 2.1a (ODS, sheet 2_1a_2023-24)", url: "https://assets.publishing.service.gov.uk/media/6878ac562bad77c3dae4dcef/Table_2_2025_Size_of_gain.ods" },
+  shareOver5m: { value: "36%", source: "HMRC CGT statistics, Table 2.1a (ODS, sheet 2_1a_2023-24)", url: "https://assets.publishing.service.gov.uk/media/6878ac562bad77c3dae4dcef/Table_2_2025_Size_of_gain.ods" },
+  taxpayersOver500k: { value: "18k", source: "HMRC CGT statistics, Table 2.1a (ODS, sheet 2_1a_2023-24)", url: "https://assets.publishing.service.gov.uk/media/6878ac562bad77c3dae4dcef/Table_2_2025_Size_of_gain.ods" },
+  gainsOver500k: { value: "£44bn", source: "HMRC CGT statistics, Table 2.1a (ODS, sheet 2_1a_2023-24)", url: "https://assets.publishing.service.gov.uk/media/6878ac562bad77c3dae4dcef/Table_2_2025_Size_of_gain.ods" },
+  gainsOver5m: { value: "£22.7bn", source: "HMRC CGT statistics, Table 2.1a (ODS, sheet 2_1a_2023-24)", url: "https://assets.publishing.service.gov.uk/media/6878ac562bad77c3dae4dcef/Table_2_2025_Size_of_gain.ods" },
 };
 
 function BenchmarkCell({ benchmark }) {
@@ -44,25 +42,6 @@ function BenchmarkCell({ benchmark }) {
   );
 }
 
-// Human labels and formats for the pipeline's raw calibration target names.
-const TARGET_LABELS = {
-  total_capital_gains: { label: "Total taxable capital gains", money: true },
-  cgt_taxpayer_count: { label: "CGT taxpayer count", money: false },
-  income_tax_total: { label: "Income tax (held)", money: true },
-  net_income_total: { label: "Household net income (held)", money: true },
-  population: { label: "Population (held)", money: false },
-  households: { label: "Households (held)", money: false },
-};
-
-function targetMeta(name) {
-  const key = name.replace(/@\d+$/, "");
-  return TARGET_LABELS[key] ?? { label: key.replace(/_/g, " "), money: false };
-}
-
-function formatTarget(value, money) {
-  return money ? formatBn(value / 1e9) : formatCount(value);
-}
-
 const COMPARISON_LINKS = {
   "CenTax central": "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=5",
   "CenTax worst-case": "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=39",
@@ -78,11 +57,8 @@ function comparisonLink(source) {
 }
 
 export default function BaselineTab({ data }) {
-  const calibration = getCalibration(data);
   const validation = getValidation(data);
   const comparison = getComparison(data);
-  const staticRow = comparison.find((row) => row.source.includes("static"));
-  const centralRow = comparison.find((row) => row.source.includes("2026-27"));
 
   return (
     <div className="space-y-6">
@@ -90,54 +66,94 @@ export default function BaselineTab({ data }) {
         <SectionHeading
           size="lg"
           title="Baseline estimation"
-          description="The Family Resources Survey barely captures capital gains, so PolicyEngine's Enhanced FRS imputes them from HMRC administrative data. Left as imputed, that baseline has roughly three times as many CGT taxpayers as HMRC records, so household weights are recalibrated with populace to hit HMRC's taxpayer count and total gains while holding income tax, net income, population and household counts fixed. policyengine.py then simulates the reform on the reweighted dataset."
+          description="The Family Resources Survey barely captures capital gains, so PolicyEngine's Enhanced FRS imputes them from HMRC administrative data and calibrates household weights to HMRC's CGT aggregates and size-of-gain distribution. This analysis uses that dataset exactly as published by policyengine-uk-data, with no local reweighting: calibration belongs upstream in the data, not in an analysis repository. The table below shows the fit: total gains and their concentration at the top track HMRC closely, while the modelled taxpayer count (about 600k) still runs above HMRC's 378,000 — so read the share of people affected by the reform as a modest upper bound on breadth."
         />
       </div>
 
       <section className="section-card">
         <SectionHeading
           title="Model versus external benchmarks"
-          description="PolicyEngine's baseline and reform estimates alongside the closest official or academic number. Rows are limited to quantities this model can compute directly."
+          description="PolicyEngine's baseline for the first simulated year, 2026-27, alongside HMRC's most recent published statistics — the 2023-24 tax year (July 2025 release; the 2024-25 statistics are due around August 2026). The vintages differ by design: the dataset uprates 2023-24 administrative gains to the simulated years."
         />
         <table className="data-table">
           <thead>
             <tr>
               <th>Quantity</th>
-              <th>PolicyEngine</th>
-              <th>Official statistic</th>
+              <th>PolicyEngine (2026-27)</th>
+              <th>Official statistic (2023-24)</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>CGT taxpayers</td>
-              <td>{formatCount(validation.cgt_taxpayers)}</td>
-              <BenchmarkCell benchmark={BENCHMARKS.taxpayers} />
-            </tr>
             <tr>
               <td>Total taxable gains</td>
               <td>{formatBn(validation.total_gains_bn)}</td>
               <BenchmarkCell benchmark={BENCHMARKS.totalGains} />
             </tr>
             <tr>
-              <td>Mean gain per CGT taxpayer</td>
-              <td>{formatCurrency(validation.mean_gain)}</td>
-              <BenchmarkCell benchmark={BENCHMARKS.meanGain} />
+              <td>Share of gains from gains of £1m or more</td>
+              <td>{validation.share_gains_over_1m_pct.toFixed(0)}%</td>
+              <BenchmarkCell benchmark={BENCHMARKS.shareOver1m} />
             </tr>
             <tr>
-              <td>Baseline CGT revenue</td>
-              <td>{formatBn(validation.baseline_cgt_revenue_bn)}</td>
-              <BenchmarkCell benchmark={BENCHMARKS.baselineRevenue} />
+              <td>Share of gains from gains of £5m or more</td>
+              <td>{validation.share_gains_over_5m_pct.toFixed(0)}%</td>
+              <BenchmarkCell benchmark={BENCHMARKS.shareOver5m} />
             </tr>
             <tr>
-              <td>Equalisation revenue, static</td>
-              <td>{staticRow ? formatSignedBn(staticRow.revenue_bn_per_year, 1) : "—"}</td>
-              <BenchmarkCell benchmark={BENCHMARKS.staticEqualisation} />
+              <td>Taxpayers with gains over £500k</td>
+              <td>{formatCount(validation.taxpayers_over_500k)}</td>
+              <BenchmarkCell benchmark={BENCHMARKS.taxpayersOver500k} />
             </tr>
             <tr>
-              <td>Equalisation revenue, with behavioural response (e=−0.7), 2026-27</td>
-              <td>{centralRow ? formatSignedBn(centralRow.revenue_bn_per_year, 1) : "—"}</td>
-              <td>—</td>
+              <td>Gains held by taxpayers with gains over £500k</td>
+              <td>{formatBn(validation.gains_over_500k_bn)}</td>
+              <BenchmarkCell benchmark={BENCHMARKS.gainsOver500k} />
             </tr>
+            <tr>
+              <td>Gains held in the £5m-and-over band</td>
+              <td>{formatBn(validation.gains_over_5m_bn)}</td>
+              <BenchmarkCell benchmark={BENCHMARKS.gainsOver5m} />
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section className="section-card">
+        <SectionHeading
+          title="Other institutions' costings"
+          description="How this model's revenue estimate sits alongside other published costings of CGT rate rises. The reforms modelled and behavioural assumptions differ, so the numbers are not directly comparable — the columns state each estimate's scope."
+        />
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Reform modelled</th>
+              <th>Behavioural assumption</th>
+              <th>Revenue per year</th>
+            </tr>
+          </thead>
+          <tbody>
+            {comparison.map((row) => (
+              <tr key={row.source}>
+                <td>
+                  {comparisonLink(row.source) ? (
+                    <a
+                      href={comparisonLink(row.source)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline decoration-1 underline-offset-2 hover:opacity-80"
+                    >
+                      {row.source}
+                    </a>
+                  ) : (
+                    row.source
+                  )}
+                </td>
+                <td>{row.reform_modelled}</td>
+                <td>{row.behavioural_assumption}</td>
+                <td>{formatSignedBn(row.revenue_bn_per_year, 1)}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
         <p className="mt-3 text-sm leading-6 text-slate-600">
@@ -149,7 +165,7 @@ export default function BaselineTab({ data }) {
             rel="noopener noreferrer"
             className="underline decoration-1 underline-offset-2 hover:opacity-80"
           >
-            CenTax&apos;s £14bn
+            CenTax&apos;s £14bn (for 2027-28, October 2024 report)
           </a>{" "}
           pairs equalisation with base broadening not modelled here, and{" "}
           <a
@@ -158,7 +174,8 @@ export default function BaselineTab({ data }) {
             rel="noopener noreferrer"
             className="underline decoration-1 underline-offset-2 hover:opacity-80"
           >
-            HMRC&apos;s ready reckoner
+            HMRC&apos;s ready reckoner (third-year effect of a +10pp rise, 2024
+            edition)
           </a>{" "}
           implies so much behaviour that rate rises lose revenue.
         </p>

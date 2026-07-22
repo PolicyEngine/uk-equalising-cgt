@@ -4,11 +4,16 @@ All simulations are built through the ``policyengine`` package (the
 policyengine.py wrapper), never by constructing
 ``policyengine_uk.Microsimulation`` objects directly:
 
-- ``pe.uk.ensure_datasets`` materialises the stock Enhanced FRS 2023-24
-  dataset (``enhanced_frs_2023_24`` in the policyengine.py release
-  manifest) as one certified per-year dataset file per simulated year.
-  ``uk_equalising_cgt.calibration`` then writes reweighted copies of
-  those files, and the scored simulations run on those.
+- ``pe.uk.ensure_datasets`` materialises the published Enhanced FRS 2024-25
+  dataset, referenced directly as an ``hf://`` URI (the policyengine.py
+  4.20.0 release manifest only certifies ``enhanced_frs_2023_24``, so the
+  newer dataset is pulled from the policyengine-uk-data Hugging Face repo
+  at its latest revision; a private-repo token is read from
+  ``HUGGING_FACE_TOKEN``), as one per-year dataset file per simulated
+  year.
+  Simulations run on those files unmodified: this repo does no local
+  reweighting, since calibration belongs upstream in
+  policyengine-uk-data.
 - ``policyengine.Simulation`` runs the model for one (dataset-year,
   policy) pair, with deterministic ids so policyengine.py's
   output-dataset cache (``<id>.h5`` beside the input dataset file) lets a
@@ -36,7 +41,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-DATASET = "enhanced_frs_2023_24"
+DATASET = "hf://policyengine/policyengine-uk-data/enhanced_frs_2024_25.h5"
 
 # Variables needed beyond policyengine.py's bundled UK defaults.
 EXTRA_VARIABLES = {
@@ -46,7 +51,7 @@ EXTRA_VARIABLES = {
 
 
 def ensure_uk_datasets(years: list[int], data_folder: str | Path) -> dict[int, object]:
-    """Materialise (or load) the stock Enhanced FRS dataset for each year.
+    """Materialise (or load) the published Enhanced FRS dataset for each year.
 
     Returns a mapping ``{year: PolicyEngineUKDataset}``.
     """

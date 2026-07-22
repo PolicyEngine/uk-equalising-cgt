@@ -49,7 +49,7 @@ def _household(sim):
 
 
 def validation_stats(baseline) -> dict:
-    """Baseline (calibrated Enhanced FRS weights) CGT statistics vs HMRC/Advani.
+    """Baseline (published Enhanced FRS weights) CGT statistics vs HMRC/Advani.
 
     All statistics are weighted microdf operations over the person table.
     A "CGT taxpayer" is a person with taxable gains above the £3,000
@@ -66,6 +66,11 @@ def validation_stats(baseline) -> dict:
         "median_gain": float(payer_gains.median()),
         "share_gains_over_1m_pct": float(100 * payer_gains[payer_gains >= 1e6].sum() / total),
         "share_gains_over_5m_pct": float(100 * payer_gains[payer_gains >= 5e6].sum() / total),
+        # Top of the HMRC size-of-gain distribution (Table 2.1a), where the
+        # published dataset calibrates tightly and the reform's revenue lives.
+        "taxpayers_over_500k": float(payer_gains[payer_gains >= 5e5].count()),
+        "gains_over_500k_bn": float(payer_gains[payer_gains >= 5e5].sum() / 1e9),
+        "gains_over_5m_bn": float(payer_gains[payer_gains >= 5e6].sum() / 1e9),
         "largest_gain_m": float(payer_gains.max() / 1e6),
         "baseline_cgt_revenue_bn": float(person["capital_gains_tax"].sum() / 1e9),
     }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { getElasticity, getReform } from "../lib/dataHelpers";
+import { getElasticity } from "../lib/dataHelpers";
 import SectionHeading from "./SectionHeading";
 
 export default function MethodologyTab({ data }) {
@@ -15,7 +15,6 @@ export default function MethodologyTab({ data }) {
     }
   }, []);
 
-  const reform = getReform(data);
   const elasticity = getElasticity(data);
 
   return (
@@ -23,72 +22,90 @@ export default function MethodologyTab({ data }) {
 
 
       <section className="section-card scroll-mt-24" id="pathway">
-        <SectionHeading title="Data, calibration and simulation" />
-        <p className="text-sm leading-6 text-slate-600">
-          The Enhanced FRS imputes capital gains onto survey households, but the
-          imputation is not constrained to administrative totals: on the stock
-          weights it produces about 1.29m CGT taxpayers holding £112bn of gains,
-          against HMRC&apos;s 378k and £66bn. That overstates how widely gains
-          are spread and distorts every distributional result — the share of
-          people affected comes out roughly three times too high.
-        </p>
-        <p className="mt-3 text-sm leading-6 text-slate-600">
-          Household weights are therefore recalibrated with{" "}
-          <a
-            href="https://github.com/PolicyEngine/populace"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-1 underline-offset-2 hover:opacity-80"
-          >
-            populace
-          </a>{" "}
-          against the HMRC/OBR targets below, holding income tax, net income,
-          population and household counts at their baseline values so the
-          reweighting cannot degrade the rest of the model. All six land within
-          0.13% and the effective sample size falls only from 981 to 905. Only
-          how many households each record represents changes: no microdata is
-          generated and no imputation is altered. The published populace-UK
-          release carries no capital gains targets, so this step is specific to
-          this analysis.
-        </p>
-        <table className="data-table mt-4">
-          <thead>
-            <tr>
-              <th>Target</th>
-              <th>Source</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Total taxable capital gains</td>
-              <td>HMRC/OBR</td>
-              <td>£70bn</td>
-            </tr>
-            <tr>
-              <td>CGT taxpayer count</td>
-              <td>HMRC</td>
-              <td>400,000</td>
-            </tr>
-          </tbody>
-        </table>
-        <p className="mt-3 text-sm leading-6 text-slate-600">
-          The reform is then simulated on the reweighted dataset through{" "}
-          <a
-            href="https://github.com/PolicyEngine/policyengine.py"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-1 underline-offset-2 hover:opacity-80"
-          >
-            policyengine.py
-          </a>
-          , PolicyEngine&apos;s standard simulation wrapper. Budget, decile and
-          winners/losers outputs use the wrapper&apos;s standard computations,
-          with aggregates taken via native microdf weighted operations. The
-          behavioural response is applied through a policy simulation modifier
-          that registers the baseline branch, and the pipeline verifies the
-          elasticity is active before writing results.
-        </p>
+        <SectionHeading title="Data and simulation" />
+        <ul className="mt-2 list-disc space-y-2 pl-5 text-sm leading-6 text-slate-600">
+          <li>
+            <strong>Dataset.</strong> The Enhanced FRS 2024-25 exactly as
+            published by{" "}
+            <a
+              href="https://github.com/PolicyEngine/policyengine-uk-data"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-1 underline-offset-2 hover:opacity-80"
+            >
+              policyengine-uk-data
+            </a>
+            , with no local reweighting &mdash; calibration belongs upstream in
+            the dataset, so whatever the published release provides is what is
+            simulated here.
+          </li>
+          <li>
+            <strong>Gains imputation.</strong> The FRS barely captures capital
+            gains, so the dataset imputes them onto survey households from the{" "}
+            <a
+              href="https://warwick.ac.uk/fac/soc/economics/research/centres/cage/manage/publications/wp465.2020.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-1 underline-offset-2 hover:opacity-80"
+            >
+              Advani &amp; Summers
+            </a>{" "}
+            distribution of gains by income band, drawn from HMRC
+            administrative records.
+          </li>
+          <li>
+            <strong>Large gains.</strong> HMRC&apos;s size-of-gain distribution
+            (
+            <a
+              href="https://www.gov.uk/government/statistics/capital-gains-tax-statistics"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-1 underline-offset-2 hover:opacity-80"
+            >
+              CGT statistics, Table 2.1a
+            </a>
+            ) is represented directly: households carrying each published
+            size-of-gain band&apos;s mean gain are included in the dataset, and
+            the calibrated weights are targeted to reproduce each band&apos;s
+            taxpayer count and gains total &mdash; so the concentration of
+            gains at the top matches administrative records rather than an
+            extrapolation.
+          </li>
+          <li>
+            <strong>Calibration.</strong> Household weights are calibrated
+            upstream against HMRC CGT aggregates (taxpayer count and total
+            chargeable gains), the per-band targets above, and PolicyEngine&apos;s
+            standard demographic and fiscal targets. The measured fit is in the
+            benchmarks table on the Baseline tab.
+          </li>
+          <li>
+            <strong>Remaining gap.</strong> The modelled CGT taxpayer count
+            still runs above HMRC&apos;s 378,000, so the share of people
+            affected by the reform reads as a modest upper bound on breadth.
+            Gains concentration and totals track HMRC closely, so revenue
+            estimates are largely unaffected.
+          </li>
+          <li>
+            <strong>Simulation.</strong> The reform runs through{" "}
+            <a
+              href="https://github.com/PolicyEngine/policyengine.py"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-1 underline-offset-2 hover:opacity-80"
+            >
+              policyengine.py
+            </a>
+            , PolicyEngine&apos;s standard simulation wrapper: budget, decile
+            and winners/losers outputs use the wrapper&apos;s standard
+            computations with weighted microdf aggregates.
+          </li>
+          <li>
+            <strong>Behavioural response.</strong> Applied through a policy
+            simulation modifier that registers the baseline branch, so the
+            elasticity measures the true change in marginal rates; the
+            pipeline verifies the response is active before writing results.
+          </li>
+        </ul>
       </section>
 
       <section className="section-card scroll-mt-24" id="elasticity">
@@ -122,7 +139,7 @@ export default function MethodologyTab({ data }) {
           elasticity of about{" "}
           {elasticity.mtr_elasticity_approx.toFixed(1)}, which is what the model
           applies. The reform tab&apos;s sensitivity table re-runs the analysis
-          across the CenTax range and an HMRC-like high-response case.
+          under the static case and the lower end of CenTax&apos;s range.
         </p>
       </section>
 
