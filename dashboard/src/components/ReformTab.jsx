@@ -150,7 +150,6 @@ export default function ReformTab({ data }) {
   const reform = getReform(data);
   const firstYearRow = budget[0];
   const topQuintile = headlineGroups.quintile[headlineGroups.quintile.length - 1];
-  const staticRow = sensitivity.find((row) => row.e_mtr === 0);
   const isRelative = groupMetric === "relative";
   const metricKey = isRelative ? "relative_change_pct" : "avg_change_gbp";
   const metricName = isRelative
@@ -197,7 +196,7 @@ export default function ReformTab({ data }) {
           title={`Headline results, ${firstYear}`}
           description="Revenue after the behavioural response; distributional figures cover all households."
         />
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-3">
           <MetricCard
             label={`Revenue raised, ${firstYear}`}
             value={formatSignedBn(firstYearRow.gov_balance_change_bn, 1)}
@@ -212,11 +211,6 @@ export default function ReformTab({ data }) {
             label="Top quintile net income change"
             value={formatSignedPct(topQuintile.relative_change_pct)}
             note={`Average of ${formatSignedCurrency(topQuintile.avg_change_gbp)} per household in the highest-income 20%, which holds most realised gains. Includes the gains taxpayers stop realising under the −0.7 elasticity, not just tax paid.`}
-          />
-          <MetricCard
-            label={`Static revenue, ${firstYear}`}
-            value={staticRow ? formatSignedBn(staticRow.revenue_2026_bn, 1) : "—"}
-            note="Revenue with no behavioural response (e=0) — the upper bound of the estimate range in the sensitivity section below."
           />
         </div>
       </section>
@@ -332,7 +326,7 @@ export default function ReformTab({ data }) {
       <section className="section-card relative left-1/2 w-[min(100vw-2rem,96rem)] -translate-x-1/2">
         <SectionHeading
           title="Who bears the cost of the reform"
-          description="Change in household net income, grouped by the household's position in the baseline income distribution. Almost the entire cost falls on the highest-income group, where realised capital gains are concentrated: losses include both the extra tax paid and the gains that taxpayers choose not to realise in response, so they exceed the revenue raised. Expand below the chart for the same change broken down by household type and region."
+          description="Change in household net income, grouped by the household's position in the baseline income distribution. Almost the entire cost falls on the highest-income group, where realised capital gains are concentrated: losses include both the extra tax paid and the gains that taxpayers choose not to realise in response, so they exceed the revenue raised. The switches show the same change grouped by income quintile or quartile, by household type, or by region."
         />
         <div className="mb-3 flex flex-wrap items-center gap-4">
           <YearSelect years={years} value={groupYear} onChange={setGroupYear} />
@@ -340,6 +334,8 @@ export default function ReformTab({ data }) {
             options={[
               { value: "quintile", label: "Quintiles" },
               { value: "quartile", label: "Quartiles" },
+              { value: "household_type", label: "Household type" },
+              { value: "region", label: "Region" },
             ]}
             value={grouping}
             onChange={setGrouping}
@@ -359,25 +355,52 @@ export default function ReformTab({ data }) {
           <ResponsiveContainer>
             <BarChart
               data={groups[grouping]}
-              margin={{ top: 10, right: 20, bottom: 15, left: 10 }}
+              layout={grouping === "region" ? "vertical" : "horizontal"}
+              margin={{ top: 10, right: 20, bottom: 15, left: grouping === "region" ? 30 : 10 }}
             >
               <CartesianGrid strokeDasharray="3 3" stroke={colors.border.light} />
-              <XAxis
-                dataKey="group"
-                tick={AXIS_STYLE}
-                label={{
-                  value: "Baseline household income group",
-                  position: "insideBottom",
-                  offset: -8,
-                  fontSize: 12,
-                }}
-              />
-              <YAxis
-                tick={AXIS_STYLE}
-                tickFormatter={formatMetric}
-                tickLine={false}
-                axisLine={false}
-              />
+              {grouping === "region" ? (
+                <>
+                  <XAxis
+                    type="number"
+                    tick={AXIS_STYLE}
+                    tickFormatter={formatMetric}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis
+                    type="category"
+                    dataKey="group"
+                    width={130}
+                    tick={{ ...AXIS_STYLE, fontSize: 11 }}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                </>
+              ) : (
+                <>
+                  <XAxis
+                    dataKey="group"
+                    tick={AXIS_STYLE}
+                    label={
+                      grouping === "household_type"
+                        ? undefined
+                        : {
+                            value: "Baseline household income group",
+                            position: "insideBottom",
+                            offset: -8,
+                            fontSize: 12,
+                          }
+                    }
+                  />
+                  <YAxis
+                    tick={AXIS_STYLE}
+                    tickFormatter={formatMetric}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                </>
+              )}
               <Tooltip
                 formatter={(v, name, item) => [
                   `${formatSignedPct(item.payload.relative_change_pct)} (${formatSignedCurrency(item.payload.avg_change_gbp)}/household)`,
@@ -388,7 +411,7 @@ export default function ReformTab({ data }) {
                 dataKey={metricKey}
                 name={metricName}
                 fill={colors.primary[600]}
-                radius={[6, 6, 0, 0]}
+                radius={grouping === "region" ? [0, 6, 6, 0] : [6, 6, 0, 0]}
               />
             </BarChart>
           </ResponsiveContainer>
@@ -396,93 +419,12 @@ export default function ReformTab({ data }) {
         <ChartLogo />
 
         <details className="group mt-4 border-t border-slate-100 pt-4">
-          <summary className="cursor-pointer select-none font-semibold text-slate-800 marker:text-[color:var(--pe-color-primary-600)]">
-            Breakdown by household type and region
-            <span className="ml-2 text-sm font-normal text-slate-500 group-open:hidden">
-              (expand for the same change grouped differently)
-            </span>
+          <summary className="cursor-pointer select-none text-sm font-semibold text-slate-700 marker:text-[color:var(--pe-color-primary-600)]">
+            How the groups are defined
           </summary>
-          <div className="mt-4 grid gap-6 xl:grid-cols-2">
-            <div>
-              <h3 className="mb-2 text-sm font-semibold text-slate-700">
-                By household type
-              </h3>
-              <div className="h-[320px] w-full">
-                <ResponsiveContainer>
-                  <BarChart
-                    data={groups.household_type}
-                    margin={{ top: 10, right: 20, bottom: 5, left: 10 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" stroke={colors.border.light} />
-                    <XAxis dataKey="group" tick={AXIS_STYLE} />
-                    <YAxis
-                      tick={AXIS_STYLE}
-                      tickFormatter={formatMetric}
-                      tickLine={false}
-                      axisLine={false}
-                    />
-                    <Tooltip
-                      formatter={(v, name, item) => [
-                        `${formatSignedPct(item.payload.relative_change_pct)} (${formatSignedCurrency(item.payload.avg_change_gbp)}/household)`,
-                        "Net income change",
-                      ]}
-                    />
-                    <Bar
-                      dataKey={metricKey}
-                      name={metricName}
-                      fill={colors.primary[600]}
-                      radius={[6, 6, 0, 0]}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-            <div>
-              <h3 className="mb-2 text-sm font-semibold text-slate-700">
-                By region
-              </h3>
-              <div className="h-[320px] w-full">
-                <ResponsiveContainer>
-                  <BarChart
-                    data={groups.region}
-                    layout="vertical"
-                    margin={{ top: 10, right: 20, bottom: 5, left: 30 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" stroke={colors.border.light} />
-                    <XAxis
-                      type="number"
-                      tick={AXIS_STYLE}
-                      tickFormatter={formatMetric}
-                      tickLine={false}
-                      axisLine={false}
-                    />
-                    <YAxis
-                      type="category"
-                      dataKey="group"
-                      width={110}
-                      tick={{ ...AXIS_STYLE, fontSize: 11 }}
-                      tickLine={false}
-                      axisLine={false}
-                    />
-                    <Tooltip
-                      formatter={(v, name, item) => [
-                        `${formatSignedPct(item.payload.relative_change_pct)} (${formatSignedCurrency(item.payload.avg_change_gbp)}/household)`,
-                        "Net income change",
-                      ]}
-                    />
-                    <Bar
-                      dataKey={metricKey}
-                      name={metricName}
-                      fill={colors.primary[600]}
-                      radius={[0, 6, 6, 0]}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
-          <p className="mt-3 text-sm leading-6 text-slate-600">
-            Household types: &ldquo;Pensioner&rdquo; households have no
+          <p className="mt-2 text-sm leading-6 text-slate-600">
+            Income groups are weighted quantiles of baseline household net
+            income. Household types: &ldquo;Pensioner&rdquo; households have no
             working-age adults; &ldquo;With children&rdquo; households contain
             at least one child. Regional averages reflect where households
             holding taxable gains live in the survey data and carry more

@@ -1,11 +1,7 @@
 "use client";
 
-import {
-  formatBn,
-  formatCount,
-  formatSignedBn,
-} from "../lib/formatters";
-import { getComparison, getValidation } from "../lib/dataHelpers";
+import { formatBn, formatCount } from "../lib/formatters";
+import { getValidation } from "../lib/dataHelpers";
 import SectionHeading from "./SectionHeading";
 
 // External benchmarks the baseline is validated against. These
@@ -42,23 +38,8 @@ function BenchmarkCell({ benchmark }) {
   );
 }
 
-const COMPARISON_LINKS = {
-  "CenTax central": "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=5",
-  "CenTax worst-case": "https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=39",
-  "Advani & Summers 2020": "https://warwick.ac.uk/fac/soc/economics/research/centres/cage/manage/publications/wp465.2020.pdf",
-  "HMRC ready reckoner": "https://www.gov.uk/government/statistics/direct-effects-of-illustrative-tax-changes",
-  "OBR baseline": "https://obr.uk/forecasts-in-depth/tax-by-tax-spend-by-spend/capital-gains-tax/",
-  "This model": "https://github.com/PolicyEngine/uk-equalising-cgt",
-};
-
-function comparisonLink(source) {
-  const key = Object.keys(COMPARISON_LINKS).find((prefix) => source.startsWith(prefix));
-  return key ? COMPARISON_LINKS[key] : null;
-}
-
 export default function BaselineTab({ data }) {
   const validation = getValidation(data);
-  const comparison = getComparison(data);
 
   return (
     <div className="space-y-6">
@@ -73,7 +54,7 @@ export default function BaselineTab({ data }) {
       <section className="section-card">
         <SectionHeading
           title="Model versus external benchmarks"
-          description="PolicyEngine's baseline for the first simulated year, 2026-27, alongside HMRC's most recent published statistics — the 2023-24 tax year (July 2025 release; the 2024-25 statistics are due around August 2026). The vintages differ by design: the dataset uprates 2023-24 administrative gains to the simulated years."
+          description="PolicyEngine's baseline for the first simulated year, 2026-27, alongside HMRC's most recent published statistics — the 2023-24 tax year (July 2025 release; the 2024-25 statistics are due around August 2026). The vintages differ by design: the dataset uprates 2023-24 administrative gains to the simulated years. The model aligns closely with HMRC across the table — most tightly at the top of the distribution, where the reform\u2019s revenue is decided: taxpayers with gains over £500k and the gains in the £5m-and-over band match administrative records within a few per cent."
         />
         <table className="data-table">
           <thead>
@@ -118,68 +99,6 @@ export default function BaselineTab({ data }) {
         </table>
       </section>
 
-      <section className="section-card">
-        <SectionHeading
-          title="Other institutions' costings"
-          description="How this model's revenue estimate sits alongside other published costings of CGT rate rises. The reforms modelled and behavioural assumptions differ, so the numbers are not directly comparable — the columns state each estimate's scope."
-        />
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>Source</th>
-              <th>Reform modelled</th>
-              <th>Behavioural assumption</th>
-              <th>Revenue per year</th>
-            </tr>
-          </thead>
-          <tbody>
-            {comparison.map((row) => (
-              <tr key={row.source}>
-                <td>
-                  {comparisonLink(row.source) ? (
-                    <a
-                      href={comparisonLink(row.source)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline decoration-1 underline-offset-2 hover:opacity-80"
-                    >
-                      {row.source}
-                    </a>
-                  ) : (
-                    row.source
-                  )}
-                </td>
-                <td>{row.reform_modelled}</td>
-                <td>{row.behavioural_assumption}</td>
-                <td>{formatSignedBn(row.revenue_bn_per_year, 1)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <p className="mt-3 text-sm leading-6 text-slate-600">
-          Estimates differ mainly because the reforms and behavioural
-          assumptions differ, not because the models disagree:{" "}
-          <a
-            href="https://centax.org.uk/wp-content/uploads/2024/10/AdvaniLonsdaleSummers2024_CGTReform.pdf#page=5"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-1 underline-offset-2 hover:opacity-80"
-          >
-            CenTax&apos;s £14bn (for 2027-28, October 2024 report)
-          </a>{" "}
-          pairs equalisation with base broadening not modelled here, and{" "}
-          <a
-            href="https://www.gov.uk/government/statistics/direct-effects-of-illustrative-tax-changes"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline decoration-1 underline-offset-2 hover:opacity-80"
-          >
-            HMRC&apos;s ready reckoner (third-year effect of a +10pp rise, 2024
-            edition)
-          </a>{" "}
-          implies so much behaviour that rate rises lose revenue.
-        </p>
-      </section>
 
     </div>
   );
